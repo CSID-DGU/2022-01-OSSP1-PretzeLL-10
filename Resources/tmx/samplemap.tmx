@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
- <tileset firstgid="1" source="../../../../../../DonggukUniv/3_1공개SW프로젝트/resources/0x72_DungeonTilesetII_v1.4/0x72_DungeonTilesetII_v1.4.tsx"/>
- <tileset firstgid="1025" source="MetaSet.tsx"/>
+ <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
  <layer id="1" name="Tile Layer 1" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJztlN8NgkAMxnu4CaM4yb24iC5SIw+M0YAuAriHPwTiiRIBCfFBki/9c6Rfe21PRKQQ8RFyDjInkoMzuICNPEBcOUrz8a+PkR22gT4GJbEr9+onrqYBx9WJ36MvBTh0bQ7ucZDjMDF20srCidKrO0dCbPrlq4Xq6HKiR8os6KmBR/flCI4pNZGzkrsmbS3Zm7vKJuaf92ziKT3QenbTFXr+5/hNjlg+v0s7Eev5atuYU2P2rbO785CjwB/NAG+rMZ/GHhg7ZuzA03kRcHwL9szYZRs6vwGaDeVS
+   eJydk40NwiAQRqmNizQOxizqICQ6CNF2Eat7+EjVEDw4gOQl5efuK3cfxmxjF7FP5oHbYMwdZliG/30pJh7M7YM4jRWe8KpkNMbFGgfmR741zgLSuYl8koYU30urRu7/S/sljZZanT5I+9o9avqS5pQ08OJPAy8WNXK6pVrhQYfX3QWu5MfzFk/alv/XtMjn5i1/0LHo2bVDQ7r3dy3UZYlqRd0s9eu+R04j7Xmqob0xzXM5jdr3VfP2JQ3W/KRAHz198+FsDbFGGOO2loX+eXzi8Yenf8WzX0zHwIceHzbHvgGEFtU5
   </data>
  </layer>
- <layer id="2" name="meta" width="25" height="16" visible="0" opacity="0.5">
+ <layer id="2" name="metaset" width="25" height="16" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJxjYKAfYGQhHzNBMbo4Njuo7ebhagcTle3AZh497Bgu8TFqx+Czg9bl1VAHAEscAUk=
+   eJxjYBgFo2AUjIJRMApIBwAGQAAB
   </data>
  </layer>
 </map>

@@ -8,7 +8,7 @@
  </tile>
  <tile id="1">
   <properties>
-   <property name="Item" value="Box"/>
+   <property name="Door" value="Yes"/>
   </properties>
  </tile>
 </tileset>
