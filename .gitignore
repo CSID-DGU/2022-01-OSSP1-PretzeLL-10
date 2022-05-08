@@ -5,6 +5,7 @@ Thumbs.db
 cocos2d/*
 proj.linux/*
 proj.android/*
+out/*
 
 # Ignore files build by Visual Studio
 *.obj
