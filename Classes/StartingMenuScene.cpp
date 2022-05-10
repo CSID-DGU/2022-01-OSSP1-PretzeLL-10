@@ -24,6 +24,7 @@
 
 #include "StartingMenuScene.h"
 #include "GameScene.h"
+#include "MenuSettingScene.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -54,47 +55,19 @@ bool StartingMenu::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-        "CloseNormal.png",
-        "CloseSelected.png",
-        CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
-
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-        float y = origin.y + closeItem->getContentSize().height / 2;
-        closeItem->setPosition(Vec2(x, y));
-    }
-
-    auto playItem = MenuItemImage::create(
-        "frames/big_demon_idle_anim_f0.png",
-        "frames/big_demon_idle_anim_f2.png",
-        CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
+    // 2. add menu Item
+    auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
+    auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
+    auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    auto menu2 = Menu::create(playItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    menu2->setPosition(Vec2(50, 50));
+    auto menu = Menu::create(playItem, settingItem, closeItem, NULL);
+    menu->alignItemsVertically();
+    menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     this->addChild(menu, 1);
-    this->addChild(menu2, 2);
 
     /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-
+    // 3.
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
@@ -144,5 +117,11 @@ void StartingMenu::menuCloseCallback(Ref* pSender)
 void StartingMenu::menuPlayCallback(Ref* pSender)
 {
     const auto scene = GameScene::createScene();
+    Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
+}
+
+void StartingMenu::menuSettingCallback(Ref* pSender)
+{
+    const auto scene = MenuSetting::create();
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
 }

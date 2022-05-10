@@ -124,7 +124,6 @@ bool GameScene::init()
     }
     else
     {
-        tmap->setScale(2);
         // add the sprite as a child to this layer
         this->addChild(tmap, 0, 11);
     }
