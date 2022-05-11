@@ -127,9 +127,172 @@ bool GameScene::init()
         // add the sprite as a child to this layer
         this->addChild(tmap, 0, 11);
     }
+    
+
+// ================================================================================================================================== //
+    
+    auto __e_d = cocos2d::Director::getInstance()->getEventDispatcher();
+    auto __l_k = cocos2d::EventListenerKeyboard::create();
+    __l_k->onKeyPressed = CC_CALLBACK_2(GameScene::onKeyPressed, this);
+    __l_k->onKeyReleased = CC_CALLBACK_2(GameScene::onKeyReleased, this);
+    __e_d->addEventListenerWithSceneGraphPriority(__l_k, this);
+    
+    auto __g = b2Vec2(0.0f, -98.0f);
+    __world = new b2World(__g);
+    __world->SetAllowSleeping(true);
+    __world->SetContinuousPhysics(true);
+    Physics::setWorld(__world);
+#if COCOS2D_DEBUG > 0
+    auto __d_l = B2DebugDrawLayer::create(__world);
+    addChild(__d_l);
+#endif
+    scheduleUpdate();
+    
+    
+    b2BodyDef __b_f;
+    __b_f.position.Set(0.0f, 0.0f);
+    auto __b = __world->CreateBody(&__b_f);
+    
+    auto __s = cocos2d::Director::getInstance()->getWinSize()/PTM_RATIO;
+    __s.width *= 0.85f;
+    __s.height *= 0.7f;
+    b2EdgeShape __e;
+    b2FixtureDef __f;
+    __f.shape = &__e;
+    __e.Set(b2Vec2(0, 0), b2Vec2(__s.width, 0));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(0, 0), b2Vec2(0, __s.height));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(0, __s.height), b2Vec2(__s.width, __s.height));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(__s.width, __s.height), b2Vec2(__s.width, 0));
+    __b->CreateFixture(&__f);
+    __b->SetTransform(b2Vec2(1.45f, 1.5f), 0.0f);
+
+    
+    __player = Player::create();
+    IF(!__player);
+    __player->setInput(NULL, __key.data());
+    
+    __player->setAbsolutePosition(500, 500);
+    __player->retain();
+    addChild(__player);
+    
+    auto __bigDemon = BigDemon::create();
+    IF(!__bigDemon);
+    __bigDemon->setAbsolutePosition(200, 400);
+    __bigDemon->retain();
+    addChild(__bigDemon);
+    
+    auto __goblin = Goblin::create();
+    IF(!__goblin);
+    __goblin->setAbsolutePosition(800, 600);
+    __goblin->retain();
+    addChild(__goblin);
+
+    auto __bigZombie = BigZombie::create();
+    IF(!__bigZombie);
+    __bigZombie->setAbsolutePosition(700, 300);
+    addChild(__bigZombie);
+    
 
     return true;
 }
+
+
+void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+    switch (keyCode) {
+#ifndef DIR_MOUSE
+        case cocos2d::EventKeyboard::KeyCode::KEY_W:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_W:
+        case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+            __key[UP] = true;
+            __player->move(UP);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_A:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_A:
+        case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            __key[LEFT] = true;
+            __player->move(LEFT);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_S:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_S:
+        case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+            __key[DOWN] = true;
+            __player->move(DOWN);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_D:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_D:
+        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            __key[RIGHT] = true;
+            __player->move(RIGHT);
+            break;
+#endif
+        case cocos2d::EventKeyboard::KeyCode::KEY_SHIFT:
+        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_SHIFT:
+            __key[SHIFT] = true;
+            __player->run();
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
+            endProgram();
+        default:
+            break;
+    }
+}
+
+void GameScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+    switch (keyCode) {
+#ifndef DIR_MOUSE
+        case cocos2d::EventKeyboard::KeyCode::KEY_W:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_W:
+        case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+            __key[UP] = false;
+            __player->stop(UP);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_S:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_S:
+        case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+            __key[DOWN] = false;
+            __player->stop(DOWN);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_A:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_A:
+        case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            __key[LEFT] = false;
+            __player->stop(LEFT);
+            break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_D:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_D:
+        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            __key[RIGHT] = false;
+            __player->stop(RIGHT);
+            break;
+#endif
+        case cocos2d::EventKeyboard::KeyCode::KEY_SHIFT:
+        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_SHIFT:
+            __key[SHIFT] = false;
+            __player->stopRun();
+            break;
+        default:
+            break;
+    }
+}
+
+
+void GameScene::update(float dt) {
+    __world->Step(dt, 8, 3);
+}
+
+
+GameScene::GameScene() {
+    __key.fill(false);
+}
+
+GameScene::~GameScene() {
+    delete __world;
+}
+
+// ================================================================================================================================== //
 
 
 void GameScene::menuCloseCallback(Ref* pSender)

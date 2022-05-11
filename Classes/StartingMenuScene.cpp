@@ -68,7 +68,8 @@ bool StartingMenu::init()
 
     /////////////////////////////
     // 3.
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24*10);
+    label->setScale(0.1f);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -97,6 +98,7 @@ bool StartingMenu::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+    
     return true;
 }
 
