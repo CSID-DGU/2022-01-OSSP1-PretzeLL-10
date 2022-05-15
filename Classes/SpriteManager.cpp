@@ -1,15 +1,15 @@
-#include "SpriteGenerator.h"
+#include "SpriteManager.h"
 
 
-SpriteGenerator::SpriteGenerator() {}
+SpriteManager::SpriteManager() {}
 
-SpriteGenerator::~SpriteGenerator() {
-    for (auto i : __inf_animation) i->release();
-    for (auto i : __animation) i.second->release();
+SpriteManager::~SpriteManager() {
+    for (auto i : __inf_anim) i->release();
+    for (auto i : __anim) i.second->release();
 }
 
 
-bool SpriteGenerator::init(std::string name, float run_speed) {
+bool SpriteManager::init(std::string name) {
     IF_RF(name.empty(), "name should not be blank");
     __name = name;
     
@@ -22,27 +22,27 @@ bool SpriteGenerator::init(std::string name, float run_speed) {
     return true;
 }
 
-bool SpriteGenerator::initWithAnimation(std::string name, float run_speed) {
-    IF(!init(name, run_speed));
+bool SpriteManager::initWithAnimation(std::string name, float run_speed) {
+    IF(!init(name));
     
     addInfAnimation("idle", 4, 0.1f);
     auto __a = createAnimation("run", 4, 0.1f);
     auto __a_ = cocos2d::Animate::create(__a);
     auto __r = cocos2d::RepeatForever::create(__a_);
     __r->retain();
-    __inf_animation.push_back(__r);
+    __inf_anim.push_back(__r);
     auto __a_r = __a->clone();
     __a_r->setDelayPerUnit(0.1f/run_speed);
     auto __a_r_ = cocos2d::Animate::create(__a_r);
     auto __r_r = cocos2d::RepeatForever::create(__a_r_);
     __r_r->retain();
-    __inf_animation.push_back(__r_r);
+    __inf_anim.push_back(__r_r);
     
     return true;
 }
 
 
-cocos2d::Animation* SpriteGenerator::createAnimation(std::string state, int count, float delay) {
+cocos2d::Animation* SpriteManager::createAnimation(std::string state, int count, float delay) {
     auto __a = cocos2d::Animation::create();
     for (char i = '0'; i < static_cast<char>(count+48); i++) {
         std::string __n = "frames/"+__name+"_"+state+"_anim_f"+i+".png";
@@ -58,34 +58,45 @@ cocos2d::Animation* SpriteGenerator::createAnimation(std::string state, int coun
     return __a;
 }
 
-void SpriteGenerator::addAnimation(std::string state, int count, float delay) {
+void SpriteManager::addAnimation(std::string state, int count, float delay) {
     auto __a = createAnimation(state, count, delay);
     auto __a_ = cocos2d::Animate::create(__a);
     __a_->retain();
-    __animation.insert(std::make_pair(state, __a_));
+    __anim.insert(std::make_pair(state, __a_));
 }
 
-int SpriteGenerator::addInfAnimation(std::string state, int count, float delay) {
+int SpriteManager::addInfAnimation(std::string state, int count, float delay) {
     auto __a = createAnimation(state, count, delay);
     auto __a_ = cocos2d::Animate::create(__a);
     auto __r = cocos2d::RepeatForever::create(__a_);
     __r->retain();
-    __inf_animation.push_back(__r);
-    return __inf_animation.size()-1;
+    __inf_anim.push_back(__r);
+    return __inf_anim.size()-1;
 }
 
-cocos2d::Animate* SpriteGenerator::getAnimation(std::string key) {
-#if COCOS2D_DEBUG > 0
-    IF_RN(__animation.empty(), "animation map is empty");
-#endif
-    
-    animationMap::iterator __i = __animation.find(key);
-#if COCOS2D_DEBUG > 0
-    IF_RN(__i == __animation.end(), "No such animation named: " + key);
-#endif
+cocos2d::Animate* SpriteManager::getAnimation(std::string key) {
+    IF_RN(__anim.empty(), "animation map is empty");
+    AnimationMap::iterator __i = __anim.find(key);
+    IF_RN(__i == __anim.end(), "No such animation named: " + key);
     return __i->second;
 }
 
-bool SpriteGenerator::isAnimationRunning() {
+bool SpriteManager::isAnimationRunning() {
     return __sprite->isRunning();
+}
+
+void SpriteManager::runActionByKey(std::string key) {
+    auto __i = __anim.find(key);
+    IF_RV(__i == __anim.end(), "No animation named : " + key);
+    __sprite->runAction(__anim[key]);
+}
+
+void SpriteManager::runActionByKey(ACTION action) {
+    IF_RV(action == ELSE, "key should not be ELSE");
+    __sprite->runAction(__inf_anim[action]);
+}
+
+void SpriteManager::stopActionByKey(ACTION action) {
+    IF_RV(action == ELSE, "key should not be ELSE");
+    __sprite->stopAction(__inf_anim[action]);
 }

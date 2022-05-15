@@ -4,26 +4,16 @@
 #include "BaseObject.h"
 
 
-enum KEY {
-    UP = 0,
-    DOWN,
-    LEFT,
-    RIGHT,
-    SHIFT,
-    ALL
-};
-
-
-class Player : public BaseObject {
+class Hero : public BaseObject {
 private:
     bool* __key;
     cocos2d::Vec2* __mouse;
 
 public:
-    Player();
-    virtual ~Player();                                              
+    Hero();
+    virtual ~Hero();                                              
     
-    CREATE_FUNC(Player);                                    // Cocos create function
+    CREATE_FUNC(Hero);                                    // Cocos create function
     
     virtual bool init() override;                           // Initialize
     void update(float dt) final;

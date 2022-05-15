@@ -2,22 +2,12 @@
 #define __BASE_OBJECT_H__
 
 #include "Utility.h"
-#include "SpriteGenerator.h"
+#include "SpriteManager.h"
 #include "Physics.h"
 
 
-enum ACTION {
-    IDLE = 0,
-    MOVE,
-    RUN,
-    ELSE
-};
-
-class BaseObject : public cocos2d::Node, protected SpriteGenerator, protected Physics  {
+class BaseObject : public cocos2d::Node, protected SpriteManager, protected Physics  {
 protected:
-    typedef std::map<std::string, cocos2d::Animate*> animationMap;      // Action, access by name(string)
-    typedef std::vector<cocos2d::RepeatForever*> InfAnimation;          // Infinite Action, access by integer key
-    
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
     
@@ -37,7 +27,7 @@ public:
     virtual bool init() override;                                       // Initialize, create idle animation and run it
     virtual void update(float dt) override;
     
-    /* Transformation Section */
+    /* Transformation */
     void flip();
     bool isFlipped();
     void scale(float size);
@@ -47,7 +37,7 @@ public:
     void setAbsolutePosition(const float x, const float y);
     cocos2d::Size getContentSize();
     
-    /* Movement Section */
+    /* Movement */
     void setSpeed(float speed);                                         // Set speed velocity
     void setRunSpeed(float runSpeed);
     float getRunSpeed();
@@ -56,14 +46,11 @@ public:
     void pause(float time);
     bool isMoveAble();
     
-    /* Attack Section */
+    /* Attack */
     virtual void attack() = 0;                                          // Need Overriding!!
     
-    /* Action Section */
+    /* Action */
     void updateAction();
-    void runAction(std::string key);                                    // Run Action once
-    void runAction(ACTION action);
-    void stopAction(ACTION action);
     ACTION getCurrent();
     void setFuture(ACTION action);
 };

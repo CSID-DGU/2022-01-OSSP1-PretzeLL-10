@@ -39,16 +39,19 @@
     <ClCompile Include="..\Classes\Physics.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Player.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SpriteGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\B2DebugDraw\GLES-Render.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SlotMachine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Hero.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpriteManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,12 +95,6 @@
     <ClInclude Include="..\Classes\Physics.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Player.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SpriteGenerator.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Utility.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -105,6 +102,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\B2DebugDraw\GLES-Render.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Definition.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SlotMachine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Hero.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpriteManager.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
