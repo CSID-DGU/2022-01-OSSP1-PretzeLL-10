@@ -11,10 +11,10 @@ BaseMonster::~BaseMonster()
 bool BaseMonster::init() {
     IF(!BaseObject::init());
     
-    IF(!Physics::init(c2b(getContentSize()), b2Vec2(0.0f, -1.0f)));
+    IF(!PhysicsObject::init(c2b(getContentSize()), b2Vec2(0.0f, -1.0f)));
     setCategory(BITMASK_MONSTER);
 
-    runAction(IDLE);
+    runActionByKey(IDLE);
     
     return true;
 }

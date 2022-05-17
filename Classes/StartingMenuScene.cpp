@@ -27,6 +27,9 @@
 #include "MenuSettingScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "Utility.h"
+#include "SlotMachine.h"
+
 USING_NS_CC;
 
 Scene* StartingMenu::createScene()
@@ -119,11 +122,13 @@ void StartingMenu::menuCloseCallback(Ref* pSender)
 void StartingMenu::menuPlayCallback(Ref* pSender)
 {
     const auto scene = GameScene::createScene();
+    IF_RV(!scene, "Failed to create scene");
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
 }
 
 void StartingMenu::menuSettingCallback(Ref* pSender)
 {
     const auto scene = MenuSetting::create();
+    IF_RV(!scene, "Failed to create scene");
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
 }

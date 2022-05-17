@@ -25,7 +25,7 @@ BaseObject::~BaseObject() {}
 
 bool BaseObject::init() {
     IF(!Node::init());
-    IF(!SpriteGenerator::initWithAnimation(_name, __run_speed));
+    IF(!SpriteObject::initWithAnimation(_name, __run_speed));
     addChild(__sprite);
 //  IF(!Physics::init(c2b(getContentSize())));                              /* Using custom physics body is recommended */
     scheduleUpdate();
@@ -157,32 +157,10 @@ ACTION BaseObject::getCurrent() {
 
 void BaseObject::updateAction() {
     if (__current != __future) {
-        stopAction(__current);
+        stopActionByKey(__current);
         __current = __future;
-        runAction(__current);
+        runActionByKey(__current);
     }
-}
-
-void BaseObject::runAction(std::string key) {
-    auto __i = __animation.find(key);
-#if COCOS2D_DEBUG > 0
-    IF_RV(__i == __animation.end(), "No animation named : " + key);
-#endif
-    __sprite->runAction(__animation[key]);
-}
-
-void BaseObject::runAction(ACTION action) {
-#if COCOS2D_DEBUG > 0
-    IF_RV(action == ELSE, "key should not be ELSE");
-#endif
-    __sprite->runAction(__inf_animation[action]);
-}
-
-void BaseObject::stopAction(ACTION action) {
-#if COCOS2D_DEBUG > 0
-    IF_RV(action == ELSE, "key should not be ELSE");
-#endif
-    __sprite->stopAction(__inf_animation[action]);
 }
 
 // ========================================================================================================== //

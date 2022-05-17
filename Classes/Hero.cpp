@@ -1,31 +1,31 @@
-#include "Player.h"
+#include "Hero.h"
 
 
-Player::Player()
+Hero::Hero()
 : BaseObject("knight_f", 10.0f, 2.0f) {}
 
-Player::~Player()
+Hero::~Hero()
 {}
 
 
-bool Player::init() {
+bool Hero::init() {
     IF(!BaseObject::init());
     
-    IF(!Physics::init(c2b(getContentSize()), b2Vec2(0.0f, -0.5f)));
+    IF(!PhysicsObject::init(c2b(getContentSize()), b2Vec2(0.0f, -0.5f)));
     setCategory(BITMASK_PLAYER);
     
-    runAction(IDLE);
+    runActionByKey(IDLE);
     
     return true;
 }
 
-void Player::update(float dt) {
+void Hero::update(float dt) {
     updateAction();
-    for (auto __e = __body->GetContactList(); __e; __e = __e->next) {
-        auto __a = __e->contact->GetFixtureA();
-        auto __b = __e->contact->GetFixtureB();
+    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
+        auto fixtureA = contact->contact->GetFixtureA();
+        auto fixtureB = contact->contact->GetFixtureB();
         
-        if (__a->GetFilterData().categoryBits == BITMASK_PLAYER) {
+        if (fixtureA->GetFilterData().categoryBits == BITMASK_PLAYER) {
             
         }
     }
@@ -57,13 +57,13 @@ void Player::update(float dt) {
     BaseObject::update(dt);
 }
 
-void Player::setInput(cocos2d::Vec2* mouse, bool* key) {
+void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
     __mouse = mouse;
     __key = key;
 }
 
 
-void Player::move(KEY state) {
+void Hero::move(KEY state) {
     auto __v = getVelocity();
     switch (state) {
         case UP:    __v.y =  1.0f; break;
@@ -80,7 +80,7 @@ void Player::move(KEY state) {
     setVelocity(__v);
 }
 
-void Player::stop(KEY state) {
+void Hero::stop(KEY state) {
     auto __v = getVelocity();
     switch (state) {
         case UP:    if (__key[DOWN ]) __v.y = -1.0f; else __v.y = 0.0f; break;
@@ -100,10 +100,14 @@ void Player::stop(KEY state) {
     setVelocity(__v);
 }
 
-void Player::run() {
+void Hero::run() {
     if (getCurrent() == ACTION::MOVE) setFuture(RUN);
 }
 
-void Player::stopRun() {
+void Hero::stopRun() {
     if (getCurrent() == ACTION::RUN) setFuture(MOVE);
+}
+
+void Hero::attack() {
+    
 }

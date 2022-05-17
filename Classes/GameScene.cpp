@@ -141,7 +141,7 @@ bool GameScene::init()
     __world = new b2World(__g);
     __world->SetAllowSleeping(true);
     __world->SetContinuousPhysics(true);
-    Physics::setWorld(__world);
+    PhysicsObject::setWorld(__world);
 #if COCOS2D_DEBUG > 0
     auto __d_l = B2DebugDrawLayer::create(__world);
     addChild(__d_l);
@@ -170,7 +170,7 @@ bool GameScene::init()
     __b->SetTransform(b2Vec2(1.45f, 1.5f), 0.0f);
 
     
-    __player = Player::create();
+    __player = Hero::create();
     IF(!__player);
     __player->setInput(NULL, __key.data());
     
@@ -194,7 +194,6 @@ bool GameScene::init()
     IF(!__bigZombie);
     __bigZombie->setAbsolutePosition(700, 300);
     addChild(__bigZombie);
-    
 
     return true;
 }
@@ -233,10 +232,15 @@ void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
             __key[SHIFT] = true;
             __player->run();
             break;
+        case cocos2d::EventKeyboard::KeyCode::KEY_M:
+        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_M:
+            if (!__slot_layer) { createSlotMachine(); break; }
+            if (__slot_layer->isRunning()) __slot_layer->disappear();
+            else __slot_layer->appear();
+            break;
         case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
             endProgram();
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -278,14 +282,22 @@ void GameScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
     }
 }
 
+void GameScene::createSlotMachine() {
+    __slot_layer = SlotMachine::create();
+    IF_RV(!__slot_layer, "Failed to create layer");
+    __slot_layer->setScale(0.5f);
+    __slot_layer->setAnchorPoint(cocos2d::Vec2(1.0f, 1.0f));
+    addChild(__slot_layer);
+}
+
 
 void GameScene::update(float dt) {
     __world->Step(dt, 8, 3);
 }
 
-
 GameScene::GameScene() {
     __key.fill(false);
+    __slot_layer = nullptr;
 }
 
 GameScene::~GameScene() {
