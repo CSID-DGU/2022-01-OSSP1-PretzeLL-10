@@ -2,11 +2,11 @@
 #define __BASE_OBJECT_H__
 
 #include "Utility.h"
-#include "SpriteManager.h"
-#include "Physics.h"
+#include "SpriteObject.h"
+#include "PhysicsObject.h"
 
 
-class BaseObject : public cocos2d::Node, protected SpriteManager, protected Physics  {
+class BaseObject : public cocos2d::Node, protected SpriteObject, protected PhysicsObject  {
 protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity

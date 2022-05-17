@@ -1,15 +1,15 @@
-#include "SpriteManager.h"
+#include "SpriteObject.h"
 
 
-SpriteManager::SpriteManager() {}
+SpriteObject::SpriteObject() {}
 
-SpriteManager::~SpriteManager() {
+SpriteObject::~SpriteObject() {
     for (auto i : __inf_anim) i->release();
     for (auto i : __anim) i.second->release();
 }
 
 
-bool SpriteManager::init(std::string name) {
+bool SpriteObject::init(std::string name) {
     IF_RF(name.empty(), "name should not be blank");
     __name = name;
     
@@ -22,7 +22,7 @@ bool SpriteManager::init(std::string name) {
     return true;
 }
 
-bool SpriteManager::initWithAnimation(std::string name, float run_speed) {
+bool SpriteObject::initWithAnimation(std::string name, float run_speed) {
     IF(!init(name));
     
     addInfAnimation("idle", 4, 0.1f);
@@ -42,7 +42,7 @@ bool SpriteManager::initWithAnimation(std::string name, float run_speed) {
 }
 
 
-cocos2d::Animation* SpriteManager::createAnimation(std::string state, int count, float delay) {
+cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, float delay) {
     auto __a = cocos2d::Animation::create();
     for (char i = '0'; i < static_cast<char>(count+48); i++) {
         std::string __n = "frames/"+__name+"_"+state+"_anim_f"+i+".png";
@@ -58,14 +58,14 @@ cocos2d::Animation* SpriteManager::createAnimation(std::string state, int count,
     return __a;
 }
 
-void SpriteManager::addAnimation(std::string state, int count, float delay) {
+void SpriteObject::addAnimation(std::string state, int count, float delay) {
     auto __a = createAnimation(state, count, delay);
     auto __a_ = cocos2d::Animate::create(__a);
     __a_->retain();
     __anim.insert(std::make_pair(state, __a_));
 }
 
-int SpriteManager::addInfAnimation(std::string state, int count, float delay) {
+int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
     auto __a = createAnimation(state, count, delay);
     auto __a_ = cocos2d::Animate::create(__a);
     auto __r = cocos2d::RepeatForever::create(__a_);
@@ -74,29 +74,29 @@ int SpriteManager::addInfAnimation(std::string state, int count, float delay) {
     return __inf_anim.size()-1;
 }
 
-cocos2d::Animate* SpriteManager::getAnimation(std::string key) {
+cocos2d::Animate* SpriteObject::getAnimation(std::string key) {
     IF_RN(__anim.empty(), "animation map is empty");
     AnimationMap::iterator __i = __anim.find(key);
     IF_RN(__i == __anim.end(), "No such animation named: " + key);
     return __i->second;
 }
 
-bool SpriteManager::isAnimationRunning() {
+bool SpriteObject::isAnimationRunning() {
     return __sprite->isRunning();
 }
 
-void SpriteManager::runActionByKey(std::string key) {
+void SpriteObject::runActionByKey(std::string key) {
     auto __i = __anim.find(key);
     IF_RV(__i == __anim.end(), "No animation named : " + key);
     __sprite->runAction(__anim[key]);
 }
 
-void SpriteManager::runActionByKey(ACTION action) {
+void SpriteObject::runActionByKey(ACTION action) {
     IF_RV(action == ELSE, "key should not be ELSE");
     __sprite->runAction(__inf_anim[action]);
 }
 
-void SpriteManager::stopActionByKey(ACTION action) {
+void SpriteObject::stopActionByKey(ACTION action) {
     IF_RV(action == ELSE, "key should not be ELSE");
     __sprite->stopAction(__inf_anim[action]);
 }

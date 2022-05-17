@@ -2,7 +2,7 @@
 #define __SLOT_H__
 
 #include "Utility.h"
-#include "SpriteManager.h"
+#include "SpriteObject.h"
 
 
 class SlotMachine : public cocos2d::Layer {
@@ -14,6 +14,7 @@ private:
     std::vector<cocos2d::Sprite*> weapon;
     std::array<cocos2d::Sprite*, 3> current;
     std::array<cocos2d::Sprite*, 3> next;
+    std::array<cocos2d::Sprite*, 3> post;
     cocos2d::ui::Button* laber;
     
     bool spinning;
@@ -35,7 +36,8 @@ public:
     void appear();
     
     bool createWeapon(const std::string& file);
-    void createItem(bool future);
+    void createItem(int buffer);
+    std::array<cocos2d::Sprite*, 3> getItem();
     
     CREATE_FUNC(SlotMachine);
 };

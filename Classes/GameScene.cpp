@@ -141,7 +141,7 @@ bool GameScene::init()
     __world = new b2World(__g);
     __world->SetAllowSleeping(true);
     __world->SetContinuousPhysics(true);
-    Physics::setWorld(__world);
+    PhysicsObject::setWorld(__world);
 #if COCOS2D_DEBUG > 0
     auto __d_l = B2DebugDrawLayer::create(__world);
     addChild(__d_l);

@@ -160,9 +160,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\MenuSettingScene.cpp" />
-    <ClCompile Include="..\Classes\Physics.cpp" />
+    <ClCompile Include="..\Classes\PhysicsObject.cpp" />
     <ClCompile Include="..\Classes\SlotMachine.cpp" />
-    <ClCompile Include="..\Classes\SpriteManager.cpp" />
+    <ClCompile Include="..\Classes\SpriteObject.cpp" />
     <ClCompile Include="..\Classes\StartingMenuScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -181,9 +181,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Hero.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
-    <ClInclude Include="..\Classes\Physics.h" />
+    <ClInclude Include="..\Classes\PhysicsObject.h" />
     <ClInclude Include="..\Classes\SlotMachine.h" />
-    <ClInclude Include="..\Classes\SpriteManager.h" />
+    <ClInclude Include="..\Classes\SpriteObject.h" />
     <ClInclude Include="..\Classes\StartingMenuScene.h" />
     <ClInclude Include="..\Classes\Utility.h" />
     <ClInclude Include="main.h" />

@@ -4,14 +4,14 @@
 #include "Utility.h"
 
 
-class Physics {
+class PhysicsObject {
 protected:
     static b2World* __world;
     b2Body* __body;
     
 protected:
-    Physics();
-    virtual ~Physics();
+    PhysicsObject();
+    virtual ~PhysicsObject();
     
 public:
     bool init(const b2BodyDef& body, const b2FixtureDef& fixture);

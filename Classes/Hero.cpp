@@ -11,7 +11,7 @@ Hero::~Hero()
 bool Hero::init() {
     IF(!BaseObject::init());
     
-    IF(!Physics::init(c2b(getContentSize()), b2Vec2(0.0f, -0.5f)));
+    IF(!PhysicsObject::init(c2b(getContentSize()), b2Vec2(0.0f, -0.5f)));
     setCategory(BITMASK_PLAYER);
     
     runActionByKey(IDLE);
@@ -21,11 +21,11 @@ bool Hero::init() {
 
 void Hero::update(float dt) {
     updateAction();
-    for (auto __e = __body->GetContactList(); __e; __e = __e->next) {
-        auto __a = __e->contact->GetFixtureA();
-        auto __b = __e->contact->GetFixtureB();
+    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
+        auto fixtureA = contact->contact->GetFixtureA();
+        auto fixtureB = contact->contact->GetFixtureB();
         
-        if (__a->GetFilterData().categoryBits == BITMASK_PLAYER) {
+        if (fixtureA->GetFilterData().categoryBits == BITMASK_PLAYER) {
             
         }
     }
@@ -106,4 +106,8 @@ void Hero::run() {
 
 void Hero::stopRun() {
     if (getCurrent() == ACTION::RUN) setFuture(MOVE);
+}
+
+void Hero::attack() {
+    
 }

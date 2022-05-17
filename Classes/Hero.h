@@ -24,7 +24,7 @@ public:
     virtual void run();
     virtual void stopRun();
     
-    virtual void attack() override {}
+    virtual void attack() override;
 };
 
 #endif /* __PLAYER_H___ */

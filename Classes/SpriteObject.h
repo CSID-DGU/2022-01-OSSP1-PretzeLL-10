@@ -4,7 +4,7 @@
 #include "Utility.h"
 
 
-class SpriteManager {
+class SpriteObject {
 protected:
     typedef std::map<std::string, cocos2d::Animate*> AnimationMap;      // Action, access by name(string)
     typedef std::vector<cocos2d::RepeatForever*> InfAnimation;          // Infinite Action, access by integer key
@@ -16,8 +16,8 @@ protected:
     AnimationMap __anim;                                                // Animation
     
 protected:
-    SpriteManager();
-    virtual ~SpriteManager();
+    SpriteObject();
+    virtual ~SpriteObject();
     
 public:
     /* Init */

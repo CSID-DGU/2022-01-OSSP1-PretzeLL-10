@@ -1,12 +1,12 @@
-#include "Physics.h"
+#include "PhysicsObject.h"
 
 
-Physics::Physics() {}
+PhysicsObject::PhysicsObject() {}
 
-Physics::~Physics() {}
+PhysicsObject::~PhysicsObject() {}
 
 
-bool Physics::init(const b2BodyDef& body, const b2FixtureDef& fixture) {
+bool PhysicsObject::init(const b2BodyDef& body, const b2FixtureDef& fixture) {
     __body = __world->CreateBody(&body);
     IF(!__body);
     
@@ -15,7 +15,7 @@ bool Physics::init(const b2BodyDef& body, const b2FixtureDef& fixture) {
     return true;
 }
 
-bool Physics::init(const b2Vec2& size, const b2Vec2& center) {
+bool PhysicsObject::init(const b2Vec2& size, const b2Vec2& center) {
     b2BodyDef __b;
     __b.type = b2_dynamicBody;
     __b.linearDamping = 20.0f;
@@ -39,7 +39,7 @@ bool Physics::init(const b2Vec2& size, const b2Vec2& center) {
 }
 
 
-void Physics::reCreate(const b2Shape* shape) {
+void PhysicsObject::reCreate(const b2Shape* shape) {
     auto __f = __body->GetFixtureList();
     b2FixtureDef __f_n;
     __f_n.shape = shape;
@@ -49,13 +49,13 @@ void Physics::reCreate(const b2Shape* shape) {
     __body->CreateFixture(&__f_n);
 }
 
-b2World* Physics::__world = nullptr;
+b2World* PhysicsObject::__world = nullptr;
 
-void Physics::setWorld(b2World* world) {
+void PhysicsObject::setWorld(b2World* world) {
     __world = world;
 }
 
-void Physics::setCategory(const int bit) {
+void PhysicsObject::setCategory(const int bit) {
     for (auto __f = __body->GetFixtureList(); __f; __f = __f->GetNext()) {
         auto __d = __f->GetFilterData();
         __d.categoryBits = bit;

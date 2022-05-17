@@ -25,7 +25,7 @@ BaseObject::~BaseObject() {}
 
 bool BaseObject::init() {
     IF(!Node::init());
-    IF(!SpriteManager::initWithAnimation(_name, __run_speed));
+    IF(!SpriteObject::initWithAnimation(_name, __run_speed));
     addChild(__sprite);
 //  IF(!Physics::init(c2b(getContentSize())));                              /* Using custom physics body is recommended */
     scheduleUpdate();

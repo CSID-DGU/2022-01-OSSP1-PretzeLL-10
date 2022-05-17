@@ -13,6 +13,7 @@ SlotMachine::~SlotMachine() {
     for (int i = 0; i < 3; i++) {
         current[i]->removeFromParent();
         next[i]->removeFromParent();
+        post[i]->removeFromParent();
     }
 }
 
@@ -44,9 +45,10 @@ bool SlotMachine::init() {
     IF(!createWeapon("frames/weapon_saw_sword.png"));
     IF(!createWeapon("frames/weapon_spear.png"));
     
-    auto sprite = cocos2d::Sprite::create("sprite/slot_machine.png");
+    auto sprite = cocos2d::Sprite::create("sprite/slot_test.png");
     IF(!sprite);
-    sprite->setLocalZOrder(1);
+    sprite->setScale(10.0f);
+    sprite->setLocalZOrder(0);
     addChild(sprite);
         
 #if COCOS2D_DEBUG > 0
@@ -64,10 +66,11 @@ bool SlotMachine::init() {
     engine = std::mt19937_64(rand_device());
     rand = std::uniform_int_distribution<int>(0, weapon.size()-1);
     
-    createItem(false);
-    createItem(true);
+    createItem(0);
+    createItem(1);
+    createItem(2);
     scheduleUpdate();
-    
+
     return true;
 }
 
@@ -90,15 +93,13 @@ void SlotMachine::laberCallback(Ref* pSender) {
 }
 
 
-void SlotMachine::createItem(bool future) {
+void SlotMachine::createItem(int buffer) {
     for (int i = 0; i < 3; i++) {
         int rand_int = rand(engine);
         cocos2d::Vec2 pos((i-1)*200.0f, -30.0f);
-        if (future) {
-//            rand_int = current[i]->getTag()+1;                                // this option makes result predictable
-//            if (rand_int > 4) rand_int = 0;
-            pos.y += 200.0f;
-        }
+        pos.y += 200.0f * buffer;
+//       rand_int = current[i]->getTag()+1;                                // this option makes result predictable
+//       if (rand_int > 4) rand_int = 0;
         
         auto texture = weapon[rand_int]->getTexture();
         auto sprite = cocos2d::Sprite::createWithTexture(texture);
@@ -107,8 +108,12 @@ void SlotMachine::createItem(bool future) {
         sprite->setPosition(pos);
         addChild(sprite);
         
-        if (future) next[i] = sprite;
-        else current[i] = sprite;
+        switch (buffer) {
+            case 0: current[i] = sprite; break;
+            case 1: next[i] = sprite; break;
+            case 2: post[i] = sprite; break;
+            default: break;
+        }
     }
 }
 
@@ -142,6 +147,7 @@ void SlotMachine::spin() {
             auto action = cocos2d::MoveBy::create(0.05f, pos);
             current[i]->runAction(action);
             next[i]->runAction(action->clone());
+            post[i]->runAction(action->clone());
         }
         moving = true;
     }
@@ -150,9 +156,15 @@ void SlotMachine::spin() {
             for (int i = 0; i < 3; i++) {
                 current[i]->removeFromParent();
                 current[i] = next[i];
+                next[i] = post[i];
             }
-            createItem(true);
+            createItem(2);
             moving = false;
         }
     }
+}
+
+std::array<cocos2d::Sprite*, 3> SlotMachine::getItem() {
+    if (current[0]->getPosition().y > -100.0f) return current;
+    else return next;
 }
