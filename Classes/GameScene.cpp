@@ -194,100 +194,99 @@ bool GameScene::init()
     IF(!__bigZombie);
     __bigZombie->setAbsolutePosition(700, 300);
     addChild(__bigZombie);
+    
+    __slot_layer = SlotMachine::create();
+    IF(!__slot_layer);
+    __slot_layer->setScale(0.5f);
+    __slot_layer->setAnchorPoint(cocos2d::Vec2(1.0f, 0.5f));
+    addChild(__slot_layer);
 
     return true;
 }
 
 
 void GameScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+    typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
     switch (keyCode) {
 #ifndef DIR_MOUSE
-        case cocos2d::EventKeyboard::KeyCode::KEY_W:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_W:
-        case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+        case keyCode_t::KEY_W:
+        case keyCode_t::KEY_CAPITAL_W:
+        case keyCode_t::KEY_UP_ARROW:
             __key[UP] = true;
             __player->move(UP);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_A:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_A:
-        case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+        case keyCode_t::KEY_A:
+        case keyCode_t::KEY_CAPITAL_A:
+        case keyCode_t::KEY_LEFT_ARROW:
             __key[LEFT] = true;
             __player->move(LEFT);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_S:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_S:
-        case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+        case keyCode_t::KEY_S:
+        case keyCode_t::KEY_CAPITAL_S:
+        case keyCode_t::KEY_DOWN_ARROW:
             __key[DOWN] = true;
             __player->move(DOWN);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_D:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_D:
-        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+        case keyCode_t::KEY_D:
+        case keyCode_t::KEY_CAPITAL_D:
+        case keyCode_t::KEY_RIGHT_ARROW:
             __key[RIGHT] = true;
             __player->move(RIGHT);
             break;
 #endif
-        case cocos2d::EventKeyboard::KeyCode::KEY_SHIFT:
-        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_SHIFT:
+        case keyCode_t::KEY_SHIFT:
+        case keyCode_t::KEY_RIGHT_SHIFT:
             __key[SHIFT] = true;
             __player->run();
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_M:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_M:
-            if (!__slot_layer) { createSlotMachine(); break; }
-            if (__slot_layer->isRunning()) __slot_layer->disappear();
-            else __slot_layer->appear();
+        case keyCode_t::KEY_M:
+        case keyCode_t::KEY_CAPITAL_M:
+            __slot_layer->react(__player);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE:
-            endProgram();
+        case keyCode_t::KEY_1: __player->changeWeapon(1); break;
+        case keyCode_t::KEY_2: __player->changeWeapon(2); break;
+        case keyCode_t::KEY_3: __player->changeWeapon(3); break;
+        case keyCode_t::KEY_ESCAPE: endProgram();
         default: break;
     }
 }
 
 void GameScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) {
+    typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
     switch (keyCode) {
 #ifndef DIR_MOUSE
-        case cocos2d::EventKeyboard::KeyCode::KEY_W:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_W:
-        case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+        case keyCode_t::KEY_W:
+        case keyCode_t::KEY_CAPITAL_W:
+        case keyCode_t::KEY_UP_ARROW:
             __key[UP] = false;
             __player->stop(UP);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_S:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_S:
-        case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+        case keyCode_t::KEY_S:
+        case keyCode_t::KEY_CAPITAL_S:
+        case keyCode_t::KEY_DOWN_ARROW:
             __key[DOWN] = false;
             __player->stop(DOWN);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_A:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_A:
-        case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+        case keyCode_t::KEY_A:
+        case keyCode_t::KEY_CAPITAL_A:
+        case keyCode_t::KEY_LEFT_ARROW:
             __key[LEFT] = false;
             __player->stop(LEFT);
             break;
-        case cocos2d::EventKeyboard::KeyCode::KEY_D:
-        case cocos2d::EventKeyboard::KeyCode::KEY_CAPITAL_D:
-        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+        case keyCode_t::KEY_D:
+        case keyCode_t::KEY_CAPITAL_D:
+        case keyCode_t::KEY_RIGHT_ARROW:
             __key[RIGHT] = false;
             __player->stop(RIGHT);
             break;
 #endif
-        case cocos2d::EventKeyboard::KeyCode::KEY_SHIFT:
-        case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_SHIFT:
+        case keyCode_t::KEY_SHIFT:
+        case keyCode_t::KEY_RIGHT_SHIFT:
             __key[SHIFT] = false;
             __player->stopRun();
             break;
-        default:
-            break;
+        default: break;
     }
-}
-
-void GameScene::createSlotMachine() {
-    __slot_layer = SlotMachine::create();
-    IF_RV(!__slot_layer, "Failed to create layer");
-    __slot_layer->setScale(0.5f);
-    __slot_layer->setAnchorPoint(cocos2d::Vec2(1.0f, 1.0f));
-    addChild(__slot_layer);
 }
 
 

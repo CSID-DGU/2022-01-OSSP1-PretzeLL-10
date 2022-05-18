@@ -2,25 +2,20 @@
 
 
 SlotMachine::SlotMachine() {
-    spinning = false;
-    moving = false;
-    timer = 0.0f;
-    spin_time = 1.0f;
+    running = false;
+    result.fill(nullptr);
 }
 
 SlotMachine::~SlotMachine() {
-    for (auto iter : weapon) iter->release();
-    for (int i = 0; i < 3; i++) {
-        current[i]->removeFromParent();
-        next[i]->removeFromParent();
-        post[i]->removeFromParent();
-    }
+    for (auto iter : weapons) iter->release();
 }
 
 
 bool SlotMachine::init() {
+    /* Super init */
     IF(!Layer::init());
     
+    /* Init weapons */
     IF(!createWeapon("frames/weapon_anime_sword.png"));
     IF(!createWeapon("frames/weapon_arrow.png"));
     IF(!createWeapon("frames/weapon_axe.png"));
@@ -45,126 +40,177 @@ bool SlotMachine::init() {
     IF(!createWeapon("frames/weapon_saw_sword.png"));
     IF(!createWeapon("frames/weapon_spear.png"));
     
+    /* Init background */
     auto sprite = cocos2d::Sprite::create("sprite/slot_test.png");
     IF(!sprite);
     sprite->setScale(10.0f);
-    sprite->setLocalZOrder(0);
-    addChild(sprite);
+    addChild(sprite, 0);
         
+    /* Init laber */
 #if COCOS2D_DEBUG > 0
     laber = cocos2d::ui::Button::create("sprite/button_debug.png");
-    laber->setLocalZOrder(2);
 #else
     laber = cocos2d::ui::Button::create();
 #endif
     IF(!laber);
-    laber->addClickEventListener(CC_CALLBACK_1(SlotMachine::laberCallback, this));
+    laber->addClickEventListener(CC_CALLBACK_1(SlotMachine::spin, this));
     laber->setScale(0.06f);
     laber->setAnchorPoint(cocos2d::Vec2(-3.8f, -1.8f));
-    addChild(laber);
+    addChild(laber, 2);
     
+    /* Init random generator */
     engine = std::mt19937_64(rand_device());
-    rand = std::uniform_int_distribution<int>(0, weapon.size()-1);
+    rand = std::uniform_int_distribution<int>(0, weapons.size()-1);
     
-    createItem(0);
-    createItem(1);
-    createItem(2);
-    scheduleUpdate();
+    /* Init clipper */
+    auto size = cocos2d::Size(600.0f, 250.0f);
+    auto pos = cocos2d::Vec2(-250.0f, -150.0f);
+    auto rect = cocos2d::Rect(pos, size);
+    auto clipper = cocos2d::ClippingRectangleNode::create(rect);
+    IF(!clipper);
+    addChild(clipper);
+
+    /* Init lines */
+    for (int i = 0; i < LayerSize::value; i++) {
+        layers[i] = cocos2d::Layer::create();
+        IF(!layers[i]);
+        layers[i]->setPosition((i-1)*200.0f, 0.0f);
+        clipper->addChild(layers[i]);
+    }
+    
+    /* Few things left.. */
+    createItem();
+    setPosition(0.0f, -500.0f);
 
     return true;
 }
 
 void SlotMachine::update(float dt) {
-    if (timer > spin_time) {
-        spinning = false;
-        laber->setEnabled(true);
-        timer = 0.0f;
-    }
+    for (int i = 0; i < LayerSize::value; i++) {
+        auto action = (cocos2d::Speed*)layers[i]->getActionByTag(SLOT_SPIN);
+        if (action) {
+            float speed = action->getSpeed();
+            if (speed < 50.0f) action->setSpeed(action->getSpeed()+1.0f);
+        }
         
-    if (spinning) {
-        spin();
-        timer += dt;
-    }
-}
-
-void SlotMachine::laberCallback(Ref* pSender) {
-    spinning = true;
-    laber->setEnabled(false);
-}
-
-
-void SlotMachine::createItem(int buffer) {
-    for (int i = 0; i < 3; i++) {
-        int rand_int = rand(engine);
-        cocos2d::Vec2 pos((i-1)*200.0f, -30.0f);
-        pos.y += 200.0f * buffer;
-//       rand_int = current[i]->getTag()+1;                                // this option makes result predictable
-//       if (rand_int > 4) rand_int = 0;
-        
-        auto texture = weapon[rand_int]->getTexture();
-        auto sprite = cocos2d::Sprite::createWithTexture(texture);
-        sprite->setScale(2.0f);
-        sprite->setTag(rand_int);
-        sprite->setPosition(pos);
-        addChild(sprite);
-        
-        switch (buffer) {
-            case 0: current[i] = sprite; break;
-            case 1: next[i] = sprite; break;
-            case 2: post[i] = sprite; break;
-            default: break;
+        if (layers[i]->getPositionY() < -(lineSize[i]-1)*200.0f) {
+            layers[i]->stopAllActions();
+            layers[i]->removeAllChildren();
+            layers[i]->addChild(result[i]);
+            result[i]->release();
+            layers[i]->setPosition((i-1)*200.0f, 0.0f);
+            if (i == LayerSize::value - 1) unscheduleUpdate();
         }
     }
 }
 
+void SlotMachine::spin(Ref* pSender) {
+    for (int i = 0; i < 3; i++) {
+        createLine(i);
+        auto pos = cocos2d::Vec2(0.0f, -lineSize[LayerSize::value-1]*200.0f);
+        auto action = cocos2d::MoveBy::create(100.0f, pos);
+        auto speed = cocos2d::Speed::create(action, 1.0f);
+        speed->setTag(SLOT_SPIN);
+        layers[i]->runAction(speed);
+    }
+    scheduleUpdate();
+}
+
+bool SlotMachine::isRunning() const {
+    return running;
+}
+
+
+void SlotMachine::createItem() {
+    for (int i = 0; i < LayerSize::value; i++) {
+        int rand_int = rand(engine);
+        auto texture = weapons[rand_int]->getTexture();
+        auto sprite = cocos2d::Sprite::createWithTexture(texture);
+        
+        sprite->setScale(2.0f);
+        sprite->setTag(rand_int);
+        layers[i]->addChild(sprite);
+    }
+}
+
+void SlotMachine::createLine(int line) {
+    cocos2d::Sprite* sprite;
+    for (int i = 1; i < lineSize[line]; i++) {
+        int rand_int = rand(engine);
+        cocos2d::Vec2 pos(0.0f, i*200.0f);
+        auto texture = weapons[rand_int]->getTexture();
+        sprite = cocos2d::Sprite::createWithTexture(texture);
+        
+        sprite->setScale(2.0f);
+        sprite->setTag(rand_int);
+        sprite->setPosition(pos);
+        layers[line]->addChild(sprite);
+    }
+    
+    result[line] = cocos2d::Sprite::createWithTexture(sprite->getTexture());
+    IF_RV(!result[line], "Failed to create Sprite");
+    result[line]->setTag(sprite->getTag());
+    result[line]->setScale(2.0f);
+    result[line]->retain();
+}
 
 bool SlotMachine::createWeapon(const std::string& file) {
     auto sprite = cocos2d::Sprite::create(file);
     IF(!sprite);
     sprite->getTexture()->setTexParameters(TEX_PARA);
     sprite->retain();
-    weapon.push_back(sprite);
+    weapons.push_back(sprite);
     return true;
 }
 
 
+void SlotMachine::react(Hero* hero) {
+    if (running) {
+        disappear();
+        hero->setWeapon(getResult());
+    }
+    else appear();
+}
+
 void SlotMachine::disappear() {
-    setVisible(false);
+    float desired_time = 0.3f;
+    float calculated_time = desired_time * (getPositionY() + 500.0f) / 500.0f;
+//    auto jump = cocos2d::MoveBy::create(0.05f, cocos2d::Vec2(0.0f, 50.0f));
+    auto dig = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, -500.0f));
+//    auto action = cocos2d::Sequence::createWithTwoActions(jump, dig);
+
+    stopAllActions();
+    runAction(dig);
     laber->setEnabled(false);
-    _running = false;
+    running = false;
 }
 
 void SlotMachine::appear() {
-    setVisible(true);
+    float desired_time = 0.3f;
+    float calculated_time = desired_time * (0.0f - getPositionY()) / 500.0f;
+    auto pop = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, 0.0f));
+//    auto ret = cocos2d::MoveBy::create(0.05f, cocos2d::Vec2(0.0f, -50.0f));
+//    auto action = cocos2d::Sequence::createWithTwoActions(pop, ret);
+    
     laber->setEnabled(true);
-    _running = true;
+    stopAllActions();
+    runAction(pop);
+    running = true;
 }
 
-void SlotMachine::spin() {
-    if (!moving) {
-        for (int i = 0; i < 3; i++) {
-            auto pos = cocos2d::Vec2(0.0f, -211.0f);
-            auto action = cocos2d::MoveBy::create(0.05f, pos);
-            current[i]->runAction(action);
-            next[i]->runAction(action->clone());
-            post[i]->runAction(action->clone());
-        }
-        moving = true;
-    }
-    else {
-        if (current[0]->getPosition().y < -240.0f) {
-            for (int i = 0; i < 3; i++) {
-                current[i]->removeFromParent();
-                current[i] = next[i];
-                next[i] = post[i];
-            }
-            createItem(2);
-            moving = false;
-        }
-    }
-}
 
-std::array<cocos2d::Sprite*, 3> SlotMachine::getItem() {
-    if (current[0]->getPosition().y > -100.0f) return current;
-    else return next;
+std::vector<cocos2d::Sprite*> SlotMachine::getResult() {
+    std::vector<cocos2d::Sprite*> ret(LayerSize::value);
+    for (int i = 0; i < LayerSize::value; i++) {
+        if (!result[i]) {
+            ret[i] = nullptr;
+            continue;
+        }
+        
+        auto sprite = cocos2d::Sprite::createWithTexture(result[i]->getTexture());
+        sprite->setTag(result[i]->getTag());
+        sprite->retain();
+        ret[i] = sprite;
+    }
+    return ret;
 }

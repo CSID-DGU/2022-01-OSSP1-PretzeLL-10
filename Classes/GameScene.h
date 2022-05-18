@@ -14,14 +14,13 @@ class GameScene : public cocos2d::Scene
 private:
     b2World* __world;
     SlotMachine* __slot_layer;
-    
+
     Hero* __player;
     std::array<bool, 5> __key;
     
 public:
     GameScene();
     virtual ~GameScene();
-    
     
     static cocos2d::Scene* createScene();
 

@@ -2,42 +2,44 @@
 #define __SLOT_H__
 
 #include "Utility.h"
-#include "SpriteObject.h"
+#include "Hero.h"
 
 
 class SlotMachine : public cocos2d::Layer {
 private:
+    typedef Int<3> LayerSize;
+    
     std::random_device rand_device;
     std::mt19937_64 engine;
     std::uniform_int_distribution<int> rand;
     
-    std::vector<cocos2d::Sprite*> weapon;
-    std::array<cocos2d::Sprite*, 3> current;
-    std::array<cocos2d::Sprite*, 3> next;
-    std::array<cocos2d::Sprite*, 3> post;
+    std::vector<cocos2d::Sprite*> weapons;
     cocos2d::ui::Button* laber;
+    std::array<cocos2d::Layer*, LayerSize::value> layers;
+    std::array<cocos2d::Sprite*, LayerSize::value> result;
     
-    bool spinning;
-    bool moving;
-    float timer;
-    float spin_time;
+    int lineSize[LayerSize::value] = { 20, 30, 40 };
+    bool running;
     
-protected:
+private:
     SlotMachine();
     ~SlotMachine();
     
 public:
     bool init() final;
     void update(float dt) final;
-    void laberCallback(Ref* pSender);
+    bool isRunning() const final;
+    void spin(Ref* pSender);
     
-    void spin();
+    void react(Hero* hero);
     void disappear();
     void appear();
     
     bool createWeapon(const std::string& file);
-    void createItem(int buffer);
-    std::array<cocos2d::Sprite*, 3> getItem();
+    void createLine(int line);
+    void createItem();
+    
+    std::vector<cocos2d::Sprite*> getResult();
     
     CREATE_FUNC(SlotMachine);
 };

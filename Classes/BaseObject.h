@@ -28,7 +28,7 @@ public:
     virtual void update(float dt) override;
     
     /* Transformation */
-    void flip();
+    virtual void flip();
     bool isFlipped();
     void scale(float size);
     void setPosition(const cocos2d::Vec2& position) override;
