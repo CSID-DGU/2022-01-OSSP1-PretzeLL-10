@@ -26,7 +26,7 @@ BaseObject::~BaseObject() {}
 bool BaseObject::init() {
     IF(!Node::init());
     IF(!SpriteObject::initWithAnimation(_name, __run_speed));
-    addChild(__sprite);
+    addChild(__sprite, 5);
 //  IF(!Physics::init(c2b(getContentSize())));                              /* Using custom physics body is recommended */
     scheduleUpdate();
     return true;
@@ -42,7 +42,7 @@ void BaseObject::update(float dt) {
         __time -= dt;
         return;
     }
-    Node::setPosition(b2c(__body->GetPosition())*PTM_RATIO);
+    Node::setPosition(B2C(__body->GetPosition())*PTM_RATIO);
 #ifdef DIR_MOUSE
     auto __v = __velocity_mouse;
 #else

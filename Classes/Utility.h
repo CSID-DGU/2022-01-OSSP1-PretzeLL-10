@@ -17,6 +17,9 @@
 #include "B2DebugDrawLayer.h"
 
 
+template <int num> struct Int { enum { value = num }; };
+
+
 static inline void endProgram() {
     cocos2d::Director::getInstance()->end();
 }
@@ -32,11 +35,11 @@ inline b2Vec2 normalize(b2Vec2& vec) {
     return vec;
 }
 
-static inline const cocos2d::Vec2 b2c(const b2Vec2 vec) {
+static inline const cocos2d::Vec2 B2C(const b2Vec2 vec) {
     return cocos2d::Vec2(vec.x, vec.y);
 }
 
-static inline const b2Vec2 c2b(const cocos2d::Vec2 vec) {
+static inline const b2Vec2 C2B(const cocos2d::Vec2 vec) {
     return b2Vec2(vec.x, vec.y);
 }
 

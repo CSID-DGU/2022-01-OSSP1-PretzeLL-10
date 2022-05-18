@@ -8,6 +8,9 @@ class Hero : public BaseObject {
 private:
     bool* __key;
     cocos2d::Vec2* __mouse;
+    
+    std::vector<cocos2d::Sprite*> __weapon;
+    int __current;
 
 public:
     Hero();
@@ -19,12 +22,16 @@ public:
     void update(float dt) final;
     void setInput(cocos2d::Vec2* mouse, bool* key);
     
+    void flip() final;
+    void flipWeapon();
     void move(KEY state);
     void stop(KEY state);
-    virtual void run();
-    virtual void stopRun();
+    void run();
+    void stopRun();
     
-    virtual void attack() override;
+    void changeWeapon(int index);
+    void setWeapon(std::vector<cocos2d::Sprite*> weapons);
+    void attack() final;
 };
 
 #endif /* __PLAYER_H___ */

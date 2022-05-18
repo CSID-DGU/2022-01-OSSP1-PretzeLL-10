@@ -2,7 +2,10 @@
 
 
 Hero::Hero()
-: BaseObject("knight_f", 10.0f, 2.0f) {}
+: BaseObject("knight_f", 10.0f, 2.0f) {
+    __weapon.resize(3);
+    __current = 0;
+}
 
 Hero::~Hero()
 {}
@@ -11,7 +14,7 @@ Hero::~Hero()
 bool Hero::init() {
     IF(!BaseObject::init());
     
-    IF(!PhysicsObject::init(c2b(getContentSize()), b2Vec2(0.0f, -0.5f)));
+    IF(!PhysicsObject::init(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
     setCategory(BITMASK_PLAYER);
     
     runActionByKey(IDLE);
@@ -63,6 +66,23 @@ void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
 }
 
 
+void Hero::flip() {
+    BaseObject::flip();
+    flipWeapon();
+}
+
+void Hero::flipWeapon() {
+    auto sprite = __weapon[__current];
+    if (!sprite) return;
+    float hero_scale = __sprite->getScaleX();
+    float weapon_scale = sprite->getScaleX();
+    if (hero_scale*weapon_scale > 0.0f) return;
+    
+    sprite->setScaleX(sprite->getScaleX() * -1);
+    sprite->setPositionX(sprite->getPositionX() * -1);
+    sprite->setRotation(sprite->getRotation() * -1);
+}
+
 void Hero::move(KEY state) {
     auto __v = getVelocity();
     switch (state) {
@@ -108,6 +128,44 @@ void Hero::stopRun() {
     if (getCurrent() == ACTION::RUN) setFuture(MOVE);
 }
 
+
 void Hero::attack() {
     
 }
+
+void Hero::changeWeapon(int index) {
+    if (index-1 == __current) return;
+    if (!__weapon[index-1]) return;
+    
+    __weapon[__current]->setVisible(false);
+    __current = index - 1;
+    __weapon[__current]->setVisible(true);
+    flipWeapon();
+}
+
+void Hero::setWeapon(std::vector<cocos2d::Sprite*> weapons) {
+    for (auto iter : __weapon) {
+        if (!iter) continue;
+        iter->removeFromParent();
+    }
+    __weapon = weapons;
+    bool changed = false;
+    
+    for (auto iter : __weapon) {
+        if (!iter) continue;
+        iter->setRotation(20.0f);
+        float x = iter->getContentSize().width;
+        iter->setPosition(cocos2d::Vec2(x, 0.0f));
+        addChild(iter, 0);
+        iter->setScale(0.8f);
+        iter->release();
+        iter->setVisible(false);
+        changed = true;
+    }
+    
+    if (changed) {
+        __weapon[__current]->setVisible(true);
+        flipWeapon();
+    }
+}
+
