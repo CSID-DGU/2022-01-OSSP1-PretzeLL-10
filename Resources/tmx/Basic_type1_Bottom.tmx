@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
+ <tileset firstgid="1025" source="MetaSet.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="25" height="16">
+  <data encoding="base64" compression="zlib">
+   eJy9lOENgyAQhe92cRfXYJbqIKbVPQjqIpbu0dcY/1DUR0BJvoDk7j3uINYq4uU6apUOs6mwvgrobx7mgW+WnoyrVv0/D5fgFdIGZ4h5tBn6TUIdJWE9Yudje5ZbB9PXPY+cO7nzPpoDD/bdl6hjr1+xfXcQc9arEjUFHpbho2I9eINFuZyfB/6Lxq/rU2boTmAETrkc6FtJGAPie/ACz4TcL5zsBZ8=
+  </data>
+ </layer>
+ <layer id="2" name="meta info" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAPYGShHUa2g1ZuH7Vj1I5RO0aWHcRiJigmtbwixV3IdtACkOtGAIOcAYE=
+  </data>
+ </layer>
+</map>
