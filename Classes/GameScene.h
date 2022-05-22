@@ -21,9 +21,6 @@ private:
     std::array<bool, 5> __key;
     
 public:
-    GameScene();
-    virtual ~GameScene();
-    
     static cocos2d::Scene* createScene();
 
     virtual bool init();
