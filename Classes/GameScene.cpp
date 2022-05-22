@@ -92,13 +92,14 @@ bool GameScene::init()
     addChild(_gamemapmanager->getLayer());
 
     startNewGame();
+    scheduleUpdate();
     return true;
 }
 
 void GameScene::update(float delta)
 
 {
-
+    _gamemapmanager->update(delta);
 }
 
 void GameScene::startNewGame()
