@@ -88,6 +88,7 @@ bool GameScene::init()
     }
     _gamemapmanager = GameMapManager::getInstance();
 
+
     addChild(_gamemapmanager->getLayer());
 
     startNewGame();
@@ -95,6 +96,7 @@ bool GameScene::init()
 }
 
 void GameScene::update(float delta)
+
 {
 
 }
