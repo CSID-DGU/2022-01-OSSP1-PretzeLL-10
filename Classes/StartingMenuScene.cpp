@@ -101,7 +101,10 @@ bool StartingMenu::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
-    
+
+    //auto timer = _Timer::create();
+    //this->addChild(timer);
+
     return true;
 }
 

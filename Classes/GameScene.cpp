@@ -101,31 +101,36 @@ bool GameScene::init()
         this->addChild(label, 1);
     }
 
-    //// add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("sprite/backgroundMenu.png");
-    //if (sprite == nullptr)
-    //{
-    //    problemLoading("'sprite/backgroundMenu.png'");
-    //}
-    //else
-    //{
-    //    // position the sprite on the center of the screen
-    //    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    // add "HelloWorld" splash screen"
+    auto sprite = Sprite::create("sprite/backgroundMenu.png");
+    if (sprite == nullptr)
+    {
+        problemLoading("'sprite/backgroundMenu.png'");
+    }
+    else
+    {
+        // position the sprite on the center of the screen
+        sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-    //    // add the sprite as a child to this layer
-    //    this->addChild(sprite, 0);
-    //}
+        // add the sprite as a child to this layer
+        this->addChild(sprite, 0);
+    }
     
     
     auto tmap = TMXTiledMap::create("tmx/samplemap.tmx");
     if (tmap == nullptr)
     {
         problemLoading("'tmx/samplemap.tmx'");
-        return false;
     }
-    // add the sprite as a child to this layer
-    this->addChild(tmap, 0, 11);
-    
+    else
+    {
+        // add the sprite as a child to this layer
+        this->addChild(tmap, 0, 11);
+    }
+
+    auto timer = _Timer::create();
+    this->addChild(timer);
+        
 
 // ================================================================================================================================== //
     
@@ -147,59 +152,25 @@ bool GameScene::init()
     scheduleUpdate();
     
     
-//    b2BodyDef __b_f;
-//    __b_f.position.Set(0.0f, 0.0f);
-//    auto __b = __world->CreateBody(&__b_f);
-//
-//    auto __s = cocos2d::Director::getInstance()->getWinSize()/PTM_RATIO;
-//    __s.width *= 0.85f;
-//    __s.height *= 0.7f;
-//    b2EdgeShape __e;
-//    b2FixtureDef __f;
-//    __f.shape = &__e;
-//    __e.Set(b2Vec2(0, 0), b2Vec2(__s.width, 0));
-//    __b->CreateFixture(&__f);
-//    __e.Set(b2Vec2(0, 0), b2Vec2(0, __s.height));
-//    __b->CreateFixture(&__f);
-//    __e.Set(b2Vec2(0, __s.height), b2Vec2(__s.width, __s.height));
-//    __b->CreateFixture(&__f);
-//    __e.Set(b2Vec2(__s.width, __s.height), b2Vec2(__s.width, 0));
-//    __b->CreateFixture(&__f);
-//    __b->SetTransform(b2Vec2(1.45f, 1.5f), 0.0f);
+    b2BodyDef __b_f;
+    __b_f.position.Set(0.0f, 0.0f);
+    auto __b = __world->CreateBody(&__b_f);
     
-    auto metaSet = tmap->getLayer("metaset");
-    b2PolygonShape poly;
-    
-    auto layerSize = metaSet->getLayerSize();
-    for (int i = 0; i < layerSize.width; i++) {
-        for (int j = 0; j < layerSize.height; j++) {
-            auto gid = metaSet->getTileGIDAt(cocos2d::Vec2(i, j));
-            if (gid == 72) continue;
-            auto tileSprite = metaSet->getTileAt(cocos2d::Vec2(i, j));
-            if (tileSprite) {
-                auto pos = metaSet->getPositionAt(cocos2d::Vec2(i, j));
-                auto size = tmap->getTileSize();
-                
-                b2BodyDef bodyDef;
-                bodyDef.type = b2_staticBody;
-                bodyDef.position.Set((pos.x + size.width  + 10.0f) / PTM_RATIO,
-                                     (pos.y + size.height + 10.0f) / PTM_RATIO);
-                
-                b2PolygonShape shape;
-                shape.SetAsBox(size.width /PTM_RATIO*1.6f,
-                               size.height/PTM_RATIO*1.6f);
-                
-                b2FixtureDef fixtureDef;
-                fixtureDef.shape = &shape;
-                fixtureDef.density = 1.0f;
-                fixtureDef.friction = 0.1f;
-                fixtureDef.restitution = 0.0f;
-                
-                b2Body* body = __world->CreateBody(&bodyDef);
-                body->CreateFixture(&fixtureDef);
-            }
-        }
-    }
+    auto __s = cocos2d::Director::getInstance()->getWinSize()/PTM_RATIO;
+    __s.width *= 0.85f;
+    __s.height *= 0.7f;
+    b2EdgeShape __e;
+    b2FixtureDef __f;
+    __f.shape = &__e;
+    __e.Set(b2Vec2(0, 0), b2Vec2(__s.width, 0));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(0, 0), b2Vec2(0, __s.height));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(0, __s.height), b2Vec2(__s.width, __s.height));
+    __b->CreateFixture(&__f);
+    __e.Set(b2Vec2(__s.width, __s.height), b2Vec2(__s.width, 0));
+    __b->CreateFixture(&__f);
+    __b->SetTransform(b2Vec2(1.45f, 1.5f), 0.0f);
 
     
     __player = Hero::create();
@@ -332,7 +303,7 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
-    delete __world;
+    //delete __world;
 }
 
 // ================================================================================================================================== //
