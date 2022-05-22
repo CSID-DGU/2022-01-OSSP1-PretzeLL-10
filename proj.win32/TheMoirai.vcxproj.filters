@@ -45,9 +45,6 @@
     <ClCompile Include="..\Classes\BaseMonster.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\BaseObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Debug.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -67,6 +64,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SpriteObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DynamicObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,9 +96,6 @@
       <Filter>src\Map</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BaseMonster.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\BaseObject.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BigDemon.h">
@@ -138,6 +135,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SpriteObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DynamicObject.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
