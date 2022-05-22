@@ -25,8 +25,13 @@
 #include "main.h"
 #include "AppDelegate.h"
 #include "cocos2d.h"
+#include "Debug.h"
 
 USING_NS_CC;
+
+#if COCOS2D_DEBUG > 0
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console");
+#endif
 
 int WINAPI _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
@@ -38,5 +43,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
 
     // create the application instance
     AppDelegate app;
-    return Application::getInstance()->run();
+    Application::getInstance()->run();
+    if (!Error::empty()) Error::traceBack();
+    return 0;
 }
