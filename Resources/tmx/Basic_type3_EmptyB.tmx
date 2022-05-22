@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
- <tileset firstgid="1" source="../../../../../0x72_DungeonTilesetII_v1.4.tsx"/>
- <tileset firstgid="1025" source="../../../../../MetaSet.tsx"/>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
+ <tileset firstgid="1025" source="MetaSet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="25" height="16">
   <data encoding="base64" compression="zlib">
    eJzdk9sJhDAQRSetLPZiG1PLVjL46CO4WokW4okPEH/MwviTwIEIk3udzI1I/mqCSAsd9OGPg6ya+kWeGaj7wQhTxhl07fTgWz8iMYc5aUNOLbp3D/uy9wI9Lc2DfCjzc/eo8CAjRhaNHCo5Ueaonh5kw8igtTvKXmdnD/7Zxr2H1Evq6ZW7YgbWH2+khFwV6CHeXD3qsHlGb9CNSX8Fb0n24g==
