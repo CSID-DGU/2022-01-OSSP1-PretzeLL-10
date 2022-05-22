@@ -90,10 +90,6 @@ bool GameScene::init()
 
 
     addChild(_gamemapmanager->getLayer());
-    
-    __world = PhysicsObject::getWorld();
-    auto debugLayer = B2DebugDrawLayer::create(__world);
-    addChild(debugLayer);
 
     startNewGame();
     scheduleUpdate();
@@ -102,7 +98,6 @@ bool GameScene::init()
 
 
 void GameScene::update(float delta)
-
 {
     _gamemapmanager->update(delta);
 }

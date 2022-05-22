@@ -44,9 +44,9 @@ private:
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 
-    Hero* __player;
-    b2World* __world;
-    std::array<bool, 5> __key;
+    Hero* _hero;
+    b2World* _world;
+    std::array<bool, 5> _key;
     //SlotMachine* __slot_layer;
 
     int gameStage;
