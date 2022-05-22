@@ -1,10 +1,10 @@
 #ifndef __PLAYER_H___
 #define __PLAYER_H___
 
-#include "BaseObject.h"
+#include "DynamicObject.h"
 
 
-class Hero : public BaseObject {
+class Hero : public DynamicObject {
 private:
     bool* __key;
     cocos2d::Vec2* __mouse;

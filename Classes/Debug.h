@@ -4,8 +4,6 @@
 #include <stack>
 #include <string>
 #include <iostream>
-#include <fstream>
-#include <ctime>
 
 
 #ifdef __APPLE__

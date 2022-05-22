@@ -36,6 +36,7 @@ private:
 
 
 
+    b2Body* _wall = nullptr;
     cocos2d::Layer* _layer;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;

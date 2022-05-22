@@ -1,12 +1,12 @@
-#ifndef __BASE_OBJECT_H__
-#define __BASE_OBJECT_H__
+#ifndef __DYNAMIC_OBJECT_H__
+#define __DYNAMIC_OBJECT_H__
 
 #include "Utility.h"
 #include "SpriteObject.h"
 #include "PhysicsObject.h"
 
 
-class BaseObject : public cocos2d::Node, protected SpriteObject, protected PhysicsObject  {
+class DynamicObject : public cocos2d::Node, protected SpriteObject, protected PhysicsObject  {
 protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
@@ -15,11 +15,13 @@ protected:
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
     b2Vec2 __velocity;
+#ifdef DIR_MOUSE
     b2Vec2 __velocity_mouse;
+#endif
     
 protected:                                                              // BaseObject should not be generated
-    BaseObject(std::string name, float speed, float run_speed);
-    virtual ~BaseObject();                                              
+    DynamicObject(std::string name, float speed, float run_speed);
+    virtual ~DynamicObject();
     
 public:
 //    CREATE_FUNC(BaseObject);                                          // Creating BaseObject is invalid!
@@ -55,4 +57,4 @@ public:
     void setFuture(ACTION action);
 };
 
-#endif /* __BASEOBJECT_H__ */
+#endif /* __DYNAMIC_OBJECT_H__ */

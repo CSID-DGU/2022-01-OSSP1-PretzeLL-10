@@ -4,19 +4,41 @@
 #define PTM_RATIO                       64
 #define PHYSICS_BODY_WIDTH              0.3f
 #define PHYSICS_BODY_HEIGHT             0.3f
+#define WALL_LAYER                      "MetaInfo"
 
 //#define DIR_MOUSE
 
-#define BITMASK_ALL                     0xff
-#define BITMASK_PLAYER                  0x01
-#define BITMASK_MONSTER                 0x02
-#define BITMASK_WALL                    0x04
+#define CATEGORY_PLAYER                 0x0001
+#define CATEGORY_MONSTER                0x0002
+#define CATEGORY_WALL                   0x0004
+#define CATEGORY_ITEM                   0x0008
+#define CATEGORY_WEAPON                 0x0010
+
+#define MASK_NONE                       0x0000
+#define MASK_ALL                        0xFFFF
+#define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL
+#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL
+#define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER
+#define MASK_WEAPON                     MASK_NONE
+#define MASK_ITEM                       MASK_NONE
 
 #define PIXEL_FONT                      "fonts/pixel_font.ttf"
 #define FONT_SCALE                      8.0f
 #define TEX_PARA                        {GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE}
 
 #define SLOT_SPIN                       1
+
+#define KEY_GROUP_UP                    keyCode_t::KEY_W: case keyCode_t::KEY_CAPITAL_W: case keyCode_t::KEY_UP_ARROW
+#define KEY_GROUP_LEFT                  keyCode_t::KEY_A: case keyCode_t::KEY_CAPITAL_A: case keyCode_t::KEY_LEFT_ARROW
+#define KEY_GROUP_DOWN                  keyCode_t::KEY_S: case keyCode_t::KEY_CAPITAL_S: case keyCode_t::KEY_DOWN_ARROW
+#define KEY_GROUP_RIGHT                 keyCode_t::KEY_D: case keyCode_t::KEY_CAPITAL_D: case keyCode_t::KEY_RIGHT_ARROW
+#define KEY_GROUP_SHIFT                 keyCode_t::KEY_SHIFT: case keyCode_t::KEY_RIGHT_SHIFT
+#define KEY_GROUP_M                     keyCode_t::KEY_M: case keyCode_t::KEY_CAPITAL_M
+
+#ifndef __KEYCODE_T__
+#define __KEYCODE_T__
+typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
+#endif
 
 
 enum ACTION {
