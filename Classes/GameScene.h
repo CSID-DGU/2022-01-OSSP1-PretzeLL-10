@@ -13,17 +13,12 @@
 
 class GameScene : public cocos2d::Scene
 {
-private:
-    b2World* __world;
-    SlotMachine* __slot_layer;
-
-    Hero* __player;
-    std::array<bool, 5> __key;
-    
 public:
     static cocos2d::Scene* createScene();
 
     virtual bool init() override;
+
+    void update(float dt) override;
 
     void startNewGame();
     void goNextStage();

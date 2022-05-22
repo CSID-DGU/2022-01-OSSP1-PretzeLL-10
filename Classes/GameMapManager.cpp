@@ -68,6 +68,23 @@ void GameMapManager::startNewGame()
 	currentPosition = std::make_pair(mapWidth / 2 + 1, mapHeight / 2 + 1);
 	makeGameMap();
 	loadGameMap(currentPosition.first, currentPosition.second);
+
+    auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
+	auto _keyboard_listener = cocos2d::EventListenerKeyboard::create();
+	_keyboard_listener->onKeyPressed = CC_CALLBACK_2(GameMapManager::onKeyPressed, this);
+	_keyboard_listener->onKeyReleased = CC_CALLBACK_2(GameMapManager::onKeyReleased, this);
+	_event_dispatcher->addEventListenerWithSceneGraphPriority(_keyboard_listener, _layer);
+
+    _world = PhysicsObject::getWorld();
+	_hero = Hero::create();
+	_hero->setAbsolutePosition(500, 500);
+	_hero->setInput(NULL, _key.data());
+#if COCOS2D_DEBUG > 0
+	auto _debug_layer = B2DebugDrawLayer::create(_world);
+	_layer->addChild(_debug_layer, 2);
+#endif
+    _layer->scheduleUpdate();
+	_layer->addChild(_hero, 2);
 }
 
 void GameMapManager::goNextStage()
@@ -92,10 +109,10 @@ cocos2d::Layer* GameMapManager::getLayer() const {
 void GameMapManager::loadGameMap(int w, int h)
 {
 	TMXTiledMap *temp = doLoadGameMap(w, h);
-	temp->setPosition(0, 140);
+	temp->setPosition(0, 130);
 	_layer->addChild(temp);
     _wall = PhysicsObject::createWall(temp);
-    if (_wall) _wall->SetTransform(_wall->GetPosition() + b2Vec2(0, 140/PTM_RATIO), 0.0f);
+    if (_wall) _wall->SetTransform(_wall->GetPosition() + b2Vec2(0, 130/PTM_RATIO), 0.0f);
 }
 
 TMXTiledMap* GameMapManager::doLoadGameMap(int w, int h)
@@ -136,6 +153,7 @@ void GameMapManager::loadRightMap()
 	{
 		loadGameMap(currentPosition.first + 1, currentPosition.second);
 		currentPosition.first++;
+		_hero->setAbsolutePosition(500, 500);
 	}
 }
 
@@ -147,5 +165,44 @@ void GameMapManager::loadLeftMap()
 	{
 		loadGameMap(currentPosition.first - 1, currentPosition.second);
 		currentPosition.first--;
+	}
+}
+
+void GameMapManager::update(float dt)
+{
+	_world->Step(dt, 8, 3);
+}
+
+// copy and paste
+void GameMapManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+	switch (keyCode) {
+#ifndef DIR_MOUSE
+        case KEY_GROUP_UP           : _key[UP] = true; _hero->move(UP); break;
+        case KEY_GROUP_LEFT         : _key[LEFT] = true; _hero->move(LEFT); break;
+        case KEY_GROUP_DOWN         : _key[DOWN] = true; _hero->move(DOWN); break;
+        case KEY_GROUP_RIGHT        : _key[RIGHT] = true; _hero->move(RIGHT); break;
+#endif
+        case KEY_GROUP_SHIFT        : _key[SHIFT] = true; _hero->run(); break;
+        case KEY_GROUP_M            : //__slot_layer->react(__player); break;
+        case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
+        case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
+        case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
+        case keyCode_t::KEY_ESCAPE  : endProgram();
+        default: break;
+	}
+}
+
+void GameMapManager::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+	switch (keyCode) {
+#ifndef DIR_MOUSE
+        case KEY_GROUP_UP           : _key[UP] = false; _hero->stop(UP); break;
+        case KEY_GROUP_DOWN         : _key[DOWN] = false; _hero->stop(DOWN); break;
+        case KEY_GROUP_LEFT         : _key[LEFT] = false; _hero->stop(LEFT); break;
+        case KEY_GROUP_RIGHT        : _key[RIGHT] = false; _hero->stop(RIGHT); break;
+#endif
+        case KEY_GROUP_SHIFT        : _key[SHIFT] = false; _hero->stopRun(); break;
+        default: break;
 	}
 }

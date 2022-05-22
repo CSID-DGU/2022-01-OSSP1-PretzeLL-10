@@ -88,15 +88,17 @@ bool GameScene::init()
     }
     _gamemapmanager = GameMapManager::getInstance();
 
-
     addChild(_gamemapmanager->getLayer());
-    
-    __world = PhysicsObject::getWorld();
-    auto debugLayer = B2DebugDrawLayer::create(__world);
-    addChild(debugLayer);
 
     startNewGame();
+    scheduleUpdate();
     return true;
+}
+
+
+void GameScene::update(float delta)
+{
+    _gamemapmanager->update(delta);
 }
 
 void GameScene::startNewGame()
