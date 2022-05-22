@@ -26,6 +26,7 @@ public:
     void loadLeftMap();
 
     void update(float dt);
+  
 private:
     GameMapManager();
     void goNextStage();
@@ -48,7 +49,7 @@ private:
     b2World* _world;
     std::array<bool, 5> _key;
     //SlotMachine* __slot_layer;
-
+  
     int gameStage;
     int mapWidth, mapHeight;
 };
