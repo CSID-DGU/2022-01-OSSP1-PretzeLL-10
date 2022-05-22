@@ -1,12 +1,12 @@
-#include "GameScene.h"
 #include "GameSummaryScene.h"
+#include "StartingMenuScene.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
-Scene* GameScene::createScene()
+Scene* GameSummary::createScene()
 {
-    return GameScene::create();
+    return GameSummary::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -17,7 +17,7 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool GameScene::init()
+bool GameSummary::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -37,7 +37,7 @@ bool GameScene::init()
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
-        CC_CALLBACK_1(GameScene::menuGotoSummarySceneCallback, this));
+        CC_CALLBACK_1(GameSummary::menuGotoStartingMenuCallback, this));
 
     if (closeItem == nullptr ||
         closeItem->getContentSize().width <= 0 ||
@@ -57,22 +57,9 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    // for test
-
-    auto goRight = MenuItemFont::create("Right", CC_CALLBACK_1(GameScene::mapTravelRight, this));
-    auto goLeft = MenuItemFont::create("Left", CC_CALLBACK_1(GameScene::mapTravelLeft, this));
-    auto goUp = MenuItemFont::create("Up", CC_CALLBACK_1(GameScene::mapTravelUp, this));
-    auto goDown = MenuItemFont::create("Down", CC_CALLBACK_1(GameScene::mapTravelDown, this));
-    //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
-    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, NULL);
-    mapMenu->alignItemsVertically();
-    mapMenu->setPosition(Vec2(400, 300));
-    this->addChild(mapMenu, 1);
-
     /////////////////////////////
     // 3. add your codes below...
-
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -86,54 +73,13 @@ bool GameScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    _gamemapmanager = GameMapManager::getInstance();
 
-
-    addChild(_gamemapmanager->getLayer());
-
-    startNewGame();
     return true;
 }
 
-void GameScene::update(float delta)
 
+void GameSummary::menuGotoStartingMenuCallback(Ref* pSender)
 {
-
-}
-
-void GameScene::startNewGame()
-{
-    GameMapManager::getInstance()->startNewGame();
-}
-
-void GameScene::menuGotoSummarySceneCallback(Ref* pSender)
-{
-    const auto scene = GameSummary::create();
+    const auto scene = StartingMenu::create();
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
-    GameMapManager::getInstance()->clearLayer();
-}
-
-void GameScene::mapTravelUp(Ref* pSender)
-{
-    GameMapManager::getInstance()->loadUpMap();
-}
-
-void GameScene::mapTravelDown(Ref* pSender)
-{
-    GameMapManager::getInstance()->loadDownMap();
-}
-
-void GameScene::mapTravelRight(Ref* pSender)
-{
-    GameMapManager::getInstance()->loadRightMap();
-}
-
-void GameScene::mapTravelLeft(Ref* pSender)
-{
-    GameMapManager::getInstance()->loadLeftMap();
-}
-
-void GameScene::goNextLevel(Ref* pSender)
-{
-
 }
