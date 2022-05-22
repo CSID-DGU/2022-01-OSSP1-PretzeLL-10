@@ -96,7 +96,15 @@ bool GameScene::init()
     addChild(debugLayer);
 
     startNewGame();
+    scheduleUpdate();
     return true;
+}
+
+
+void GameScene::update(float delta)
+
+{
+    _gamemapmanager->update(delta);
 }
 
 void GameScene::startNewGame()
