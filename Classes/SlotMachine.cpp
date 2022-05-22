@@ -99,7 +99,10 @@ void SlotMachine::update(float dt) {
             layers[i]->addChild(result[i]);
             result[i]->release();
             layers[i]->setPosition((i-1)*200.0f, 0.0f);
-            if (i == LayerSize::value - 1) unscheduleUpdate();
+            if (i == LayerSize::value - 1) {
+                unscheduleUpdate();
+                laber->setEnabled(true);
+            }
         }
     }
 }
@@ -114,6 +117,7 @@ void SlotMachine::spin(Ref* pSender) {
         layers[i]->runAction(speed);
     }
     scheduleUpdate();
+    laber->setEnabled(false);
 }
 
 bool SlotMachine::isRunning() const {

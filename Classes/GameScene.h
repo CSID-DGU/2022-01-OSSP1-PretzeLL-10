@@ -2,6 +2,8 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
+#include "GameMapManager.h"
+#include "GameMap.h"
 
 #include "Hero.h"
 #include "Monster.h"
@@ -19,23 +21,28 @@ private:
     std::array<bool, 5> __key;
     
 public:
-    GameScene();
-    virtual ~GameScene();
-    
     static cocos2d::Scene* createScene();
 
-    bool init() override;
-    void update(float dt) override;
+    virtual bool init() override;
+
+    void startNewGame();
+    void goNextStage();
 
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-    
-    void createSlotMachine();
+    void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
+
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
+private:
+    GameMapManager* _gamemapmanager;
+
+    //test
+    void mapTravelUp(Ref* pSender);
+    void mapTravelDown(Ref* pSender);
+    void mapTravelRight(Ref* pSender);
+    void mapTravelLeft(Ref* pSender);
+    void goNextLevel(Ref* pSender);
 };
 
 #endif // __GAME_SCENE_H__

@@ -2,7 +2,7 @@
 
 
 Hero::Hero()
-: BaseObject("knight_f", 10.0f, 2.0f) {
+: DynamicObject("knight_f", 10.0f, 2.0f) {
     __weapon.resize(3);
     __current = 0;
 }
@@ -12,11 +12,10 @@ Hero::~Hero()
 
 
 bool Hero::init() {
-    IF(!BaseObject::init());
+    IF(!DynamicObject::init());
+    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
     
-    IF(!PhysicsObject::init(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
-    setCategory(BITMASK_PLAYER);
-    
+    setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     runActionByKey(IDLE);
     
     return true;
@@ -27,10 +26,11 @@ void Hero::update(float dt) {
     for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
         auto fixtureA = contact->contact->GetFixtureA();
         auto fixtureB = contact->contact->GetFixtureB();
+        float categoryA = PhysicsObject::getCategory(fixtureA);
+        float categoryB = PhysicsObject::getCategory(fixtureB);
+        if (categoryA != CATEGORY_PLAYER && categoryB != CATEGORY_PLAYER) return;
         
-        if (fixtureA->GetFilterData().categoryBits == BITMASK_PLAYER) {
-            
-        }
+        
     }
     
     if (!isMoveAble()) return;
@@ -48,16 +48,9 @@ void Hero::update(float dt) {
         __velocity_mouse = b2Vec2(0.0f, 0.0f);
         setFuture(IDLE);
     }
-//    auto __v_2 = b2Vec2(-__velocity.x, __velocity.y);
-//    normalize(__v_1);
-//    float __d = __v_1.x*__v_2.y - __v_1.y*__v_2.x;
-//    float __c = __v_1.x*__v_2.x + __v_1.y*__v_2.y;
-//    float __s = std::sinf(std::acosf(__c));
-//    __s = (__d > 0.0f) ? __s : -__s;
-//    __velocity_mouse = b2Vec2(__s, __c);
 #endif
     
-    BaseObject::update(dt);
+    DynamicObject::update(dt);
 }
 
 void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
@@ -67,7 +60,7 @@ void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
 
 
 void Hero::flip() {
-    BaseObject::flip();
+    DynamicObject::flip();
     flipWeapon();
 }
 
