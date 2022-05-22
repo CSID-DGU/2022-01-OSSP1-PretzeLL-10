@@ -2,6 +2,7 @@
 #define __GAME_MAP_H__
 
 #include <cocos2d.h>
+#include "PhysicsObject.h"
 
 using cocos2d::TMXTiledMap;
 

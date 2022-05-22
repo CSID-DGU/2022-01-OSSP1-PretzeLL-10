@@ -39,6 +39,7 @@ private:
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
 
+    b2Body* _wall = nullptr;
     cocos2d::Layer* _layer;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;

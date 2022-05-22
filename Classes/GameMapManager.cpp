@@ -118,12 +118,15 @@ void GameMapManager::loadGameMap(int w, int h)
 	TMXTiledMap *temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 140);
 	_layer->addChild(temp);
+    _wall = PhysicsObject::createWall(temp);
+    if (_wall) _wall->SetTransform(_wall->GetPosition() + b2Vec2(0, 140/PTM_RATIO), 0.0f);
 }
 
 TMXTiledMap* GameMapManager::doLoadGameMap(int w, int h)
 {
 	//if (!_gameMap[0])
 		_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
+    if (_wall) PhysicsObject::getWorld()->DestroyBody(_wall);
 	return _gameMap[w][h]->getTmxTiledMap();
 }
 

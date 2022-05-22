@@ -23,8 +23,7 @@ private:
 public:
     static cocos2d::Scene* createScene();
 
-    virtual bool init();
-    virtual void update(float delta) override;
+    virtual bool init() override;
 
     void startNewGame();
     void goNextStage();
