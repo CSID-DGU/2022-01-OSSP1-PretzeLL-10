@@ -57,11 +57,20 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+    // for test
+
+    auto goRight = MenuItemFont::create("Right", CC_CALLBACK_1(GameScene::mapTravelRight, this));
+    auto goLeft = MenuItemFont::create("Left", CC_CALLBACK_1(GameScene::mapTravelLeft, this));
+    auto goUp = MenuItemFont::create("Up", CC_CALLBACK_1(GameScene::mapTravelUp, this));
+    auto goDown = MenuItemFont::create("Down", CC_CALLBACK_1(GameScene::mapTravelDown, this));
+    //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
+    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, NULL);
+    mapMenu->alignItemsVertically();
+    mapMenu->setPosition(Vec2(400, 300));
+    this->addChild(mapMenu, 1);
+
     /////////////////////////////
     // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
@@ -77,40 +86,52 @@ bool GameScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+    _gamemapmanager = GameMapManager::getInstance();
 
-    //// add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("sprite/backgroundMenu.png");
-    //if (sprite == nullptr)
-    //{
-    //    problemLoading("'sprite/backgroundMenu.png'");
-    //}
-    //else
-    //{
-    //    // position the sprite on the center of the screen
-    //    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    addChild(_gamemapmanager->getLayer());
 
-    //    // add the sprite as a child to this layer
-    //    this->addChild(sprite, 0);
-    //}
-    
-    
-    auto tmap = TMXTiledMap::create("tmx/samplemap.tmx");
-    if (tmap == nullptr)
-    {
-        problemLoading("'tmx/samplemap.tmx'");
-    }
-    else
-    {
-        // add the sprite as a child to this layer
-        this->addChild(tmap, 0, 11);
-    }
-
+    startNewGame();
     return true;
 }
 
+void GameScene::update(float delta)
+{
+
+}
+
+void GameScene::startNewGame()
+{
+    GameMapManager::getInstance()->startNewGame();
+}
 
 void GameScene::menuGotoSummarySceneCallback(Ref* pSender)
 {
     const auto scene = GameSummary::create();
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
+    GameMapManager::getInstance()->clearLayer();
+}
+
+void GameScene::mapTravelUp(Ref* pSender)
+{
+    GameMapManager::getInstance()->loadUpMap();
+}
+
+void GameScene::mapTravelDown(Ref* pSender)
+{
+    GameMapManager::getInstance()->loadDownMap();
+}
+
+void GameScene::mapTravelRight(Ref* pSender)
+{
+    GameMapManager::getInstance()->loadRightMap();
+}
+
+void GameScene::mapTravelLeft(Ref* pSender)
+{
+    GameMapManager::getInstance()->loadLeftMap();
+}
+
+void GameScene::goNextLevel(Ref* pSender)
+{
+
 }

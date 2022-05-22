@@ -13,6 +13,9 @@
     <Filter Include="src\Scene">
       <UniqueIdentifier>{415a3c66-3182-4fb2-9ae0-edc8b3d310f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Map">
+      <UniqueIdentifier>{125383d0-52e0-4268-8ec1-cff2031a9cf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +36,12 @@
     <ClCompile Include="..\Classes\StartingMenuScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameMap.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameMapManager.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -52,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\MenuSettingScene.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMap.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMapManager.h">
+      <Filter>src\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
