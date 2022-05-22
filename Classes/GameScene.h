@@ -26,7 +26,6 @@ public:
     
     static cocos2d::Scene* createScene();
 
-<<<<<<< HEAD
     virtual bool init();
     virtual void update(float delta) override;
 
@@ -35,17 +34,7 @@ public:
 
     // a selector callback
     void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
-=======
-    bool init() override;
-    void update(float dt) override;
 
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-    
-    void createSlotMachine();
->>>>>>> TACStest
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
