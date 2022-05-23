@@ -6,14 +6,13 @@
 #include "PhysicsObject.h"
 
 
-class StaticObject : public cocos2d::Node, protected SpriteObject, protected PhysicsObject {
+class StaticObject : public cocos2d::Node, public SpriteObject, public PhysicsObject {
 protected:
-    StaticObject(std::string name);
+    StaticObject(std::string path, std::string name);
     virtual ~StaticObject();
     
 public:
     virtual bool init() override;
-    virtual void update(float dt) override;
     
     void setPosition(const cocos2d::Vec2& position) override;
     void setPosition(const float x, const float y) override;

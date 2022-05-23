@@ -2,21 +2,25 @@
 #define __PLAYER_H___
 
 #include "DynamicObject.h"
+#include "Weapon.h"
 
 
 class Hero : public DynamicObject {
 private:
     bool* __key;
+#ifdef DIR_MOUSE
     cocos2d::Vec2* __mouse;
+#endif
     
-    std::vector<cocos2d::Sprite*> __weapon;
-    int __current;
+    std::pair<std::vector<weapon_t*>, int> __weapon;
+    
+    bool isAttacking;
 
 public:
     Hero();
     virtual ~Hero();                                              
     
-    CREATE_FUNC(Hero);                                    // Cocos create function
+    CREATE_FUNC(Hero);                                      // Cocos create function
     
     virtual bool init() override;                           // Initialize
     void update(float dt) final;
@@ -30,7 +34,7 @@ public:
     void stopRun();
     
     void changeWeapon(int index);
-    void setWeapon(std::vector<cocos2d::Sprite*> weapons);
+    void setWeapon(std::vector<weapon_t*> weapons);
     void attack() final;
 };
 

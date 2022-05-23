@@ -79,12 +79,18 @@ void GameMapManager::startNewGame()
 	_hero = Hero::create();
 	_hero->setAbsolutePosition(500, 500);
 	_hero->setInput(NULL, _key.data());
+	_key.fill(false);
 #if COCOS2D_DEBUG > 0
 	auto _debug_layer = B2DebugDrawLayer::create(_world);
 	_layer->addChild(_debug_layer, 2);
 #endif
     _layer->scheduleUpdate();
 	_layer->addChild(_hero, 2);
+    
+    _slot = SlotMachine::create();
+    _slot->setScale(0.5f);
+    _slot->setAnchorPoint(cocos2d::Vec2(1.0f, 0.5f));
+    _layer->addChild(_slot, 3);
 }
 
 void GameMapManager::goNextStage()
@@ -184,11 +190,12 @@ void GameMapManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos
         case KEY_GROUP_RIGHT        : _key[RIGHT] = true; _hero->move(RIGHT); break;
 #endif
         case KEY_GROUP_SHIFT        : _key[SHIFT] = true; _hero->run(); break;
-        case KEY_GROUP_M            : //__slot_layer->react(__player); break;
+        case KEY_GROUP_M            : _slot->react(_hero); break;
         case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
         case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
-        case keyCode_t::KEY_ESCAPE  : endProgram();
+        case keyCode_t::KEY_ESCAPE  : endProgram(); break;
+        case keyCode_t::KEY_ENTER   : _key[ATTACK] = true; _hero->attack(); break;
         default: break;
 	}
 }
@@ -203,6 +210,7 @@ void GameMapManager::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coco
         case KEY_GROUP_RIGHT        : _key[RIGHT] = false; _hero->stop(RIGHT); break;
 #endif
         case KEY_GROUP_SHIFT        : _key[SHIFT] = false; _hero->stopRun(); break;
+        case keyCode_t::KEY_ENTER   : _key[ATTACK] = false; _hero->attack(); break;
         default: break;
 	}
 }

@@ -7,7 +7,6 @@
 
 #include "Hero.h"
 #include "Monster.h"
-#include "SlotMachine.h"
 #include "StartingMenuScene.h"
 
 
@@ -17,7 +16,6 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init() override;
-
     void update(float dt) override;
 
     void startNewGame();

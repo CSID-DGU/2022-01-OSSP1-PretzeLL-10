@@ -26,7 +26,7 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __b.userData = this;
     
     b2PolygonShape __p;
-    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    float __s_w = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     auto __s = b2Vec2(size.x * __s_w, size.y * __s_h);
     __p.SetAsBox(__s.x, __s.y, b2Vec2(__s.x*center.x, __s.y*center.y), 0.0f);
@@ -46,7 +46,7 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     body.userData = this;
     
     b2PolygonShape shape;
-    float scaleWidth = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
     shape.SetAsBox(scaledSize.x, scaledSize.y,

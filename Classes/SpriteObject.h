@@ -24,8 +24,11 @@ public:
     /* Init */
     bool init(std::string path, std::string name);
     bool initWithAnimation(std::string name, float run_speed, int count = 4);
+    
+    /* Create */
     cocos2d::Animation* createAnimation(std::string state, int count, float delay); // Create animation
     cocos2d::Animate* getAnimation(std::string key);                                // Get Animation by key
+    cocos2d::Sprite* cloneSprite();
     
     /* Add */
     void addAnimation(std::string state, int count = 4, float delay = 0.1f);        // Add Animation

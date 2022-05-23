@@ -6,12 +6,12 @@
 #include "PhysicsObject.h"
 
 
-class DynamicObject : public cocos2d::Node, protected SpriteObject, protected PhysicsObject  {
+class DynamicObject : public cocos2d::Node, public SpriteObject, public PhysicsObject  {
 protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
     
-    float __time;
+    Timer __time;
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
     b2Vec2 __velocity;
@@ -28,9 +28,11 @@ public:
     
     virtual bool init() override;                                       // Initialize, create idle animation and run it
     virtual void update(float dt) override;
+    void updateTimer(float dt);
     
     /* Transformation */
     virtual void flip();
+    bool isFlipNeeded();
     bool isFlipped();
     void scale(float size);
     void setPosition(const cocos2d::Vec2& position) override;
@@ -42,6 +44,7 @@ public:
     /* Movement */
     void setSpeed(float speed);                                         // Set speed velocity
     void setRunSpeed(float runSpeed);
+    float getSpeed();
     float getRunSpeed();
     void setVelocity(const b2Vec2 velocity);
     b2Vec2 getVelocity();

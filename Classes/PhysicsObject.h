@@ -21,7 +21,7 @@ public:
     void reCreate(const b2Shape* shape);
     void setCategory(const int category, const int mask);
     static int getCategory(const b2Fixture* fixture);
-    
+
     static void setWorld(b2World* world);
     static b2World* getWorld();
     static b2Body* createWall(cocos2d::TMXTiledMap* tmap);

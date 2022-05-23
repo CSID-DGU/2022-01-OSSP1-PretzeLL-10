@@ -16,29 +16,29 @@ bool SlotMachine::init() {
     IF(!Layer::init());
     
     /* Init weapons */
-    IF(!createWeapon("frames/weapon_anime_sword.png"));
-    IF(!createWeapon("frames/weapon_arrow.png"));
-    IF(!createWeapon("frames/weapon_axe.png"));
-    IF(!createWeapon("frames/weapon_baton_with_spikes.png"))
-    IF(!createWeapon("frames/weapon_big_hammer.png"))
-    IF(!createWeapon("frames/weapon_bow.png"));
-    IF(!createWeapon("frames/weapon_cleaver.png"));
-    IF(!createWeapon("frames/weapon_duel_sword.png"));
-    IF(!createWeapon("frames/weapon_golden_sword.png"));
-    IF(!createWeapon("frames/weapon_green_magic_staff.png"));
-    IF(!createWeapon("frames/weapon_hammer.png"));
-    IF(!createWeapon("frames/weapon_katana.png"));
-    IF(!createWeapon("frames/weapon_knife.png"));
-    IF(!createWeapon("frames/weapon_knight_sword.png"));
-    IF(!createWeapon("frames/weapon_lavish_sword.png"));
-    IF(!createWeapon("frames/weapon_mace.png"));
-    IF(!createWeapon("frames/weapon_machete.png"));
-    IF(!createWeapon("frames/weapon_red_gem_sword.png"));
-    IF(!createWeapon("frames/weapon_red_magic_staff.png"));
-    IF(!createWeapon("frames/weapon_regular_sword.png"));
-    IF(!createWeapon("frames/weapon_rusty_sword.png"));
-    IF(!createWeapon("frames/weapon_saw_sword.png"));
-    IF(!createWeapon("frames/weapon_spear.png"));
+    IF(!createWeapon("frames/weapon_anime_sword.png", WEAPON_ANIMESWORD));
+    IF(!createWeapon("frames/weapon_bow.png", WEAPON_BOW));
+//    IF(!createWeapon("frames/weapon_arrow.png"));
+    IF(!createWeapon("frames/weapon_axe.png", WEAPON_AXE));
+    IF(!createWeapon("frames/weapon_baton_with_spikes.png", WEAPON_BATONWITHSPIKES))
+    IF(!createWeapon("frames/weapon_big_hammer.png", WEAPON_BIGHAMMER))
+    IF(!createWeapon("frames/weapon_cleaver.png", WEAPON_CLEAVER));
+    IF(!createWeapon("frames/weapon_duel_sword.png", WEAPON_DUELSWORD));
+    IF(!createWeapon("frames/weapon_katana.png", WEAPON_KATANA));
+    IF(!createWeapon("frames/weapon_hammer.png", WEAPON_HAMMER));
+    IF(!createWeapon("frames/weapon_knife.png", WEAPON_KNIFE));
+    IF(!createWeapon("frames/weapon_machete.png", WEAPON_MACHETE));
+//    IF(!createWeapon("frames/weapon_golden_sword.png"));
+//    IF(!createWeapon("frames/weapon_green_magic_staff.png"));
+//    IF(!createWeapon("frames/weapon_knight_sword.png"));
+//    IF(!createWeapon("frames/weapon_lavish_sword.png"));
+//    IF(!createWeapon("frames/weapon_mace.png"));
+//    IF(!createWeapon("frames/weapon_red_gem_sword.png"));
+//    IF(!createWeapon("frames/weapon_red_magic_staff.png"));
+//    IF(!createWeapon("frames/weapon_regular_sword.png"));
+//    IF(!createWeapon("frames/weapon_rusty_sword.png"));
+//    IF(!createWeapon("frames/weapon_saw_sword.png"));
+//    IF(!createWeapon("frames/weapon_spear.png"));
     
     /* Init background */
     auto sprite = cocos2d::Sprite::create("sprite/slot_test.png");
@@ -78,7 +78,7 @@ bool SlotMachine::init() {
         clipper->addChild(layers[i]);
     }
     
-    /* Few things left.. */
+    /* Few things left... */
     createItem();
     setPosition(0.0f, -500.0f);
 
@@ -132,7 +132,7 @@ void SlotMachine::createItem() {
         auto sprite = cocos2d::Sprite::createWithTexture(texture);
         
         sprite->setScale(2.0f);
-        sprite->setTag(rand_int);
+        sprite->setTag(weapons[rand_int]->getTag());
         layers[i]->addChild(sprite);
     }
 }
@@ -144,9 +144,9 @@ void SlotMachine::createLine(int line) {
         cocos2d::Vec2 pos(0.0f, i*200.0f);
         auto texture = weapons[rand_int]->getTexture();
         sprite = cocos2d::Sprite::createWithTexture(texture);
-        
+
         sprite->setScale(2.0f);
-        sprite->setTag(rand_int);
+        sprite->setTag(weapons[rand_int]->getTag());
         sprite->setPosition(pos);
         layers[line]->addChild(sprite);
     }
@@ -158,11 +158,12 @@ void SlotMachine::createLine(int line) {
     result[line]->retain();
 }
 
-bool SlotMachine::createWeapon(const std::string& file) {
+bool SlotMachine::createWeapon(const std::string& file, int tag) {
     auto sprite = cocos2d::Sprite::create(file);
     IF(!sprite);
     sprite->getTexture()->setTexParameters(TEX_PARA);
     sprite->retain();
+    sprite->setTag(tag);
     weapons.push_back(sprite);
     return true;
 }
@@ -203,18 +204,15 @@ void SlotMachine::appear() {
 }
 
 
-std::vector<cocos2d::Sprite*> SlotMachine::getResult() {
-    std::vector<cocos2d::Sprite*> ret(LayerSize::value);
+std::vector<weapon_t*> SlotMachine::getResult() {
+    std::vector<weapon_t*> ret(LayerSize::value);
     for (int i = 0; i < LayerSize::value; i++) {
         if (!result[i]) {
             ret[i] = nullptr;
             continue;
         }
-        
-        auto sprite = cocos2d::Sprite::createWithTexture(result[i]->getTexture());
-        sprite->setTag(result[i]->getTag());
-        sprite->retain();
-        ret[i] = sprite;
+        ret[i] = getWeapon(result[i]->getTag());
+        ret[i]->deactivate();
     }
     return ret;
 }

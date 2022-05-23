@@ -2,8 +2,8 @@
 #define __DEFINITION_H__
 
 #define PTM_RATIO                       64
-#define PHYSICS_BODY_WIDTH              0.3f
-#define PHYSICS_BODY_HEIGHT             0.3f
+#define PHYSICS_BODY_WIDTH              0.5f
+#define PHYSICS_BODY_HEIGHT             0.5f
 #define WALL_LAYER                      "MetaInfo"
 
 //#define DIR_MOUSE
@@ -21,6 +21,19 @@
 #define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER
 #define MASK_WEAPON                     MASK_NONE
 #define MASK_ITEM                       MASK_NONE
+
+#define WEAPON_T                        0
+#define WEAPON_ANIMESWORD               1
+#define WEAPON_BOW                      2
+#define WEAPON_AXE                      3
+#define WEAPON_BATONWITHSPIKES          4
+#define WEAPON_BIGHAMMER                5
+#define WEAPON_CLEAVER                  6
+#define WEAPON_DUELSWORD                7
+#define WEAPON_KATANA                   8
+#define WEAPON_HAMMER                   9
+#define WEAPON_KNIFE                    10
+#define WEAPON_MACHETE                  11
 
 #define PIXEL_FONT                      "fonts/pixel_font.ttf"
 #define FONT_SCALE                      8.0f
@@ -54,7 +67,13 @@ enum KEY {
     LEFT,
     RIGHT,
     SHIFT,
+    ATTACK,
     ALL
+};
+
+enum WEAPON {
+    IMMEDIATE,
+    CHARGE
 };
 
 

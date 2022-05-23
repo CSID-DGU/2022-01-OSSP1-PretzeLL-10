@@ -2,7 +2,7 @@
 
 
 BaseItem::BaseItem(std::string name)
-: StaticObject(name)
+: StaticObject("frames", name)
 , duration_time(0.0f)
 {}
 

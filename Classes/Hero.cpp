@@ -3,8 +3,7 @@
 
 Hero::Hero()
 : DynamicObject("knight_f", 10.0f, 2.0f) {
-    __weapon.resize(3);
-    __current = 0;
+    __weapon = std::make_pair(std::vector<weapon_t*>(3), 0);
 }
 
 Hero::~Hero()
@@ -22,7 +21,11 @@ bool Hero::init() {
 }
 
 void Hero::update(float dt) {
+    updateTimer(dt);
     updateAction();
+    
+    Node::setPosition(B2C(__body->GetPosition())*PTM_RATIO);
+    
     for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
         auto fixtureA = contact->contact->GetFixtureA();
         auto fixtureB = contact->contact->GetFixtureB();
@@ -34,7 +37,7 @@ void Hero::update(float dt) {
     }
     
     if (!isMoveAble()) return;
-    if (isFlipped()) flip();
+    if (isFlipNeeded()) flip();
 #ifdef DIR_MOUSE
     auto __v_1 = c2b(*__mouse - _position);
     if (length(__v_1) > 15.0f) {
@@ -54,7 +57,9 @@ void Hero::update(float dt) {
 }
 
 void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
+#ifdef DIR_MOUSE
     __mouse = mouse;
+#endif
     __key = key;
 }
 
@@ -65,7 +70,7 @@ void Hero::flip() {
 }
 
 void Hero::flipWeapon() {
-    auto sprite = __weapon[__current];
+    auto sprite = __weapon.first[__weapon.second];
     if (!sprite) return;
     float hero_scale = __sprite->getScaleX();
     float weapon_scale = sprite->getScaleX();
@@ -123,41 +128,62 @@ void Hero::stopRun() {
 
 
 void Hero::attack() {
+    int current = __weapon.second;
+    if (!__weapon.first[current]) return;
+    if (__weapon.first[current]->isAttacking()) return;
     
+    __weapon.first[current]->attack(isFlipped());
+    
+    int type = __weapon.first[current]->getType();
+    if (type == IMMEDIATE && __key[ATTACK]) {
+        pause(__weapon.first[current]->getAttackTime());
+    }
+    else if (type == CHARGE) {
+        if (__key[ATTACK]) setSpeed(getSpeed()*0.25f);
+        else {
+            setSpeed(getSpeed()*4.0f);
+            pause(__weapon.first[current]->getAttackTime());
+        }
+    }
 }
 
 void Hero::changeWeapon(int index) {
-    if (index-1 == __current) return;
-    if (!__weapon[index-1]) return;
+    int current = __weapon.second;
+    if (index-1 == current) return;
+    if (!__weapon.first[index-1]) return;
     
-    __weapon[__current]->setVisible(false);
-    __current = index - 1;
-    __weapon[__current]->setVisible(true);
+    __weapon.first[current]->deactivate();
+    current = index - 1;
+    __weapon.second = current;
+    __weapon.first[current]->activate();
     flipWeapon();
 }
 
-void Hero::setWeapon(std::vector<cocos2d::Sprite*> weapons) {
-    for (auto iter : __weapon) {
+void Hero::setWeapon(std::vector<weapon_t*> weapons) {
+    int current = __weapon.second;
+    for (auto iter : __weapon.first) {
         if (!iter) continue;
+        iter->deactivate();
         iter->removeFromParent();
     }
-    __weapon = weapons;
+    __weapon.first.clear();
+    __weapon.first = weapons;
     bool changed = false;
     
-    for (auto iter : __weapon) {
+    for (auto iter : __weapon.first) {
         if (!iter) continue;
         iter->setRotation(20.0f);
-        float x = iter->getContentSize().width;
-        iter->setPosition(cocos2d::Vec2(x, 0.0f));
+        float y = getContentSize().width/-2.0f;
+        iter->setPosition(0.0f, y);
         addChild(iter, 0);
         iter->setScale(0.8f);
-        iter->release();
-        iter->setVisible(false);
+        iter->registerKey(&__key[ATTACK]);
         changed = true;
     }
     
     if (changed) {
-        __weapon[__current]->setVisible(true);
+        if (!__weapon.first[current]) return;
+        __weapon.first[current]->activate();
         flipWeapon();
     }
 }

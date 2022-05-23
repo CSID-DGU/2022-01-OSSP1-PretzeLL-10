@@ -43,4 +43,52 @@ static inline const b2Vec2 C2B(const cocos2d::Vec2 vec) {
     return b2Vec2(vec.x, vec.y);
 }
 
+
+class Timer {
+private:
+    float __run_time = 0.0f;
+    float __time = 0.0f;
+    
+    bool __end = true;
+    bool __invert = false;
+    
+public:
+    Timer(bool inverted = false) {
+        if (inverted) __end = false;
+        __invert = inverted;
+    }
+    
+    void update(float dt) {
+        if (__time > 0) __time -= dt;
+        if (__time < 0) __end = true;
+    }
+    
+    void reset(bool inverted) {
+        set(0.0f);
+        if (!__invert) __end = true;
+    }
+    
+    void set(float time) {
+        __run_time = time;
+        __time = time;
+        __end = false;
+    }
+    
+    float getSetTime() {
+        return __run_time;
+    }
+    
+    float getLeft() {
+        return __time;
+    }
+    
+    float getRunTime() {
+        return __run_time - __time;
+    }
+    
+    bool isEnd() {
+        return __end;
+    }
+};
+
 #endif /* __UTILITY_H__ */

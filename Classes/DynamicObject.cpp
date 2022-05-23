@@ -6,9 +6,8 @@
 // ========================================================================================================== //
 
 DynamicObject::DynamicObject(std::string name, float speed, float runSpeed) {
-    __speed = speed/scaleFactor;
+    __speed = speed/powf(scaleFactor, 3.0f);
     __run_speed = runSpeed;
-    __time = 0.0f;
     __velocity = b2Vec2(0.0f, 0.0f);
 #ifdef DIR_MOUSE
     __velocity_mouse = b2Vec2(0.0f, 0.0f);
@@ -42,11 +41,9 @@ bool DynamicObject::init() {
 // ========================================================================================================== //
 
 void DynamicObject::update(float dt) {
-    if (__time > 0.0f) {
-        __time -= dt;
-        return;
-    }
+    if (!isMoveAble()) return;
     Node::setPosition(B2C(__body->GetPosition())*PTM_RATIO);
+    
 #ifdef DIR_MOUSE
     auto __v = __velocity_mouse;
 #else
@@ -63,6 +60,10 @@ void DynamicObject::update(float dt) {
     __body->ApplyForceToCenter(__v, true);
 }
 
+void DynamicObject::updateTimer(float dt) {
+    __time.update(dt);
+}
+
 
 // ========================================================================================================== //
 // Transformation Section
@@ -72,8 +73,12 @@ void DynamicObject::flip() {
     __sprite->setScaleX(__sprite->getScaleX() * -1);
 }
 
-bool DynamicObject::isFlipped() {
+bool DynamicObject::isFlipNeeded() {
     return __sprite->getScaleX()*__velocity.x < 0.0f;
+}
+
+bool DynamicObject::isFlipped() {
+    return __sprite->getScaleX() < 0.0f;
 }
 
 void DynamicObject::scale(float size) {
@@ -133,16 +138,20 @@ void DynamicObject::setRunSpeed(float runSpeed) {
     __run_speed = runSpeed;
 }
 
+float DynamicObject::getSpeed() {
+    return __speed;
+}
+
 float DynamicObject::getRunSpeed() {
     return __run_speed;
 }
 
 void DynamicObject::pause(float time) {
-    __time = time;
+    __time.set(time);
 }
 
 bool DynamicObject::isMoveAble() {
-    return !(__time > 0.0f);
+    return __time.isEnd();
 }
 
 

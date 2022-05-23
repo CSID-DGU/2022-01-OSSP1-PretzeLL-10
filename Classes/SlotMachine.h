@@ -3,6 +3,7 @@
 
 #include "Utility.h"
 #include "Hero.h"
+#include "Weapon.h"
 
 
 class SlotMachine : public cocos2d::Layer {
@@ -35,11 +36,11 @@ public:
     void disappear();
     void appear();
     
-    bool createWeapon(const std::string& file);
+    bool createWeapon(const std::string& name, int tag);
     void createLine(int line);
     void createItem();
     
-    std::vector<cocos2d::Sprite*> getResult();
+    std::vector<weapon_t*> getResult();
     
     CREATE_FUNC(SlotMachine);
 };
