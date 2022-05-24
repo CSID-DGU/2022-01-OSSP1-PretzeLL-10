@@ -16,6 +16,4 @@
 
 typedef BaseWeapon weapon_t;
 
-weapon_t* getWeapon(const int tag);
-
 #endif /* __WEAPON_H__ */

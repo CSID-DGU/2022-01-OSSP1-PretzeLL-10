@@ -4,10 +4,8 @@
 #include <cocos2d.h>
 #include <utility>
 #include "GameMap.h"
-#include "Hero.h"
-#include "Monster.h"
-#include "Item.h"
-#include "Weapon.h"
+
+#include "Object.h"
 #include "SlotMachine.h"
 
 class GameMapManager
@@ -42,6 +40,7 @@ private:
 
     void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
+    void onMouseMove(cocos2d::EventMouse* event);
 
     b2Body* _wall = nullptr;
     cocos2d::Layer* _layer;
@@ -51,8 +50,6 @@ private:
     Hero* _hero;
     SlotMachine* _slot;
     b2World* _world;
-    std::array<bool, 6> _key;
-    //SlotMachine* __slot_layer;
 
     int gameStage;
     int mapWidth, mapHeight;

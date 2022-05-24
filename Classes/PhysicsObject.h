@@ -17,6 +17,7 @@ public:
     bool init(const b2BodyDef& body, const b2FixtureDef& fixture);
     bool initDynamic(const b2Vec2& size, const b2Vec2& center);
     bool initStatic(const b2Vec2& size, const b2Vec2& center);
+    bool initProjectile(const b2Vec2& size, const b2Vec2& center);
     
     void reCreate(const b2Shape* shape);
     void setCategory(const int category, const int mask);

@@ -7,6 +7,7 @@
 #include <array>
 #include <cmath>
 #include <random>
+#include <functional>
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -41,6 +42,22 @@ static inline const cocos2d::Vec2 B2C(const b2Vec2 vec) {
 
 static inline const b2Vec2 C2B(const cocos2d::Vec2 vec) {
     return b2Vec2(vec.x, vec.y);
+}
+
+static inline const float B2C(float angle) {
+    return -1 * CC_RADIANS_TO_DEGREES(angle);
+}
+
+static inline const float C2B(float angle) {
+    return -1 * CC_DEGREES_TO_RADIANS(angle);
+}
+
+static inline const float VecToDegree(const cocos2d::Vec2& vec) {
+    return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
+}
+
+static inline const float VecToDegree(const b2Vec2& vec) {
+    return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
 }
 
 

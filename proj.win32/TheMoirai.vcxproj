@@ -152,6 +152,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\BaseBullet.cpp" />
+    <ClCompile Include="..\Classes\BaseItem.cpp" />
     <ClCompile Include="..\Classes\BaseWeapon.cpp" />
     <ClCompile Include="..\Classes\DynamicObject.cpp" />
     <ClCompile Include="..\Classes\GameMap.cpp" />
@@ -165,24 +167,29 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameSummaryScene.cpp" />
     <ClCompile Include="..\Classes\MenuSettingScene.cpp" />
     <ClCompile Include="..\Classes\PhysicsObject.cpp" />
+    <ClCompile Include="..\Classes\ProjectileObject.cpp" />
     <ClCompile Include="..\Classes\SlotMachine.cpp" />
     <ClCompile Include="..\Classes\SpriteObject.cpp" />
     <ClCompile Include="..\Classes\StartingMenuScene.cpp" />
     <ClCompile Include="..\Classes\StaticObject.cpp" />
-    <ClCompile Include="..\Classes\Weapon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AnimeSword.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Arrow.h" />
     <ClInclude Include="..\Classes\Axe.h" />
+    <ClInclude Include="..\Classes\BaseBullet.h" />
+    <ClInclude Include="..\Classes\BaseItem.h" />
     <ClInclude Include="..\Classes\BaseWeapon.h" />
     <ClInclude Include="..\Classes\BatonWithSpikes.h" />
     <ClInclude Include="..\Classes\BigHammer.h" />
     <ClInclude Include="..\Classes\Bow.h" />
+    <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\Cleaver.h" />
     <ClInclude Include="..\Classes\DuelSword.h" />
     <ClInclude Include="..\Classes\DynamicObject.h" />
+    <ClInclude Include="..\Classes\FlaskBlue.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\GameMapManager.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h" />
@@ -197,12 +204,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Goblin.h" />
     <ClInclude Include="..\Classes\Hammer.h" />
     <ClInclude Include="..\Classes\Hero.h" />
+    <ClInclude Include="..\Classes\Item.h" />
     <ClInclude Include="..\Classes\Katana.h" />
     <ClInclude Include="..\Classes\Knife.h" />
     <ClInclude Include="..\Classes\Machete.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
     <ClInclude Include="..\Classes\PhysicsObject.h" />
+    <ClInclude Include="..\Classes\ProjectileObject.h" />
     <ClInclude Include="..\Classes\SlotMachine.h" />
     <ClInclude Include="..\Classes\SpriteObject.h" />
     <ClInclude Include="..\Classes\StartingMenuScene.h" />

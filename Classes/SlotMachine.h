@@ -19,6 +19,7 @@ private:
     std::array<cocos2d::Layer*, LayerSize::value> layers;
     std::array<cocos2d::Sprite*, LayerSize::value> result;
     
+    static int counter;
     int lineSize[LayerSize::value] = { 20, 30, 40 };
     bool running;
     
@@ -31,12 +32,15 @@ public:
     void update(float dt) final;
     bool isRunning() const final;
     void spin(Ref* pSender);
+    void stopSpin(int line);
+    void stopAllSpin();
     
     void react(Hero* hero);
     void disappear();
     void appear();
     
-    bool createWeapon(const std::string& name, int tag);
+    template <typename T>
+    bool createWeapon(const std::string& name);
     void createLine(int line);
     void createItem();
     

@@ -9,17 +9,13 @@ DynamicObject::DynamicObject(std::string name, float speed, float runSpeed) {
     __speed = speed/powf(scaleFactor, 3.0f);
     __run_speed = runSpeed;
     __velocity = b2Vec2(0.0f, 0.0f);
-#ifdef DIR_MOUSE
-    __velocity_mouse = b2Vec2(0.0f, 0.0f);
-#endif
     __current = IDLE;
     __future = IDLE;
-    _name = name;
+    __name = name;
+    __is_flippable = true;
 }
 
-DynamicObject::~DynamicObject() {
-    
-}
+DynamicObject::~DynamicObject() {}
 
 
 // ========================================================================================================== //
@@ -28,9 +24,9 @@ DynamicObject::~DynamicObject() {
 
 bool DynamicObject::init() {
     IF(!Node::init());
-    IF(!SpriteObject::initWithAnimation(_name, __run_speed));
+    IF(!SpriteObject::initWithAnimation(__name, __run_speed));
     addChild(__sprite, 5);
-//  IF(!Physics::init(c2b(getContentSize())));                              /* Using custom physics body is recommended */
+//  IF(!Physics::init(c2b(getContentSize())));                                      /* Using custom physics body is recommended */
     scheduleUpdate();
     return true;
 }
@@ -42,22 +38,9 @@ bool DynamicObject::init() {
 
 void DynamicObject::update(float dt) {
     if (!isMoveAble()) return;
-    Node::setPosition(B2C(__body->GetPosition())*PTM_RATIO);
-    
-#ifdef DIR_MOUSE
-    auto __v = __velocity_mouse;
-#else
-    auto __v = __velocity;
-#endif
-    if (__current == MOVE) {
-        __v.x *= __speed;
-        __v.y *= __speed;
-    }
-    else if (__current == RUN) {
-        __v.x *= __speed * __run_speed;
-        __v.y *= __speed * __run_speed;
-    }
-    __body->ApplyForceToCenter(__v, true);
+    if (isFlipNeeded()) flip();
+    move();
+    syncToPhysics();
 }
 
 void DynamicObject::updateTimer(float dt) {
@@ -74,11 +57,20 @@ void DynamicObject::flip() {
 }
 
 bool DynamicObject::isFlipNeeded() {
+    if (!__is_flippable) return false;
     return __sprite->getScaleX()*__velocity.x < 0.0f;
 }
 
 bool DynamicObject::isFlipped() {
     return __sprite->getScaleX() < 0.0f;
+}
+
+void DynamicObject::fixFlip() {
+    __is_flippable = false;
+}
+
+void DynamicObject::releaseFlip() {
+    __is_flippable = true;
 }
 
 void DynamicObject::scale(float size) {
@@ -117,10 +109,28 @@ void DynamicObject::setPosition(const float x, const float y) {
     __body->SetTransform(__p, 0.0f);
 }
 
+void DynamicObject::syncToPhysics() {
+    auto position = B2C(__body->GetPosition()) * PTM_RATIO;
+    Node::setPosition(position.x, position.y);
+}
+
 
 // ========================================================================================================== //
 // Move Section
 // ========================================================================================================== //
+
+void DynamicObject::move() {
+    auto __v = __velocity;
+    if (__current == MOVE) {
+        __v.x *= __speed;
+        __v.y *= __speed;
+    }
+    else if (__current == RUN) {
+        __v.x *= __speed * __run_speed;
+        __v.y *= __speed * __run_speed;
+    }
+    __body->ApplyForceToCenter(__v, true);
+}
 
 void DynamicObject::setVelocity(const b2Vec2 velocity) {
     __velocity = velocity;

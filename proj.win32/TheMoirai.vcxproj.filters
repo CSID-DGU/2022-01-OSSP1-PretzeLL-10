@@ -34,6 +34,12 @@
     <Filter Include="src\Debug">
       <UniqueIdentifier>{1fd58a15-87e0-4d8b-ae6d-3be169225a2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Object\Bullet">
+      <UniqueIdentifier>{e0b335c3-07b0-441a-b668-0c5982ce5a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Item">
+      <UniqueIdentifier>{87e6e7f3-00a8-4ebf-a984-0cca372b853a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,9 +72,6 @@
     <ClCompile Include="..\Classes\BaseWeapon.cpp">
       <Filter>src\Object\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Weapon.cpp">
-      <Filter>src\Object\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Hero.cpp">
       <Filter>src\Object\Hero</Filter>
     </ClCompile>
@@ -95,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Debug.cpp">
       <Filter>src\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseItem.cpp">
+      <Filter>src\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseBullet.cpp">
+      <Filter>src\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ProjectileObject.cpp">
+      <Filter>src\Object\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +220,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Debug.h">
       <Filter>src\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseItem.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FlaskBlue.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Arrow.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseBullet.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bullet.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ProjectileObject.h">
+      <Filter>src\Object\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,8 @@ BaseWeapon::BaseWeapon(std::string name, float attackT, float revertT, float cha
 
 BaseWeapon::~BaseWeapon() {}
 
+std::map<int, std::function<BaseWeapon*(void)>> BaseWeapon::__create_func;
+
 
 bool BaseWeapon::init() {
     IF(!StaticObject::init());
@@ -20,12 +22,21 @@ bool BaseWeapon::init() {
 }
 
 void BaseWeapon::update(float dt) {
-    auto position = __sprite->getPosition();
-    auto worldPos = convertToWorldSpace(position)/PTM_RATIO;
-    __body->SetTransform(C2B(worldPos), getRotation()/-30.0f);
-    
+    syncToSprite();
     __attackTimer.update(dt);
     __chargeTimer.update(dt);
+}
+
+void BaseWeapon::addBullet(bullet_t* bullet) {
+    auto hero = getParent();
+    if (hero) {
+        auto world = hero->getParent();
+        if (world) {
+            world->addChild(bullet);
+            auto position = hero->getPosition() + getPosition();
+            bullet->setPosition(position);
+        }
+    }
 }
 
 
@@ -50,7 +61,7 @@ WEAPON BaseWeapon::getType() {
 }
 
 
-void BaseWeapon::attack(bool flipped) {
+void BaseWeapon::attack(bool flipped, const b2Vec2& direction) {
     if (!isAttackAble()) return;
     
     float angle = 60.0f;
@@ -89,4 +100,13 @@ bool BaseWeapon::isCharging() {
 
 float BaseWeapon::getAttackTime() {
     return __attackTime + __revertTime + 0.02f;                             // jumping one frame  prevents inverted weapon
+}
+
+
+void BaseWeapon::insertCreateFunc(int tag, std::function<BaseWeapon*(void)> func) {
+    __create_func.insert(std::make_pair(tag, func));
+}
+
+BaseWeapon* BaseWeapon::getByTag(int tag) {
+    return __create_func.at(tag)();
 }

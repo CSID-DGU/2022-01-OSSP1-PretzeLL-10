@@ -24,8 +24,8 @@ void StaticObject::setPosition(const cocos2d::Vec2 &position) {
 
 void StaticObject::setPosition(const float x, const float y) {
     Node::setPosition(x, y);
-    b2Vec2 __p(x/PTM_RATIO, y/PTM_RATIO);
-    __body->SetTransform(__p, __body->GetAngle());
+    b2Vec2 __p = C2B(convertToWorldSpace(getPosition()) / PTM_RATIO);
+    __body->SetTransform(__p, B2C(__body->GetAngle()));
 }
 
 void StaticObject::setAbsolutePosition(const cocos2d::Vec2 &position) {
@@ -40,4 +40,10 @@ void StaticObject::setAbsolutePosition(const float x, const float y) {
 
 cocos2d::Size StaticObject::getContentSize() {
     return __sprite->getContentSize();
+}
+
+void StaticObject::syncToSprite() {
+    auto position = __sprite->getPosition();
+    auto worldPos = convertToWorldSpace(position);
+    __body->SetTransform(C2B(worldPos / PTM_RATIO), C2B(getRotation()));
 }

@@ -7,10 +7,8 @@
 
 class Hero : public DynamicObject {
 private:
-    bool* __key;
-#ifdef DIR_MOUSE
-    cocos2d::Vec2* __mouse;
-#endif
+    std::array<bool, 6>__key;
+    cocos2d::Vec2 __mouse;
     
     std::pair<std::vector<weapon_t*>, int> __weapon;
     
@@ -24,7 +22,7 @@ public:
     
     virtual bool init() override;                           // Initialize
     void update(float dt) final;
-    void setInput(cocos2d::Vec2* mouse, bool* key);
+    void updateMouse(cocos2d::Vec2& pos);
     
     void flip() final;
     void flipWeapon();

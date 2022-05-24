@@ -10,14 +10,13 @@ class DynamicObject : public cocos2d::Node, public SpriteObject, public PhysicsO
 protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
+    b2Vec2 __velocity;
     
     Timer __time;
+    bool __is_flippable;
+    
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
-    b2Vec2 __velocity;
-#ifdef DIR_MOUSE
-    b2Vec2 __velocity_mouse;
-#endif
     
 protected:                                                              // BaseObject should not be generated
     DynamicObject(std::string name, float speed, float run_speed);
@@ -34,14 +33,18 @@ public:
     virtual void flip();
     bool isFlipNeeded();
     bool isFlipped();
+    void fixFlip();
+    void releaseFlip();
     void scale(float size);
-    void setPosition(const cocos2d::Vec2& position) override;
-    void setPosition(const float x, const float y) override;
+    void setPosition(const cocos2d::Vec2& position) final;
+    void setPosition(const float x, const float y) final;
     void setAbsolutePosition(const cocos2d::Vec2& position);
     void setAbsolutePosition(const float x, const float y);
     cocos2d::Size getContentSize();
+    void syncToPhysics();
     
     /* Movement */
+    virtual void move();
     void setSpeed(float speed);                                         // Set speed velocity
     void setRunSpeed(float runSpeed);
     float getSpeed();
@@ -54,7 +57,7 @@ public:
     /* Attack */
     virtual void attack() = 0;                                          // Need Overriding!!
     
-    /* Action */
+    /* Animation */
     void updateAction();
     ACTION getCurrent();
     void setFuture(ACTION action);

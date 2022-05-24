@@ -74,12 +74,13 @@ void GameMapManager::startNewGame()
 	_keyboard_listener->onKeyPressed = CC_CALLBACK_2(GameMapManager::onKeyPressed, this);
 	_keyboard_listener->onKeyReleased = CC_CALLBACK_2(GameMapManager::onKeyReleased, this);
 	_event_dispatcher->addEventListenerWithSceneGraphPriority(_keyboard_listener, _layer);
+    auto _mouse_listener = cocos2d::EventListenerMouse::create();
+    _mouse_listener->onMouseMove = CC_CALLBACK_1(GameMapManager::onMouseMove, this);
+    _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, _layer);
 
     _world = PhysicsObject::getWorld();
 	_hero = Hero::create();
 	_hero->setAbsolutePosition(500, 500);
-	_hero->setInput(NULL, _key.data());
-	_key.fill(false);
 #if COCOS2D_DEBUG > 0
 	auto _debug_layer = B2DebugDrawLayer::create(_world);
 	_layer->addChild(_debug_layer, 2);
@@ -183,19 +184,17 @@ void GameMapManager::update(float dt)
 void GameMapManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	switch (keyCode) {
-#ifndef DIR_MOUSE
-        case KEY_GROUP_UP           : _key[UP] = true; _hero->move(UP); break;
-        case KEY_GROUP_LEFT         : _key[LEFT] = true; _hero->move(LEFT); break;
-        case KEY_GROUP_DOWN         : _key[DOWN] = true; _hero->move(DOWN); break;
-        case KEY_GROUP_RIGHT        : _key[RIGHT] = true; _hero->move(RIGHT); break;
-#endif
-        case KEY_GROUP_SHIFT        : _key[SHIFT] = true; _hero->run(); break;
+        case KEY_GROUP_UP           : _hero->move(UP); break;
+        case KEY_GROUP_LEFT         : _hero->move(LEFT); break;
+        case KEY_GROUP_DOWN         : _hero->move(DOWN); break;
+        case KEY_GROUP_RIGHT        : _hero->move(RIGHT); break;
+        case KEY_GROUP_SHIFT        : _hero->run(); break;
         case KEY_GROUP_M            : _slot->react(_hero); break;
         case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
         case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
         case keyCode_t::KEY_ESCAPE  : endProgram(); break;
-        case keyCode_t::KEY_ENTER   : _key[ATTACK] = true; _hero->attack(); break;
+        case keyCode_t::KEY_ENTER   : _hero->attack(); break;
         default: break;
 	}
 }
@@ -203,14 +202,19 @@ void GameMapManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos
 void GameMapManager::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	switch (keyCode) {
-#ifndef DIR_MOUSE
-        case KEY_GROUP_UP           : _key[UP] = false; _hero->stop(UP); break;
-        case KEY_GROUP_DOWN         : _key[DOWN] = false; _hero->stop(DOWN); break;
-        case KEY_GROUP_LEFT         : _key[LEFT] = false; _hero->stop(LEFT); break;
-        case KEY_GROUP_RIGHT        : _key[RIGHT] = false; _hero->stop(RIGHT); break;
-#endif
-        case KEY_GROUP_SHIFT        : _key[SHIFT] = false; _hero->stopRun(); break;
-        case keyCode_t::KEY_ENTER   : _key[ATTACK] = false; _hero->attack(); break;
+        case KEY_GROUP_UP           : _hero->stop(UP); break;
+        case KEY_GROUP_DOWN         : _hero->stop(DOWN); break;
+        case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
+        case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
+        case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
+        case keyCode_t::KEY_ENTER   : _hero->attack(); break;
         default: break;
 	}
+}
+
+void GameMapManager::onMouseMove(cocos2d::EventMouse* event) {
+    cocos2d::Vec2 pos;
+    pos.x = event->getCursorX();
+    pos.y = event->getCursorY();
+    _hero->updateMouse(pos);
 }

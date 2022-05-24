@@ -2,10 +2,15 @@
 #define __BASE_WEAPON_H__
 
 #include "StaticObject.h"
+#include "Bullet.h"
 
 
 class BaseWeapon : public StaticObject {
-protected:
+private:
+    typedef std::function<BaseWeapon*(void)> create_func_t;
+    static std::map<int, create_func_t> __create_func;
+    
+protected:    
     float __attackTime;
     float __revertTime;
     float __chargeTime;
@@ -27,6 +32,7 @@ public:
     
     bool init() final;
     void update(float dt) final;
+    void addBullet(bullet_t* bullet);
     
     void activate();
     void deactivate();
@@ -37,7 +43,10 @@ public:
     bool isAttackAble();
     bool isCharging();
     float getAttackTime();
-    virtual void attack(bool flipped);
+    virtual void attack(bool flipped, const b2Vec2& direction);
+    
+    static void insertCreateFunc(int tag, create_func_t func);
+    static BaseWeapon* getByTag(int tag);
 };
 
 #endif /* __BASE_WEAPON_H__ */

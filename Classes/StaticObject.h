@@ -19,6 +19,7 @@ public:
     void setAbsolutePosition(const cocos2d::Vec2& position);
     void setAbsolutePosition(const float x, const float y);
     cocos2d::Size getContentSize();
+    void syncToSprite();
 };
 
 #endif /* __STATIC_OBJECT_H__ */

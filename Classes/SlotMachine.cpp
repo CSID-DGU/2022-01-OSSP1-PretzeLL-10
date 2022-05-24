@@ -10,24 +10,26 @@ SlotMachine::~SlotMachine() {
     for (auto iter : weapons) iter->release();
 }
 
+int SlotMachine::counter = 0;
+
 
 bool SlotMachine::init() {
     /* Super init */
     IF(!Layer::init());
     
     /* Init weapons */
-    IF(!createWeapon("frames/weapon_anime_sword.png", WEAPON_ANIMESWORD));
-    IF(!createWeapon("frames/weapon_bow.png", WEAPON_BOW));
+    IF(!createWeapon<AnimeSword>("anime_sword"));
+    IF(!createWeapon<Bow>("bow"));
+    IF(!createWeapon<Axe>("axe"));
+    IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
+    IF(!createWeapon<BigHammer>("big_hammer"))
+    IF(!createWeapon<Cleaver>("cleaver"));
+    IF(!createWeapon<DuelSword>("duel_sword"));
+    IF(!createWeapon<Katana>("katana"));
+    IF(!createWeapon<Hammer>("hammer"));
+    IF(!createWeapon<Knife>("knife"));
+    IF(!createWeapon<Machete>("machete"));
 //    IF(!createWeapon("frames/weapon_arrow.png"));
-    IF(!createWeapon("frames/weapon_axe.png", WEAPON_AXE));
-    IF(!createWeapon("frames/weapon_baton_with_spikes.png", WEAPON_BATONWITHSPIKES))
-    IF(!createWeapon("frames/weapon_big_hammer.png", WEAPON_BIGHAMMER))
-    IF(!createWeapon("frames/weapon_cleaver.png", WEAPON_CLEAVER));
-    IF(!createWeapon("frames/weapon_duel_sword.png", WEAPON_DUELSWORD));
-    IF(!createWeapon("frames/weapon_katana.png", WEAPON_KATANA));
-    IF(!createWeapon("frames/weapon_hammer.png", WEAPON_HAMMER));
-    IF(!createWeapon("frames/weapon_knife.png", WEAPON_KNIFE));
-    IF(!createWeapon("frames/weapon_machete.png", WEAPON_MACHETE));
 //    IF(!createWeapon("frames/weapon_golden_sword.png"));
 //    IF(!createWeapon("frames/weapon_green_magic_staff.png"));
 //    IF(!createWeapon("frames/weapon_knight_sword.png"));
@@ -94,11 +96,7 @@ void SlotMachine::update(float dt) {
         }
         
         if (layers[i]->getPositionY() < -(lineSize[i]-1)*200.0f) {
-            layers[i]->stopAllActions();
-            layers[i]->removeAllChildren();
-            layers[i]->addChild(result[i]);
-            result[i]->release();
-            layers[i]->setPosition((i-1)*200.0f, 0.0f);
+            stopSpin(i);
             if (i == LayerSize::value - 1) {
                 unscheduleUpdate();
                 laber->setEnabled(true);
@@ -118,6 +116,23 @@ void SlotMachine::spin(Ref* pSender) {
     }
     scheduleUpdate();
     laber->setEnabled(false);
+}
+
+void SlotMachine::stopSpin(int line) {
+    if (!result[line]) return;
+    if (layers[line]->getChildrenCount() != lineSize[line]) return;
+    layers[line]->stopAllActions();
+    layers[line]->removeAllChildren();
+    layers[line]->addChild(result[line]);
+    result[line]->release();
+    layers[line]->setPosition((line-1)*200.0f, 0.0f);
+}
+
+void SlotMachine::stopAllSpin() {
+    for (int i = 0; i < LayerSize::value; i++) {
+        stopSpin(i);
+    }
+    unscheduleUpdate();
 }
 
 bool SlotMachine::isRunning() const {
@@ -158,13 +173,19 @@ void SlotMachine::createLine(int line) {
     result[line]->retain();
 }
 
-bool SlotMachine::createWeapon(const std::string& file, int tag) {
-    auto sprite = cocos2d::Sprite::create(file);
+template <typename T>
+bool SlotMachine::createWeapon(const std::string& file) {
+    std::string fullpath = "frames/weapon_" + file + ".png";
+    counter++;
+    
+    auto sprite = cocos2d::Sprite::create(fullpath);
     IF(!sprite);
     sprite->getTexture()->setTexParameters(TEX_PARA);
     sprite->retain();
-    sprite->setTag(tag);
+    sprite->setTag(counter);
     weapons.push_back(sprite);
+    
+    BaseWeapon::insertCreateFunc(counter, T::create);
     return true;
 }
 
@@ -180,9 +201,7 @@ void SlotMachine::react(Hero* hero) {
 void SlotMachine::disappear() {
     float desired_time = 0.3f;
     float calculated_time = desired_time * (getPositionY() + 500.0f) / 500.0f;
-//    auto jump = cocos2d::MoveBy::create(0.05f, cocos2d::Vec2(0.0f, 50.0f));
     auto dig = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, -500.0f));
-//    auto action = cocos2d::Sequence::createWithTwoActions(jump, dig);
 
     stopAllActions();
     runAction(dig);
@@ -194,9 +213,8 @@ void SlotMachine::appear() {
     float desired_time = 0.3f;
     float calculated_time = desired_time * (0.0f - getPositionY()) / 500.0f;
     auto pop = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, 0.0f));
-//    auto ret = cocos2d::MoveBy::create(0.05f, cocos2d::Vec2(0.0f, -50.0f));
-//    auto action = cocos2d::Sequence::createWithTwoActions(pop, ret);
     
+    stopAllSpin();
     laber->setEnabled(true);
     stopAllActions();
     runAction(pop);
@@ -211,7 +229,7 @@ std::vector<weapon_t*> SlotMachine::getResult() {
             ret[i] = nullptr;
             continue;
         }
-        ret[i] = getWeapon(result[i]->getTag());
+        ret[i] = BaseWeapon::getByTag(result[i]->getTag());
         ret[i]->deactivate();
     }
     return ret;
