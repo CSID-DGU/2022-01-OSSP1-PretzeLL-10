@@ -88,7 +88,6 @@ bool GameScene::init()
     }
     _gamemapmanager = GameMapManager::getInstance();
 
-
     addChild(_gamemapmanager->getLayer());
 
     startNewGame();

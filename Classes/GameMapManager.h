@@ -4,6 +4,7 @@
 #include <cocos2d.h>
 #include <utility>
 #include "GameMap.h"
+#include "Hero.h"
 
 #include "Object.h"
 #include "SlotMachine.h"
@@ -28,6 +29,7 @@ public:
     void loadLeftMap();
 
     void update(float dt);
+
 private:
     GameMapManager();
     void goNextStage();

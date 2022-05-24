@@ -18,6 +18,8 @@ public:
     virtual bool init() override;
     void update(float dt) override;
 
+    void update(float dt) override;
+
     void startNewGame();
     void goNextStage();
 

@@ -87,11 +87,12 @@ void GameMapManager::startNewGame()
 #endif
     _layer->scheduleUpdate();
 	_layer->addChild(_hero, 2);
-    
+  
     _slot = SlotMachine::create();
     _slot->setScale(0.5f);
     _slot->setAnchorPoint(cocos2d::Vec2(1.0f, 0.5f));
     _layer->addChild(_slot, 3);
+
 }
 
 void GameMapManager::goNextStage()
