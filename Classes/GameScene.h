@@ -2,7 +2,7 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
-#include "GameMapManager.h"
+#include "GameManager.h"
 #include "GameMap.h"
 
 #include "Hero.h"
@@ -36,7 +36,7 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
 private:
-    GameMapManager* _gamemapmanager;
+    GameManager* _gamemapmanager;
 
     //=============================================================== callback for test
     void mapTravelUp(Ref* pSender);

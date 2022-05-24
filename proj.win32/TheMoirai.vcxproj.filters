@@ -39,9 +39,6 @@
     <ClCompile Include="..\Classes\GameMap.cpp">
       <Filter>src\Map</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameMapManager.cpp">
-      <Filter>src\Map</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BaseMonster.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -72,6 +69,9 @@
     <ClCompile Include="..\Classes\GameStateLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -93,9 +93,6 @@
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameMap.h">
-      <Filter>src\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GameMapManager.h">
       <Filter>src\Map</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BaseMonster.h">
@@ -144,6 +141,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameStateLayer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameManager.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

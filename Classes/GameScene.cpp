@@ -88,7 +88,7 @@ bool GameScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    _gamemapmanager = GameMapManager::getInstance();
+    _gamemapmanager = GameManager::getInstance();
 
 
     addChild(_gamemapmanager->getLayer());
@@ -106,36 +106,36 @@ void GameScene::update(float delta)
 
 void GameScene::startNewGame()
 {
-    GameMapManager::getInstance()->startNewGame();
+    GameManager::getInstance()->startNewGame();
 }
 
 void GameScene::menuGotoSummarySceneCallback(Ref* pSender)
 {
     const auto scene = GameSummary::create();
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
-    GameMapManager::getInstance()->clearLayer();
+    GameManager::getInstance()->clearLayer();
 }
 
 //=============================================================== callback for test
 
 void GameScene::mapTravelUp(Ref* pSender)
 {
-    GameMapManager::getInstance()->loadUpMap();
+    GameManager::getInstance()->loadUpMap();
 }
 
 void GameScene::mapTravelDown(Ref* pSender)
 {
-    GameMapManager::getInstance()->loadDownMap();
+    GameManager::getInstance()->loadDownMap();
 }
 
 void GameScene::mapTravelRight(Ref* pSender)
 {
-    GameMapManager::getInstance()->loadRightMap();
+    GameManager::getInstance()->loadRightMap();
 }
 
 void GameScene::mapTravelLeft(Ref* pSender)
 {
-    GameMapManager::getInstance()->loadLeftMap();
+    GameManager::getInstance()->loadLeftMap();
 }
 
 void GameScene::goNextLevel(Ref* pSender)
@@ -145,5 +145,5 @@ void GameScene::goNextLevel(Ref* pSender)
 
 void GameScene::heroDamage(Ref* pSender)
 {
-    GameMapManager::getInstance()->getHero()->damaged(1);
+    GameManager::getInstance()->getHero()->damaged(1);
 }

@@ -153,7 +153,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GameMap.cpp" />
-    <ClCompile Include="..\Classes\GameMapManager.cpp" />
+    <ClCompile Include="..\Classes\GameManager.cpp" />
     <ClCompile Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.cpp" />
     <ClCompile Include="..\Classes\B2DebugDraw\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\BaseMonster.cpp" />
@@ -173,7 +173,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
-    <ClInclude Include="..\Classes\GameMapManager.h" />
+    <ClInclude Include="..\Classes\GameManager.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\GLES-Render.h" />
     <ClInclude Include="..\Classes\BaseMonster.h" />

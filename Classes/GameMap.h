@@ -42,7 +42,7 @@ private:
     //std::vector<std::unique_ptr<GameMap::Portal>> _portals;
 
     bool isClear;
-    friend class GameMapManager;
+    friend class GameManager;
 };
 
 #endif
