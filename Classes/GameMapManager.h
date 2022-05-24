@@ -13,6 +13,7 @@ public:
     void init();
 
     cocos2d::Layer* getLayer() const;
+    Hero* getHero() const;      // for test
 
     void startNewGame();
     
@@ -46,7 +47,6 @@ private:
     Hero* __player;
     b2World* __world;
     std::array<bool, 5> __key;
-    //SlotMachine* __slot_layer;
 
     int gameStage;
     int mapWidth, mapHeight;

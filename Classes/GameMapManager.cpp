@@ -1,4 +1,5 @@
 #include "GameMapManager.h"
+#include "GameStateLayer.h"
 
 GameMapManager* GameMapManager::sharedGameMapManager = nullptr;
 
@@ -18,17 +19,17 @@ void GameMapManager::init()
 
 void GameMapManager::makeGameMap()
 {
-	_gameMap = new GameMap**[mapWidth];
+	_gameMap = new GameMap * *[mapWidth];
 	for (int i = 0; i < mapWidth; i++)
 	{
-		_gameMap[i] = new GameMap*[mapHeight];
+		_gameMap[i] = new GameMap * [mapHeight];
 	}
 	for (int i = 0; i < mapWidth; i++)
 	{
 		for (int j = 0; j < mapHeight; j++)
 		{
 			if (j % 2 == 0)
-				if(i%2 == 0)
+				if (i % 2 == 0)
 					_gameMap[i][j] = new GameMap("tmx/samplemap0.tmx");
 				else
 					_gameMap[i][j] = new GameMap("tmx/samplemap1.tmx");
@@ -86,7 +87,7 @@ void GameMapManager::startNewGame()
 	__player->setAbsolutePosition(500, 500);
 	__player->setZOrder(2);
 	__player->setInput(NULL, __key.data());
-	
+
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(__world);
 	_layer->addChild(__d_l, 2);
@@ -95,6 +96,10 @@ void GameMapManager::startNewGame()
 
 	_layer->addChild(__player);
 
+	//------------------------------------------------- addChild GameStateLayer
+	auto _state_layer = GameStateLayer::create();
+	_state_layer->startNewGame(__player);
+	_layer->addChild(_state_layer);
 }
 
 void GameMapManager::goNextStage()
@@ -122,7 +127,7 @@ cocos2d::Layer* GameMapManager::getLayer() const {
 
 void GameMapManager::loadGameMap(int w, int h)
 {
-	TMXTiledMap *temp = doLoadGameMap(w, h);
+	TMXTiledMap* temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 140);
 	_layer->addChild(temp);
 }
@@ -130,7 +135,7 @@ void GameMapManager::loadGameMap(int w, int h)
 TMXTiledMap* GameMapManager::doLoadGameMap(int w, int h)
 {
 	//if (!_gameMap[0])
-		_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
+	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 	return _gameMap[w][h]->getTmxTiledMap();
 }
 
