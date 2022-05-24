@@ -5,6 +5,7 @@ Hero::Hero()
 : BaseObject("knight_f", 10.0f, 2.0f) {
     __weapon.resize(3);
     __current = 0;
+    myHP = 6;
 }
 
 Hero::~Hero()
@@ -13,6 +14,7 @@ Hero::~Hero()
 
 bool Hero::init() {
     IF(!BaseObject::init());
+
     
     IF(!PhysicsObject::init(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
     setCategory(BITMASK_PLAYER);
@@ -169,3 +171,12 @@ void Hero::setWeapon(std::vector<cocos2d::Sprite*> weapons) {
     }
 }
 
+int Hero::getHP()
+{
+    return myHP;
+}
+
+void Hero::damaged(int i)
+{
+    myHP -= i;
+}

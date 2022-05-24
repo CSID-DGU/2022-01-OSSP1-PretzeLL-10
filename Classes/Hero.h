@@ -12,6 +12,7 @@ private:
     std::vector<cocos2d::Sprite*> __weapon;
     int __current;
 
+    int myHP;
 public:
     Hero();
     virtual ~Hero();                                              
@@ -32,6 +33,9 @@ public:
     void changeWeapon(int index);
     void setWeapon(std::vector<cocos2d::Sprite*> weapons);
     void attack() final;
+
+    int getHP();
+    void damaged(int i);
 };
 
 #endif /* __PLAYER_H___ */

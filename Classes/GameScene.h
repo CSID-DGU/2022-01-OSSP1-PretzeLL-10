@@ -38,12 +38,13 @@ public:
 private:
     GameMapManager* _gamemapmanager;
 
-    //test
+    //=============================================================== callback for test
     void mapTravelUp(Ref* pSender);
     void mapTravelDown(Ref* pSender);
     void mapTravelRight(Ref* pSender);
     void mapTravelLeft(Ref* pSender);
     void goNextLevel(Ref* pSender);
+    void heroDamage(Ref* pSender);
 };
 
 #endif // __GAME_SCENE_H__

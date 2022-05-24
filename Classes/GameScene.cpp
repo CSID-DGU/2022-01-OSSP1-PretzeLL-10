@@ -57,14 +57,16 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    // for test
-
+    //============================================================================================
+    //                          buttons for test
+    //============================================================================================
     auto goRight = MenuItemFont::create("Right", CC_CALLBACK_1(GameScene::mapTravelRight, this));
     auto goLeft = MenuItemFont::create("Left", CC_CALLBACK_1(GameScene::mapTravelLeft, this));
     auto goUp = MenuItemFont::create("Up", CC_CALLBACK_1(GameScene::mapTravelUp, this));
     auto goDown = MenuItemFont::create("Down", CC_CALLBACK_1(GameScene::mapTravelDown, this));
+    auto damage = MenuItemFont::create("Damage", CC_CALLBACK_1(GameScene::heroDamage, this));
     //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
-    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, NULL);
+    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, damage, NULL);
     mapMenu->alignItemsVertically();
     mapMenu->setPosition(Vec2(400, 300));
     this->addChild(mapMenu, 1);
@@ -114,6 +116,8 @@ void GameScene::menuGotoSummarySceneCallback(Ref* pSender)
     GameMapManager::getInstance()->clearLayer();
 }
 
+//=============================================================== callback for test
+
 void GameScene::mapTravelUp(Ref* pSender)
 {
     GameMapManager::getInstance()->loadUpMap();
@@ -137,4 +141,9 @@ void GameScene::mapTravelLeft(Ref* pSender)
 void GameScene::goNextLevel(Ref* pSender)
 {
 
+}
+
+void GameScene::heroDamage(Ref* pSender)
+{
+    GameMapManager::getInstance()->getHero()->damaged(1);
 }
