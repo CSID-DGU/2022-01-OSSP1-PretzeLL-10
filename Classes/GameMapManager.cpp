@@ -58,6 +58,7 @@ void GameMapManager::deleteGameMap()
 GameMapManager::GameMapManager()
 	: _layer(cocos2d::Layer::create()), gameStage(0), mapWidth(0), mapHeight(0)
 {
+	_layer->retain();
 }
 
 void GameMapManager::startNewGame()
@@ -69,7 +70,7 @@ void GameMapManager::startNewGame()
 	makeGameMap();
 	loadGameMap(currentPosition.first, currentPosition.second);
 
-	//------------------------------------------- for merge object code
+	//------------------------------------------------- for merge object code
 	auto __e_d = cocos2d::Director::getInstance()->getEventDispatcher();
 	auto __l_k = cocos2d::EventListenerKeyboard::create();
 	__l_k->onKeyPressed = CC_CALLBACK_2(GameMapManager::onKeyPressed, this);
@@ -85,6 +86,7 @@ void GameMapManager::startNewGame()
 	__player->setAbsolutePosition(500, 500);
 	__player->setZOrder(2);
 	__player->setInput(NULL, __key.data());
+	
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(__world);
 	_layer->addChild(__d_l, 2);
@@ -92,6 +94,7 @@ void GameMapManager::startNewGame()
 	_layer->scheduleUpdate();
 
 	_layer->addChild(__player);
+
 }
 
 void GameMapManager::goNextStage()
@@ -112,6 +115,10 @@ void GameMapManager::removeAllGameMap()
 cocos2d::Layer* GameMapManager::getLayer() const {
 	return _layer;
 }
+
+//==================================================================================
+//						Load GameMap and addchild() to Layer
+//==================================================================================
 
 void GameMapManager::loadGameMap(int w, int h)
 {
@@ -177,7 +184,12 @@ void GameMapManager::update(float dt)
 	__world->Step(dt, 8, 3);
 }
 
-// copy and paste
+
+
+//==================================================================================
+//						Code for key event
+//==================================================================================
+
 void GameMapManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
@@ -262,4 +274,12 @@ void GameMapManager::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coco
 		break;
 	default: break;
 	}
+}
+
+//==================================================================================
+//						for test
+//==================================================================================
+Hero* GameMapManager::getHero() const
+{
+	return __player;
 }
