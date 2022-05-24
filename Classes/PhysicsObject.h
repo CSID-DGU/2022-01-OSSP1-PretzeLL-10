@@ -22,6 +22,8 @@ public:
     void reCreate(const b2Shape* shape);
     void setCategory(const int category, const int mask);
     static int getCategory(const b2Fixture* fixture);
+    
+    void destoryPhysics();
 
     static void setWorld(b2World* world);
     static b2World* getWorld();

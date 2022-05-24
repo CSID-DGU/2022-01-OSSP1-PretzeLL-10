@@ -31,7 +31,7 @@ public:
     
     /* Transformation */
     virtual void flip();
-    bool isFlipNeeded();
+    virtual bool isFlipNeeded();
     bool isFlipped();
     void fixFlip();
     void releaseFlip();

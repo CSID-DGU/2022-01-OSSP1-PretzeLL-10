@@ -110,6 +110,12 @@ int PhysicsObject::getCategory(const b2Fixture* fixture) {
     return fixture->GetFilterData().categoryBits;
 }
 
+void PhysicsObject::destoryPhysics() {
+    if (!__world || !__body) return;
+    __world->DestroyBody(__body);
+    __body = nullptr;
+}
+
 
 b2World* PhysicsObject::__world = nullptr;
 

@@ -25,6 +25,7 @@ public:
     void updateMouse(cocos2d::Vec2& pos);
     
     void flip() final;
+    bool isFlipNeeded() override;
     void flipWeapon();
     void move(KEY state);
     void stop(KEY state);

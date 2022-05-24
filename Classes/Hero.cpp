@@ -78,6 +78,13 @@ void Hero::flip() {
     flipWeapon();
 }
 
+bool Hero::isFlipNeeded() {
+    if (!__is_flippable) return false;
+    float x_diff = __mouse.x - getPositionX();
+    float sprite_x = __sprite->getScaleX();
+    return x_diff * sprite_x < 0.0f;
+}
+
 void Hero::flipWeapon() {
     auto sprite = __weapon.first[__weapon.second];
     if (!sprite) return;
