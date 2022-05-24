@@ -13,7 +13,7 @@ SlotMachine::~SlotMachine() {
 
 bool SlotMachine::init() {
     /* Super init */
-    IF(!Layer::init());
+    IF(!Sprite::init());
     
     /* Init weapons */
     IF(!createWeapon("frames/weapon_anime_sword.png"));

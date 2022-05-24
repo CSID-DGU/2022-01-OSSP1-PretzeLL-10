@@ -5,7 +5,7 @@
 #include "Hero.h"
 
 
-class SlotMachine : public cocos2d::Layer {
+class SlotMachine : public cocos2d::Sprite {
 private:
     typedef Int<3> LayerSize;
     
