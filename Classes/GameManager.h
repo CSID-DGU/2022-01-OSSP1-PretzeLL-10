@@ -6,6 +6,7 @@
 #include "GameMapManager.h"
 #include "GameMap.h"
 #include "Hero.h"
+#include "GameStateLayer.h"
 
 class GameManager
 {
