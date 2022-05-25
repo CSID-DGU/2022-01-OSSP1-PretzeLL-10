@@ -36,7 +36,7 @@ public:
     void stopAllSpin();
     
     void react(Hero* hero);
-//    void disappear();
+//    void disappear();                                                     // deprecated
 //    void appear();
     
     template <typename T>

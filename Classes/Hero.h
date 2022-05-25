@@ -22,7 +22,7 @@ public:
     
     virtual bool init() override;                           // Initialize
     void update(float dt) final;
-    void updateMouse(cocos2d::Vec2& pos);
+    void updateMouse(cocos2d::Vec2 pos);
     
     void flip() final;
     bool isFlipNeeded() override;

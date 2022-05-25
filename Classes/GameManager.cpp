@@ -71,19 +71,23 @@ void GameManager::startNewGame()
 	loadGameMap(currentPosition.first, currentPosition.second);
 
 	//------------------------------------------------- for merge object code
-	auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
-	auto __l_k = cocos2d::EventListenerKeyboard::create();
-	__l_k->onKeyPressed = CC_CALLBACK_2(GameManager::onKeyPressed, this);
-	__l_k->onKeyReleased = CC_CALLBACK_2(GameManager::onKeyReleased, this);
-    _event_dispatcher->addEventListenerWithSceneGraphPriority(__l_k, _layer);
-    auto _mouse_listener = cocos2d::EventListenerMouse::create();
-    _mouse_listener->onMouseMove = CC_CALLBACK_1(GameManager::onMouseMove, this);
-    _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, _layer);
-
+//	auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
+//	auto __l_k = cocos2d::EventListenerKeyboard::create();
+//	__l_k->onKeyPressed = CC_CALLBACK_2(GameManager::onKeyPressed, this);
+//	__l_k->onKeyReleased = CC_CALLBACK_2(GameManager::onKeyReleased, this);
+//    _event_dispatcher->addEventListenerWithSceneGraphPriority(__l_k, _layer);
+//    auto _mouse_listener = cocos2d::EventListenerMouse::create();
+//    _mouse_listener->onMouseMove = CC_CALLBACK_1(GameManager::onMouseMove, this);
+//    _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, _layer);
+    
     PhysicsObject::getWorld();
 	_hero = Hero::create();
 	_hero->setAbsolutePosition(500, 500);
 	_hero->setZOrder(2);
+    
+    auto event = EventHandler::create();
+    event->setup(_layer, _hero);
+    _layer->addChild(event);
 
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(PhysicsObject::getWorld());
@@ -186,50 +190,6 @@ void GameManager::update(float dt)
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 }
 
-
-
-//==================================================================================
-//						Code for key event
-//==================================================================================
-
-void GameManager::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
-{
-    switch (keyCode) {
-        case KEY_GROUP_UP           : _hero->move(UP); break;
-        case KEY_GROUP_LEFT         : _hero->move(LEFT); break;
-        case KEY_GROUP_DOWN         : _hero->move(DOWN); break;
-        case KEY_GROUP_RIGHT        : _hero->move(RIGHT); break;
-        case KEY_GROUP_SHIFT        : _hero->run(); break;
-        case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
-        case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
-        case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
-        case keyCode_t::KEY_ENTER   : _hero->attack(); break;
-            
-        case KEY_GROUP_M            : _state_layer->react(); break;             // for test
-        case keyCode_t::KEY_ESCAPE  : endProgram(); break;
-        default: break;
-    }
-}
-
-void GameManager::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
-{
-    switch (keyCode) {
-        case KEY_GROUP_UP           : _hero->stop(UP); break;
-        case KEY_GROUP_DOWN         : _hero->stop(DOWN); break;
-        case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
-        case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
-        case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
-        case keyCode_t::KEY_ENTER   : _hero->attack(); break;
-        default: break;
-    }
-}
-
-void GameManager::onMouseMove(cocos2d::EventMouse* event) {
-    cocos2d::Vec2 pos;
-    pos.x = event->getCursorX();
-    pos.y = event->getCursorY();
-    _hero->updateMouse(pos);
-}
 
 //==================================================================================
 //						for test

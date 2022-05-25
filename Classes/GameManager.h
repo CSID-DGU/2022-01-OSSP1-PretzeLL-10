@@ -37,10 +37,6 @@ private:
     void makeGameMap();
     void deleteGameMap();
 
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
-    void onMouseMove(cocos2d::EventMouse* event);
-
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;
     GameMap*** _gameMap;  // Must make data structure form;

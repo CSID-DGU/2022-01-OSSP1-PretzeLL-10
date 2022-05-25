@@ -8,5 +8,6 @@
 #include "Bullet.h"
 
 #include "SlotMachine.h"
+#include "EventHandler.h"
 
 #endif /* __OBJECT_H__ */
