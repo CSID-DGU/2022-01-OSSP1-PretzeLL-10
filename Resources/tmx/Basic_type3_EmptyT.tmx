@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
  <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
  <tileset firstgid="1025" source="MetaSet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJy1k+ENgyAUhI9duotrMEvrIATqHi9qJ9FBelR+EIICkZJcggJ3Pt8HAAwK2NFf9DUIg8/6AUhv0TfNME/Oe4l++izjVThbWl8qMtK9/6gjJxfUshZnTAr6o+714yxjJleWetN/pXaqZ883ei+UO6Q511uSMd+sh99s1qMGX4uvqQu7cYb/V+yBmcI97Hk/XJRxxdWYOZt7Zy+yWtlN/c44rshAjdhLIR9StTfKGNQvU0piD4WsCDkUclLcT19B4yAjQhaFvIttOP8FScb/gw==
+   eJytU9sNgzAMvEiM0l1YI7O0HSQKZQ8L6CQwSC+FD0RDHsWRTgrEvoudMwC0BligD/I6bIvf9gaINsh71HB37rVAPnum8cjk5s7HAo1jrEYdvYF9m3Svug01Z0Fj4Jt74kX+iViIf+8c05jJPRLdCsu9nS9oxMA7u2mtIdQSavrp1XCxntArvoHrtxnR8u5RY++rRnE+up1Gk/DuM5Ib++cTWiXzkeI783GBBkpAvwg9KEWxO43WfDUlB/pE6Eeh14VezMaTV1C56EOh34UzJb4i/wPgLv3D
   </data>
  </layer>
- <layer id="2" name="meta info" width="25" height="16" opacity="0.4">
+ <layer id="3" name="wall meta" width="25" height="16" opacity="0.4">
   <data encoding="base64" compression="zlib">
-   eJxjYKAfYGShPsZmB7XdPGoH6XbgiyNK7UDGTFBMTQAzk5520DqskMWobQcxYkPVDmIwrrgkprwi1m3IdtACkOtOAFSbAcU=
+   eJxjYKAfYGShPsZmB7XdPNzswBd+lNpBK7Nx2UUPO2gdVshi1LaDGLFRO3DbQUoZRE55RarbaJXmyXUnALs8AX0=
+  </data>
+ </layer>
+ <layer id="4" name="door meta" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4A2gIkFgmlpJj3sGAWjAB+gR3oZrGkSAMHwAEk=
   </data>
  </layer>
 </map>
