@@ -73,12 +73,12 @@ void GameMapManager::doMakeGameMap2(GameMap***& maparr)
 	MAKEMAP(2, 2, "tmx/Basic_type3_EmptyB.tmx");	//왼쪽 오른쪽 위쪽
 	MAKEMAP(3, 2, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
 	MAKEMAP(4, 2, "tmx/Basic_type2_LB.tmx");		//왼쪽 아래쪽
-	MAKEMAP(0, 3, "tmx/Basic_type2_LB.tmx");		//위쪽 아래쪽
+	MAKEMAP(0, 3, "tmx/Basic_type2_TB.tmx");		//위쪽 아래쪽
 	MAKEMAP(2, 3, "tmx/Basic_type2_RB.tmx");		//오른쪽 아래쪽
 	MAKEMAP(3, 3, "tmx/Basic_type2_LT.tmx");		//왼쪽 위쪽
 	MAKEMAP(0, 4, "tmx/Basic_type2_RB.tmx");		//오른쪽 아래쪽
 	MAKEMAP(1, 4, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
 	MAKEMAP(2, 4, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
 	MAKEMAP(3, 4, "tmx/Basic_type3_EmptyT.tmx");	//왼쪽 오른쪽 아래쪽
-	MAKEMAP(4, 4, "tmx/Basic_type1_Top.tmx");		//왼쪽
+	MAKEMAP(4, 4, "tmx/Basic_type1_Left.tmx");		//왼쪽
 }
