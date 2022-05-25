@@ -23,7 +23,6 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __b.linearDamping = 20.0f;
     __b.gravityScale = 0.0f;
     __b.fixedRotation = true;
-    __b.userData = this;
     
     b2PolygonShape __p;
     float __s_w = PHYSICS_BODY_HEIGHT/PTM_RATIO;
@@ -35,7 +34,6 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __f.shape = &__p;
     __f.friction = 0.0f;
     __f.density = 1.0f;
-    __f.userData = this;
     
     IF(!init(__b, __f));
     return true;
@@ -44,7 +42,6 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
 bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     b2BodyDef body;
     body.type = b2_staticBody;
-    body.userData = this;
     
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
@@ -56,7 +53,6 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     b2FixtureDef fixture;
     fixture.shape = &shape;
     fixture.isSensor = true;
-    fixture.userData = this;
     
     IF(!init(body, fixture));
     return true;
@@ -69,7 +65,6 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
     body.angularDamping = 0.0f;
     body.gravityScale = 0.0f;
     body.fixedRotation = false;
-    body.userData = this;
     
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
@@ -82,7 +77,6 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
     fixture.shape = &shape;
     fixture.friction = 1.0f;
     fixture.density = 0.3f;
-    fixture.userData = this;
     
     IF(!init(body, fixture));
     return true;

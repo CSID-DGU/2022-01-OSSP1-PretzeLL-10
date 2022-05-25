@@ -86,6 +86,7 @@ void GameManager::startNewGame()
     auto _big_demon = BigDemon::create();
     _big_demon->setAbsolutePosition(200, 700);
     _big_demon->scale(2.0f);
+    _big_demon->setLocalZOrder(2);
     _layer->addChild(_big_demon);
 
 	//------------------------------------------------- addChild GameStateLayer
@@ -124,10 +125,14 @@ cocos2d::Layer* GameManager::getLayer() const {
 void GameManager::loadGameMap(int w, int h)
 {
 	TMXTiledMap* temp = doLoadGameMap(w, h);
-	temp->setPosition(0, 140);
+	temp->setPosition(0, 130);
 	_layer->addChild(temp);
     
-//    _gameMap[w][h]->_wall = PhysicsObject::createWall(temp);
+    auto wall = PhysicsObject::createWall(temp);
+    if (wall) {
+        _gameMap[w][h]->_wall = wall;
+        wall->SetTransform(wall->GetPosition() + b2Vec2(0, 130/PTM_RATIO), 0.0f);
+    }
 }
 
 TMXTiledMap* GameManager::doLoadGameMap(int w, int h)
@@ -135,8 +140,8 @@ TMXTiledMap* GameManager::doLoadGameMap(int w, int h)
 	//if (!_gameMap[0])
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
     
-//    auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
-//    if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
+    auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
+    if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
     
 	return _gameMap[w][h]->getTmxTiledMap();
 }
