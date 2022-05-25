@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="1">
  <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
  <tileset firstgid="1025" source="MetaSet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJy9lOENgyAQRq+7dBfXuFkaBjHU7mHQTiLu0WfCD2JEwaImX8AYv8fdcSci0jxEvNQXvq2Eh3d9staWg2EDJzD0xb6WJrwH9L6AYcPq8R5Rl2DYTL9u59uM9xd9TsRhMvn4tfiua/53rkxFxl4s7gZGThxb/5uCOuQwXKFX6hwxg7ul3DHlrh3mqoQfM+gRpVfUrxgmsT/SsMGg15We1ykjjrP1YGYps+uSmRjXvFlyJdLXFr794v8DTe/2MA==
+   eJy9lIEJgzAURH/AUbqLa/xZSgYJqd1Doi6ido9eTEqDqP2BTwNHouK9HBclImoN0Ur6gq+jPHDNN8zaaoicz5zM4DvWWoKfi4xdDhWGFzK80K+7ePYyifE0m3iCcE+Uwwr5M7yDSX108B6hVciQ8hd4D9AjibHmpYJxlSXkGXt2Y8oQszAy8azEKPuYUhcbo+z86H1b0UN5dtfc+f5chUqvs318GNE/nqtG+H3U8EtGHEcMe7L+peGA4b851P9XZY429d5rC749/Wm8AeUY63U=
+  </data>
+ </layer>
+ <layer id="7" name="door meta" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4A2gIkFgmlpJj3sGAWjYBRgBwCvQAAx
   </data>
  </layer>
  <layer id="3" name="pillar" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF5IJldLDj2KgdRINndLBjsIPRNEk8GE0vlAMAynMG9w==
+   eJxjYBi+YBkd7Dg2TOx4Rgc7RgHtwWiaJx6MpnnKAQBULAYx
   </data>
  </layer>
- <layer id="2" name="meta info" width="25" height="16" opacity="0.4">
+ <layer id="6" name="wall meta" width="25" height="16" opacity="0.4">
   <data encoding="base64" compression="zlib">
-   eJxjYKAfYGShHUa2g5qAiQWCsdlBLbvoYQe+sKKmHbjEhosd1AK0soNQXqClHdjSGC3sgOWXoWAHPvtoXRbSAwAAsYcB0A==
+   eJxjYKAfYGShPsZmBzY2JW4ebnZgCz9q2YEvbqgJ6GkHLeyiZRzgM2/UDtLsoHV5NdQBAEBbAZE=
   </data>
  </layer>
 </map>

@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
  <tileset firstgid="1025" source="modify_wall_v4.tsx"/>
  <tileset firstgid="1041" source="MetaSet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJy1ko0NgjAQhR8JOomOYliDWZBBGsA9iOgi/uzhI9BYypWeik2+hDR393jXB8xPlgAppmwwv0uHWiOMiB725jugddnz3r/rYe0vGqbgt+XgfFtYk6+hcRRmuxrbFOab3Uk+Ahr+7qD1taQh+SrfmkbSkDJE/4j5KJ3Zji8j7U7K0Eh0V4WnE8qd3UunmPcpNnea9/V3IlEJPZKGZta/fEj/2UT8anys8T5aH4HMBXkmaB/kTm7JJFeLfcx8X6viyrkX0pEzyQbyWF9fB+U5sbYhNanGvhf8LMEU
+   eJzNlIEJwjAURC+ok6iLKOIaRXERrXuUWvcIVhexuocnphAlyU+UgIFHPj/JXS8tBYClAgbwMwqshdapW8GMIVCsOU88TK16RuamHpt5Y9U9q5fumwf71Za1i4Wn37N39KhXxHrsBH0fKR7f8ouHK1eZKUfp0c5xVz6ff3wfoTvpqSM9YrRyflefz9kIeWNytHlyaIm7gr6RjlyVvN/24P/x6aklLtQ9k5aclLyfuhqJ48gzDTmQOuH8A9Izu40=
   </data>
  </layer>
  <layer id="3" name="pillar" width="25" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BgwTI62HGMDnY8o4Md2AA54UeqHnLCj1Q95ITfQIX5KIAAAL0YBvc=
+   eJxjYBgF5IJldNB/jEI7iNH/jEI7KNVPaTgSAygNR2IApeFALiAn/EjVQ074kaqHnPAbqDAfBRAAAG5TC5s=
   </data>
  </layer>
- <layer id="2" name="meta info" width="25" height="16" opacity="0.4">
+ <layer id="5" name="door meta" width="25" height="16" opacity="0.4">
   <data encoding="base64" compression="zlib">
-   eJxjYBg4IMhCHKbUDnx8XGKU2EGuGmrYQUnYkeNGathByAx88sSmGWLswGUGsX6kJCwoSR+Ewoca9g0XO4i1n5w0hw8LQTG6HdQq93DZQU2AzX0A0X4HPQ==
+   eJxjYBgFo2AUjIJRQC4QYoHgoW4HOQAASvAAWQ==
+  </data>
+ </layer>
+ <layer id="6" name="wall meta" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAfEGShPsZmBz77CbmPFDFC5hEC+MwZbnYQo58Uu0aqHaTYS804Hy52kGI3qWUQOeUVqW6jln+x2UGOOwFhCgb6
   </data>
  </layer>
 </map>
