@@ -15,7 +15,7 @@ int SlotMachine::counter = 0;
 
 bool SlotMachine::init() {
     /* Super init */
-    IF(!Sprite::init());
+    IF(!Node::init());
     
     /* Init weapons */
     IF(!createWeapon<AnimeSword>("anime_sword"));
@@ -84,7 +84,8 @@ bool SlotMachine::init() {
     createItem();
     setPosition(640.0f, 100.0f);
     setScale(0.5f);
-
+    setName("slot_machine");
+    
     return true;
 }
 

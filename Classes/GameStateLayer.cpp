@@ -8,13 +8,10 @@ void GameStateLayer::startNewGame(Hero* hero)
 	showHeroHP();
 
 	// 임시로 여기서 SlotMachine create
-	_slot = SlotMachine::create();
+	auto _slot = SlotMachine::create();
 //	_slot->react(_player);
 	addChild(_slot);
-}
-
-void GameStateLayer::react() {
-    _slot->react(_player);
+    setName("state_layer");
 }
 
 bool GameStateLayer::init()

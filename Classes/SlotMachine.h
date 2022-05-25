@@ -6,7 +6,7 @@
 #include "Weapon.h"
 
 
-class SlotMachine : public cocos2d::Sprite {
+class SlotMachine : public cocos2d::Node {
 private:
     typedef Int<3> LayerSize;
     

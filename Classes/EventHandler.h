@@ -3,11 +3,13 @@
 
 #include "Utility.h"
 #include "Hero.h"
+#include "SlotMachine.h"
 
 
 class EventHandler : public cocos2d::Node {
 private:
     Hero* _hero;
+    SlotMachine* _slot;
     
 public:
     CREATE_FUNC(EventHandler);

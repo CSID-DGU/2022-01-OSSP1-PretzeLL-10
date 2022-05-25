@@ -23,6 +23,8 @@ public:
     void setCategory(const int category, const int mask);
     static int getCategory(const b2Fixture* fixture);
     
+    void disablePhysics();
+    void enablePhysics();
     void destoryPhysics();
 
     static b2World* getWorld();
