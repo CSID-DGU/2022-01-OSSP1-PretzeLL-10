@@ -186,3 +186,16 @@ void DynamicObject::updateAction() {
 }
 
 // ========================================================================================================== //
+
+
+void DynamicObject::setHP(int hp) {
+    __hp = hp;
+}
+
+int DynamicObject::getHP() {
+    return __hp;
+}
+
+void DynamicObject::damaged(int damage) {
+    __hp -= damage;
+}

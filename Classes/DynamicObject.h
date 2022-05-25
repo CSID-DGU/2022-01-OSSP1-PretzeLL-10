@@ -11,12 +11,12 @@ protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
     b2Vec2 __velocity;
-    
     Timer __time;
     bool __is_flippable;
-    
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
+    
+    int __hp;
     
 protected:                                                              // BaseObject should not be generated
     DynamicObject(std::string name, float speed, float run_speed);
@@ -56,6 +56,9 @@ public:
     
     /* Attack */
     virtual void attack() = 0;                                          // Need Overriding!!
+    void setHP(int hp);
+    int getHP();
+    void damaged(int damage);
     
     /* Animation */
     void updateAction();

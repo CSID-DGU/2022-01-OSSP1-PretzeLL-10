@@ -119,9 +119,6 @@ void PhysicsObject::destoryPhysics() {
 
 b2World* PhysicsObject::__world = nullptr;
 
-void PhysicsObject::setWorld(b2World* world) {
-    __world = world;
-}
 
 b2World* PhysicsObject::getWorld() {
     if (!__world) {

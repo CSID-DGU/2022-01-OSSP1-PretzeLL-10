@@ -15,7 +15,7 @@ int SlotMachine::counter = 0;
 
 bool SlotMachine::init() {
     /* Super init */
-    IF(!Layer::init());
+    IF(!Sprite::init());
     
     /* Init weapons */
     IF(!createWeapon<AnimeSword>("anime_sword"));
@@ -45,7 +45,7 @@ bool SlotMachine::init() {
     /* Init background */
     auto sprite = cocos2d::Sprite::create("sprite/slot_test.png");
     IF(!sprite);
-    sprite->setScale(10.0f);
+    sprite->setScale(5.0f);
     addChild(sprite, 0);
         
     /* Init laber */
@@ -82,7 +82,8 @@ bool SlotMachine::init() {
     
     /* Few things left... */
     createItem();
-    setPosition(0.0f, -500.0f);
+    setPosition(640.0f, 100.0f);
+    setScale(0.5f);
 
     return true;
 }
@@ -191,35 +192,36 @@ bool SlotMachine::createWeapon(const std::string& file) {
 
 
 void SlotMachine::react(Hero* hero) {
-    if (running) {
-        disappear();
-        hero->setWeapon(getResult());
-    }
-    else appear();
+    hero->setWeapon(getResult());
+//    if (running) {
+//        disappear();
+//        hero->setWeapon(getResult());
+//    }
+//    else appear();
 }
 
-void SlotMachine::disappear() {
-    float desired_time = 0.3f;
-    float calculated_time = desired_time * (getPositionY() + 500.0f) / 500.0f;
-    auto dig = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, -500.0f));
+//void SlotMachine::disappear() {
+//    float desired_time = 0.3f;
+//    float calculated_time = desired_time * (getPositionY() + 500.0f) / 500.0f;
+//    auto dig = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(640.0f, -500.0f));
+//
+//    stopAllActions();
+//    runAction(dig);
+//    laber->setEnabled(false);
+//    running = false;
+//}
 
-    stopAllActions();
-    runAction(dig);
-    laber->setEnabled(false);
-    running = false;
-}
-
-void SlotMachine::appear() {
-    float desired_time = 0.3f;
-    float calculated_time = desired_time * (0.0f - getPositionY()) / 500.0f;
-    auto pop = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(0.0f, 0.0f));
-    
-    stopAllSpin();
-    laber->setEnabled(true);
-    stopAllActions();
-    runAction(pop);
-    running = true;
-}
+//void SlotMachine::appear() {
+//    float desired_time = 0.3f;
+//    float calculated_time = desired_time * (0.0f - getPositionY()) / 500.0f;
+//    auto pop = cocos2d::MoveTo::create(calculated_time, cocos2d::Vec2(640.0f, 200.0f));
+//
+//    stopAllSpin();
+//    laber->setEnabled(true);
+//    stopAllActions();
+//    runAction(pop);
+//    running = true;
+//}
 
 
 std::vector<weapon_t*> SlotMachine::getResult() {

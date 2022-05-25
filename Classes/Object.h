@@ -7,4 +7,6 @@
 #include "Weapon.h"
 #include "Bullet.h"
 
+#include "SlotMachine.h"
+
 #endif /* __OBJECT_H__ */

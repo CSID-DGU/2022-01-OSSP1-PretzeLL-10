@@ -1,21 +1,19 @@
-#ifndef __GAME_MAP_MANAGER_H__
-#define __GAME_MAP_MANAGER_H__
+#ifndef __GAME_MANAGER_H__
+#define __GAME_MANAGER_H__
 
 #include <cocos2d.h>
 #include <utility>
 #include "GameMap.h"
-#include "Hero.h"
+#include "GameStateLayer.h"
 
-#include "Object.h"
-#include "SlotMachine.h"
-
-class GameMapManager
+class GameManager
 {
 public:
-    static GameMapManager* getInstance();
+    static GameManager* getInstance();
     void init();
 
     cocos2d::Layer* getLayer() const;
+    Hero* getHero() const;      // for test
 
     void startNewGame();
     
@@ -29,11 +27,10 @@ public:
     void loadLeftMap();
 
     void update(float dt);
-
 private:
-    GameMapManager();
+    GameManager();
     void goNextStage();
-    static GameMapManager* sharedGameMapManager;
+    static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);
 
     void createMonster();
@@ -44,14 +41,12 @@ private:
     void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
     void onMouseMove(cocos2d::EventMouse* event);
 
-    b2Body* _wall = nullptr;
     cocos2d::Layer* _layer;
+    GameStateLayer* _state_layer;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 
     Hero* _hero;
-    SlotMachine* _slot;
-    b2World* _world;
 
     int gameStage;
     int mapWidth, mapHeight;

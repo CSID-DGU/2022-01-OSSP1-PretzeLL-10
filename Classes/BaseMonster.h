@@ -6,15 +6,15 @@
 
 class BaseMonster : public DynamicObject {
 protected:
-    BaseMonster(std::string name);                     // Constructor, initialize variables
+    BaseMonster(std::string name, int hp);             // Constructor, initialize variables
     virtual ~BaseMonster();                            // Destructor
     
 public:
 //    CREATE_FUNC(Monster);                          
     
-    virtual bool init() override;                  // Initialize
+    virtual bool init() override;                       // Initialize
     
-    virtual void attack() override {}            // Need update!
+    virtual void attack() override {}                   // Need update!
 };
 
 #endif /* __MONSTER_H__ */

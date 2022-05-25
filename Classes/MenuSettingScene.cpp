@@ -41,7 +41,7 @@ bool MenuSetting::init()
     // create menu, it's an autorelease object
     auto menu = Menu::create(smallDispItem, MiddleDispItem, backItem, NULL);
     menu->alignItemsVertically();
-    menu->setPosition(Vec2(400, 300));
+    menu->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     this->addChild(menu, 1);
     return true;
 }

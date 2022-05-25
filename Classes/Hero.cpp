@@ -17,7 +17,7 @@ bool Hero::init() {
     
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     runActionByKey(IDLE);
-    
+    setHP(6);
     
     /* For test */
     /* ============================================= */

@@ -6,7 +6,7 @@
 #include "Weapon.h"
 
 
-class SlotMachine : public cocos2d::Layer {
+class SlotMachine : public cocos2d::Sprite {
 private:
     typedef Int<3> LayerSize;
     
@@ -36,8 +36,8 @@ public:
     void stopAllSpin();
     
     void react(Hero* hero);
-    void disappear();
-    void appear();
+//    void disappear();
+//    void appear();
     
     template <typename T>
     bool createWeapon(const std::string& name);

@@ -156,13 +156,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\BaseItem.cpp" />
     <ClCompile Include="..\Classes\BaseWeapon.cpp" />
     <ClCompile Include="..\Classes\DynamicObject.cpp" />
+    <ClCompile Include="..\Classes\GameManager.cpp" />
     <ClCompile Include="..\Classes\GameMap.cpp" />
-    <ClCompile Include="..\Classes\GameMapManager.cpp" />
     <ClCompile Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.cpp" />
     <ClCompile Include="..\Classes\B2DebugDraw\GLES-Render.cpp" />
     <ClCompile Include="..\Classes\BaseMonster.cpp" />
     <ClCompile Include="..\Classes\Debug.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
+    <ClCompile Include="..\Classes\GameStateLayer.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\GameSummaryScene.cpp" />
     <ClCompile Include="..\Classes\MenuSettingScene.cpp" />
@@ -190,8 +191,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\DuelSword.h" />
     <ClInclude Include="..\Classes\DynamicObject.h" />
     <ClInclude Include="..\Classes\FlaskBlue.h" />
+    <ClInclude Include="..\Classes\GameManager.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
-    <ClInclude Include="..\Classes\GameMapManager.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\GLES-Render.h" />
     <ClInclude Include="..\Classes\BaseMonster.h" />
@@ -200,6 +201,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Debug.h" />
     <ClInclude Include="..\Classes\Definition.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
+    <ClInclude Include="..\Classes\GameStateLayer.h" />
     <ClInclude Include="..\Classes\GameSummaryScene.h" />
     <ClInclude Include="..\Classes\Goblin.h" />
     <ClInclude Include="..\Classes\Hammer.h" />
@@ -210,6 +212,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Machete.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
+    <ClInclude Include="..\Classes\Object.h" />
     <ClInclude Include="..\Classes\PhysicsObject.h" />
     <ClInclude Include="..\Classes\ProjectileObject.h" />
     <ClInclude Include="..\Classes\SlotMachine.h" />

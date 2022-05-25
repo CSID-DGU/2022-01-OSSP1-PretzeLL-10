@@ -63,12 +63,6 @@
     <ClCompile Include="..\Classes\GameMap.cpp">
       <Filter>src\Map</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameMapManager.cpp">
-      <Filter>src\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SlotMachine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BaseWeapon.cpp">
       <Filter>src\Object\Weapon</Filter>
     </ClCompile>
@@ -108,6 +102,15 @@
     <ClCompile Include="..\Classes\ProjectileObject.cpp">
       <Filter>src\Object\Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SlotMachine.cpp">
+      <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameManager.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameStateLayer.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -131,16 +134,10 @@
     <ClInclude Include="..\Classes\GameMap.h">
       <Filter>src\Map</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameMapManager.h">
-      <Filter>src\Map</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Utility.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Definition.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SlotMachine.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AnimeSword.h">
@@ -241,6 +238,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ProjectileObject.h">
       <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SlotMachine.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Object.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameManager.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameStateLayer.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

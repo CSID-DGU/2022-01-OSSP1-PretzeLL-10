@@ -25,7 +25,6 @@ public:
     
     void destoryPhysics();
 
-    static void setWorld(b2World* world);
     static b2World* getWorld();
     static b2Body* createWall(cocos2d::TMXTiledMap* tmap);
 };
