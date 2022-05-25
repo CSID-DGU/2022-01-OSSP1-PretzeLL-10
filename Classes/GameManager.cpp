@@ -59,7 +59,7 @@ GameManager::GameManager()
 void GameManager::startNewGame()
 {
 	gameStage = 1;
-	currentPosition = std::make_pair(mapWidth / 2 + 1, mapHeight / 2 + 1);
+	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
 	makeGameMap();
 	loadGameMap(currentPosition.first, currentPosition.second);
 
