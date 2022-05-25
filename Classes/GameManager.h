@@ -3,7 +3,9 @@
 
 #include <cocos2d.h>
 #include <utility>
+#include "GameMapManager.h"
 #include "GameMap.h"
+#include "Hero.h"
 #include "GameStateLayer.h"
 
 class GameManager
@@ -29,6 +31,8 @@ public:
     void update(float dt);
 private:
     GameManager();
+
+    GameMapManager mapManager;
     void goNextStage();
     static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);

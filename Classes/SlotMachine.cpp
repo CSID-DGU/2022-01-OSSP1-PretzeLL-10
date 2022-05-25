@@ -43,9 +43,9 @@ bool SlotMachine::init() {
 //    IF(!createWeapon("frames/weapon_spear.png"));
     
     /* Init background */
-    auto sprite = cocos2d::Sprite::create("sprite/slot_test.png");
+    auto sprite = cocos2d::Sprite::create("sprite/slotmachineStyle.png");
     IF(!sprite);
-    sprite->setScale(5.0f);
+    sprite->setScale(1.0f);
     addChild(sprite, 0);
         
     /* Init laber */

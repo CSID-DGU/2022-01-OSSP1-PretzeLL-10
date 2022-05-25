@@ -14,6 +14,7 @@ private:
     
     bool isAttacking;
 
+    int myHP;
 public:
     Hero();
     virtual ~Hero();                                              
