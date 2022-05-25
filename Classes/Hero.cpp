@@ -68,7 +68,7 @@ void Hero::update(float dt) {
     DynamicObject::move();
 }
 
-void Hero::updateMouse(cocos2d::Vec2& pos) {
+void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
 }
 
@@ -212,4 +212,5 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
         flipWeapon();
     }
 }
+
 
