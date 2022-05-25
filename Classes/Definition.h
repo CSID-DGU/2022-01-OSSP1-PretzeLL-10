@@ -2,23 +2,23 @@
 #define __DEFINITION_H__
 
 #define PTM_RATIO                       64
-#define PHYSICS_BODY_WIDTH              0.3f
-#define PHYSICS_BODY_HEIGHT             0.3f
+#define PHYSICS_BODY_WIDTH              0.5f
+#define PHYSICS_BODY_HEIGHT             0.5f
 #define WALL_LAYER                      "MetaInfo"
-
-//#define DIR_MOUSE
 
 #define CATEGORY_PLAYER                 0x0001
 #define CATEGORY_MONSTER                0x0002
 #define CATEGORY_WALL                   0x0004
 #define CATEGORY_ITEM                   0x0008
 #define CATEGORY_WEAPON                 0x0010
+#define CATEGORY_BULLET                 0x0020
 
 #define MASK_NONE                       0x0000
 #define MASK_ALL                        0xFFFF
 #define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL
 #define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL
-#define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER
+#define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET
+#define MASK_BULLET                     CATEGORY_WALL
 #define MASK_WEAPON                     MASK_NONE
 #define MASK_ITEM                       MASK_NONE
 
@@ -54,7 +54,13 @@ enum KEY {
     LEFT,
     RIGHT,
     SHIFT,
+    ATTACK,
     ALL
+};
+
+enum WEAPON {
+    IMMEDIATE,
+    CHARGE
 };
 
 

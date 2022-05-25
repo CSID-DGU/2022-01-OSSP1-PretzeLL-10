@@ -3,9 +3,10 @@
 
 #include "Utility.h"
 #include "Hero.h"
+#include "Weapon.h"
 
 
-class SlotMachine : public cocos2d::Layer {
+class SlotMachine : public cocos2d::Sprite {
 private:
     typedef Int<3> LayerSize;
     
@@ -18,6 +19,7 @@ private:
     std::array<cocos2d::Layer*, LayerSize::value> layers;
     std::array<cocos2d::Sprite*, LayerSize::value> result;
     
+    static int counter;
     int lineSize[LayerSize::value] = { 20, 30, 40 };
     bool running;
     
@@ -30,16 +32,19 @@ public:
     void update(float dt) final;
     bool isRunning() const final;
     void spin(Ref* pSender);
+    void stopSpin(int line);
+    void stopAllSpin();
     
     void react(Hero* hero);
-    void disappear();
-    void appear();
+//    void disappear();
+//    void appear();
     
-    bool createWeapon(const std::string& file);
+    template <typename T>
+    bool createWeapon(const std::string& name);
     void createLine(int line);
     void createItem();
     
-    std::vector<cocos2d::Sprite*> getResult();
+    std::vector<weapon_t*> getResult();
     
     CREATE_FUNC(SlotMachine);
 };

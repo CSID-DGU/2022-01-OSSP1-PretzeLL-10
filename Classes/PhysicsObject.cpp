@@ -26,7 +26,7 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __b.userData = this;
     
     b2PolygonShape __p;
-    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    float __s_w = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     auto __s = b2Vec2(size.x * __s_w, size.y * __s_h);
     __p.SetAsBox(__s.x, __s.y, b2Vec2(__s.x*center.x, __s.y*center.y), 0.0f);
@@ -35,8 +35,8 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __f.shape = &__p;
     __f.friction = 0.0f;
     __f.density = 1.0f;
-    IF(!init(__b, __f));
     
+    IF(!init(__b, __f));
     return true;
 }
 
@@ -46,7 +46,7 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     body.userData = this;
     
     b2PolygonShape shape;
-    float scaleWidth = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
     shape.SetAsBox(scaledSize.x, scaledSize.y,
@@ -54,8 +54,34 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     
     b2FixtureDef fixture;
     fixture.shape = &shape;
-    IF(!init(body, fixture));
+    fixture.isSensor = true;
     
+    IF(!init(body, fixture));
+    return true;
+}
+
+bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
+    b2BodyDef body;
+    body.type = b2_dynamicBody;
+    body.linearDamping = 0.1f;
+    body.angularDamping = 0.0f;
+    body.gravityScale = 0.0f;
+    body.fixedRotation = false;
+    body.userData = this;
+    
+    b2PolygonShape shape;
+    float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(scaledSize.x, scaledSize.y,
+                   b2Vec2(center.x * scaledSize.x, center.y * scaledSize.y), 0.0f);
+    
+    b2FixtureDef fixture;
+    fixture.shape = &shape;
+    fixture.friction = 1.0f;
+    fixture.density = 0.3f;
+    
+    IF(!init(body, fixture));
     return true;
 }
 
@@ -66,6 +92,7 @@ void PhysicsObject::reCreate(const b2Shape* shape) {
     __f_n.shape = shape;
     __f_n.friction = __f->GetFriction();
     __f_n.density = __f->GetDensity();
+    __f_n.filter = __f->GetFilterData();
     __body->DestroyFixture(__f);
     __body->CreateFixture(&__f_n);
 }
@@ -83,16 +110,19 @@ int PhysicsObject::getCategory(const b2Fixture* fixture) {
     return fixture->GetFilterData().categoryBits;
 }
 
+void PhysicsObject::destoryPhysics() {
+    if (!__world || !__body) return;
+    __world->DestroyBody(__body);
+    __body = nullptr;
+}
+
 
 b2World* PhysicsObject::__world = nullptr;
 
-void PhysicsObject::setWorld(b2World* world) {
-    __world = world;
-}
 
 b2World* PhysicsObject::getWorld() {
     if (!__world) {
-        auto gravity = b2Vec2(0.0f, -98.0f);
+        auto gravity = b2Vec2(0.0f, -9.8f);
         __world = new b2World(gravity);
         if(!__world) return NULL;
     }

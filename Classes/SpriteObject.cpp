@@ -14,7 +14,7 @@ bool SpriteObject::init(std::string path, std::string name) {
     __name = name;
     __path = path;
     
-    std::string __full_name = __path + "/" + __name + ".png";
+    std::string __full_name = path + "/" + name + ".png";
     __sprite = cocos2d::Sprite::create(__full_name);
     IF_RF(!__sprite, "Unable to load image: " + __full_name);
     __sprite->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
@@ -67,6 +67,21 @@ cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, 
     return __a;
 }
 
+cocos2d::Animate* SpriteObject::getAnimation(std::string key) {
+    IF_RN(__anim.empty(), "animation map is empty");
+    AnimationMap::iterator __i = __anim.find(key);
+    IF_RN(__i == __anim.end(), "No such animation named: " + key);
+    return __i->second;
+}
+
+cocos2d::Sprite* SpriteObject::cloneSprite() {
+    auto sprite = cocos2d::Sprite::createWithTexture(__sprite->getTexture());
+    IF_RN(!sprite, "Failed to create sprite");
+    sprite->setScale(__sprite->getScale());
+    return sprite;
+}
+
+
 void SpriteObject::addAnimation(std::string state, int count, float delay) {
     auto __a = createAnimation(state, count, delay);
     IF_RV(__a, "Failed to create animation");
@@ -83,13 +98,6 @@ int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
     __r->retain();
     __inf_anim.push_back(__r);
     return __inf_anim.size()-1;
-}
-
-cocos2d::Animate* SpriteObject::getAnimation(std::string key) {
-    IF_RN(__anim.empty(), "animation map is empty");
-    AnimationMap::iterator __i = __anim.find(key);
-    IF_RN(__i == __anim.end(), "No such animation named: " + key);
-    return __i->second;
 }
 
 bool SpriteObject::isAnimationRunning() {

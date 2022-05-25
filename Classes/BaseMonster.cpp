@@ -1,8 +1,10 @@
 #include "BaseMonster.h"
 
 
-BaseMonster::BaseMonster(std::string name)
-: DynamicObject(name, 1.0f, 1.0f) {}
+BaseMonster::BaseMonster(std::string name, int hp)
+: DynamicObject(name, 1.0f, 1.0f) {
+    setHP(hp);
+}
 
 BaseMonster::~BaseMonster()
 {}

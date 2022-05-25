@@ -6,7 +6,7 @@
 
 class BigZombie : public BaseMonster {
 public:
-    BigZombie() : BaseMonster("big_zombie") {}
+    BigZombie() : BaseMonster("big_zombie", 3) {}
     ~BigZombie() {}
     
     CREATE_FUNC(BigZombie);
