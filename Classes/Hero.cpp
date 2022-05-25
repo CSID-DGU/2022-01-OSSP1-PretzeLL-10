@@ -13,7 +13,7 @@ Hero::~Hero()
 
 bool Hero::init() {
     IF(!DynamicObject::init());
-    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
+    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f), this));
     
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     runActionByKey(IDLE);
@@ -51,16 +51,17 @@ void Hero::update(float dt) {
         float categoryB = PhysicsObject::getCategory(fixtureB);
 
         if (categoryA == CATEGORY_BULLET) {
-            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
-                fixtureA->GetBody()->SetType(b2_staticBody);
-                return;
-            }
+//            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
+//                fixtureA->GetBody()->SetType(b2_staticBody);
+//                return;
+//            }
+            
+            ((bullet_t*)fixtureA->GetUserData())->removePhysics();
+            return;
         }
         else if (categoryB == CATEGORY_BULLET) {
-            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
-                fixtureB->GetBody()->SetType(b2_staticBody);
-                return;
-            }
+            ((bullet_t*)fixtureB->GetUserData())->removePhysics();
+            return;
         }
     }
     // ================================================================================================================ //
@@ -75,6 +76,10 @@ void Hero::update(float dt) {
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
+}
+
+void Hero::updateKey(KEY key, bool state) {
+    __key[key] = state;
 }
 
 
@@ -152,9 +157,6 @@ void Hero::stopRun() {
 
 
 void Hero::attack() {
-    if (__key[ATTACK]) __key[ATTACK] = false;
-    else __key[ATTACK] = true;
-    
     int current = __weapon.second;
     if (!__weapon.first[current]) return;
     if (__weapon.first[current]->isAttacking()) return;

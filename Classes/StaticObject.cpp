@@ -12,7 +12,7 @@ StaticObject::~StaticObject() {}
 bool StaticObject::init() {
     IF(!Node::init());
     IF(!SpriteObject::init(__path, _name));
-    IF(!PhysicsObject::initStatic(C2B(getContentSize()), b2Vec2(0.0f, 0.0f)));
+    IF(!PhysicsObject::initStatic(C2B(getContentSize()), b2Vec2(0.0f, 0.0f), this));
     addChild(__sprite);
     return true;
 }

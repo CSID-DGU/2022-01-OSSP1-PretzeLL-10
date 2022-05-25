@@ -14,21 +14,23 @@ protected:
     virtual ~PhysicsObject();
     
 public:
-    bool init(const b2BodyDef& body, const b2FixtureDef& fixture);
-    bool initDynamic(const b2Vec2& size, const b2Vec2& center);
-    bool initStatic(const b2Vec2& size, const b2Vec2& center);
-    bool initProjectile(const b2Vec2& size, const b2Vec2& center);
+    bool init(b2BodyDef& body, b2FixtureDef& fixture, void* userData);
+    bool initDynamic(const b2Vec2& size, const b2Vec2& center, void* userData);
+    bool initStatic(const b2Vec2& size, const b2Vec2& center, void* userData);
+    bool initProjectile(const b2Vec2& size, const b2Vec2& center, void* userData);
     
-    void reCreate(const b2Shape* shape);
+    void recreate(const b2Shape* shape);
     void setCategory(const int category, const int mask);
     static int getCategory(const b2Fixture* fixture);
     
     void disablePhysics();
     void enablePhysics();
-    void destoryPhysics();
+    virtual void removePhysics(); 
 
     static b2World* getWorld();
     static b2Body* createWall(cocos2d::TMXTiledMap* tmap);
+    static void remove(b2Fixture* fixture);
+    static void remove(b2Body* body);
 };
 
 #endif /* __PHYSICS_H__ */

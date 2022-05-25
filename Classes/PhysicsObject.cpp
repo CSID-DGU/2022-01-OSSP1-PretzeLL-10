@@ -10,36 +10,38 @@ PhysicsObject::~PhysicsObject() {
 }
 
 
-bool PhysicsObject::init(const b2BodyDef& body, const b2FixtureDef& fixture) {
+bool PhysicsObject::init(b2BodyDef& body, b2FixtureDef& fixture, void* userData) {
+    body.userData = userData;
+    fixture.userData = userData;
     __body = __world->CreateBody(&body);
     IF(!__body);
     IF(!__body->CreateFixture(&fixture));
     return true;
 }
 
-bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
-    b2BodyDef __b;
-    __b.type = b2_dynamicBody;
-    __b.linearDamping = 20.0f;
-    __b.gravityScale = 0.0f;
-    __b.fixedRotation = true;
+bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center, void* userData) {
+    b2BodyDef body;
+    body.type = b2_dynamicBody;
+    body.linearDamping = 20.0f;
+    body.gravityScale = 0.0f;
+    body.fixedRotation = true;
     
-    b2PolygonShape __p;
-    float __s_w = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto __s = b2Vec2(size.x * __s_w, size.y * __s_h);
-    __p.SetAsBox(__s.x, __s.y, b2Vec2(__s.x*center.x, __s.y*center.y), 0.0f);
+    b2PolygonShape box;
+    float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    box.SetAsBox(scaledSize.x, scaledSize.y, b2Vec2(scaledSize.x*center.x, scaledSize.y*center.y), 0.0f);
     
-    b2FixtureDef __f;
-    __f.shape = &__p;
-    __f.friction = 0.0f;
-    __f.density = 1.0f;
+    b2FixtureDef fixture;
+    fixture.shape = &box;
+    fixture.friction = 0.0f;
+    fixture.density = 1.0f;
     
-    IF(!init(__b, __f));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
-bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
+bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center, void* userData) {
     b2BodyDef body;
     body.type = b2_staticBody;
     
@@ -54,11 +56,11 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     fixture.shape = &shape;
     fixture.isSensor = true;
     
-    IF(!init(body, fixture));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
-bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
+bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center, void* userData) {
     b2BodyDef body;
     body.type = b2_dynamicBody;
     body.linearDamping = 0.1f;
@@ -78,12 +80,12 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
     fixture.friction = 1.0f;
     fixture.density = 0.3f;
     
-    IF(!init(body, fixture));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
 
-void PhysicsObject::reCreate(const b2Shape* shape) {
+void PhysicsObject::recreate(const b2Shape* shape) {
     auto __f = __body->GetFixtureList();
     b2FixtureDef __f_n;
     __f_n.shape = shape;
@@ -107,7 +109,7 @@ int PhysicsObject::getCategory(const b2Fixture* fixture) {
     return fixture->GetFilterData().categoryBits;
 }
 
-void PhysicsObject::destoryPhysics() {
+void PhysicsObject::removePhysics() {
     if (!__world || !__body) return;
     __world->DestroyBody(__body);
     __body = nullptr;
@@ -168,4 +170,12 @@ b2Body* PhysicsObject::createWall(cocos2d::TMXTiledMap* tmap) {
     }
     
     return body;
+}
+
+void PhysicsObject::remove(b2Fixture* fixture) {
+    remove(fixture->GetBody());
+}
+
+void PhysicsObject::remove(b2Body* body) {
+    __world->DestroyBody(body);
 }

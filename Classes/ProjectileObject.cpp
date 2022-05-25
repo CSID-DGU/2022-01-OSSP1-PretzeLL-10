@@ -33,7 +33,7 @@ void ProjectileObject::scale(float size) {
     b2PolygonShape __p;
     __p.SetAsBox(__s.width * __s_w, __s.height * __s_h,
                  b2Vec2(0.0f, -10.0f*size/PTM_RATIO), 0.0f);
-    reCreate(&__p);
+    recreate(&__p);
 }
 
 void ProjectileObject::setPosition(const cocos2d::Vec2 &position) {
@@ -66,6 +66,7 @@ cocos2d::Size ProjectileObject::getContentSize() {
 }
 
 void ProjectileObject::syncToPhysics() {
+    if (!__body) return;
     auto position = B2C(__body->GetPosition()) * PTM_RATIO;
     Node::setPosition(position.x, position.y);
     Node::setRotation(B2C(__body->GetAngle()));
@@ -111,4 +112,8 @@ bool ProjectileObject::isMoveAble() {
     return __time.isEnd();
 }
 
+void ProjectileObject::removePhysics() {
+    PhysicsObject::removePhysics();
+    unscheduleUpdate();
+}
 

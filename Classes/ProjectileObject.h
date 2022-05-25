@@ -30,7 +30,6 @@ public:
     void setAbsolutePosition(const float x, const float y);
     void setRotation(float angle) override;
     cocos2d::Size getContentSize();
-    void syncToPhysics();
     
     virtual void move();
     void setSpeed(float speed);
@@ -39,6 +38,9 @@ public:
     b2Vec2 getVelocity();
     void pause(float time);
     bool isMoveAble();
+    
+    void syncToPhysics();
+    void removePhysics() override;
 };
 
 #endif /* __PROJECTILE_OBJECT_H__ */

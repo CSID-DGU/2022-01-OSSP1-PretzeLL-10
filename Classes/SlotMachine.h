@@ -20,7 +20,7 @@ private:
     std::array<cocos2d::Sprite*, LayerSize::value> result;
     
     static int counter;
-    int lineSize[LayerSize::value] = { 20, 30, 40 };
+    int lineSize[LayerSize::value] = { 15, 20, 25 };
     bool running;
     
 private:

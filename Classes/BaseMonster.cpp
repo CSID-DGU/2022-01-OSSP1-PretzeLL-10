@@ -12,7 +12,7 @@ BaseMonster::~BaseMonster()
 
 bool BaseMonster::init() {
     IF(!DynamicObject::init());
-    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
+    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f), this));
     
     setCategory(CATEGORY_MONSTER, MASK_MONSTER);
     runActionByKey(IDLE);
