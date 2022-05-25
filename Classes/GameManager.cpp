@@ -15,31 +15,25 @@ GameManager* GameManager::getInstance()
 
 void GameManager::init()
 {
-}
-
-void GameManager::makeGameMap()
-{
-	_gameMap = new GameMap * *[mapWidth];
+	mapWidth = 5;
+	mapHeight = 5;
+	_gameMap = new GameMap **[mapWidth];
 	for (int i = 0; i < mapWidth; i++)
 	{
-		_gameMap[i] = new GameMap * [mapHeight];
+		_gameMap[i] = new GameMap *[mapHeight];
 	}
 	for (int i = 0; i < mapWidth; i++)
 	{
 		for (int j = 0; j < mapHeight; j++)
 		{
-			if (j % 2 == 0)
-				if (i % 2 == 0)
-					_gameMap[i][j] = new GameMap("tmx/samplemap0.tmx");
-				else
-					_gameMap[i][j] = new GameMap("tmx/samplemap1.tmx");
-			else
-				if (i % 2 == 0)
-					_gameMap[i][j] = new GameMap("tmx/samplemap2.tmx");
-				else
-					_gameMap[i][j] = new GameMap("tmx/samplemap3.tmx");
+			_gameMap[i][j] = NULL;
 		}
 	}
+}
+
+void GameManager::makeGameMap()
+{
+	mapManager.makeGameMap(_gameMap);
 }
 
 void GameManager::deleteGameMap()
@@ -65,8 +59,6 @@ GameManager::GameManager()
 void GameManager::startNewGame()
 {
 	gameStage = 1;
-	mapWidth = 5;
-	mapHeight = 5;
 	currentPosition = std::make_pair(mapWidth / 2 + 1, mapHeight / 2 + 1);
 	makeGameMap();
 	loadGameMap(currentPosition.first, currentPosition.second);
@@ -99,7 +91,7 @@ void GameManager::startNewGame()
 	//------------------------------------------------- addChild GameStateLayer
 	auto _state_layer = GameStateLayer::create();
 	_state_layer->startNewGame(__player);
-	_layer->addChild(_state_layer);
+	_layer->addChild(_state_layer, 20);
 }
 
 void GameManager::goNextStage()

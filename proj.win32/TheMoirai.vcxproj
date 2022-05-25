@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\BaseMonster.cpp" />
     <ClCompile Include="..\Classes\BaseObject.cpp" />
     <ClCompile Include="..\Classes\Debug.cpp" />
+    <ClCompile Include="..\Classes\GameMapManager.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\GameStateLayer.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
@@ -182,6 +183,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BigZombie.h" />
     <ClInclude Include="..\Classes\Debug.h" />
     <ClInclude Include="..\Classes\Definition.h" />
+    <ClInclude Include="..\Classes\GameMapManager.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\GameStateLayer.h" />
     <ClInclude Include="..\Classes\GameSummaryScene.h" />
