@@ -40,16 +40,12 @@ private:
     void makeGameMap();
     void deleteGameMap();
 
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event); // copy & paste for test. by TACS
-
     cocos2d::Layer* _layer;
+    GameStateLayer* _state_layer;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 
-    Hero* __player;
-    b2World* __world;
-    std::array<bool, 5> __key;
+    Hero* _hero;
 
     int gameStage;
     int mapWidth, mapHeight;

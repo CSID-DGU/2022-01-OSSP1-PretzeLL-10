@@ -6,7 +6,7 @@
 
 class Goblin : public BaseMonster {
 public:
-    Goblin() : BaseMonster("goblin") {}
+    Goblin() : BaseMonster("goblin", 1) {}
     ~Goblin() {}
     
     CREATE_FUNC(Goblin);

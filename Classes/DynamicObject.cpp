@@ -1,33 +1,32 @@
-#include "BaseObject.h"
+#include "DynamicObject.h"
 
 
 // ========================================================================================================== //
 // Constructor, Destructor
 // ========================================================================================================== //
 
-BaseObject::BaseObject(std::string name, float speed, float runSpeed) {
-    __speed = speed/scaleFactor;
+DynamicObject::DynamicObject(std::string name, float speed, float runSpeed) {
+    __speed = speed/powf(scaleFactor, 3.0f);
     __run_speed = runSpeed;
-    __time = 0.0f;
     __velocity = b2Vec2(0.0f, 0.0f);
-    __velocity_mouse = b2Vec2(0.0f, 0.0f);
     __current = IDLE;
     __future = IDLE;
-    _name = name;
+    __name = name;
+    __is_flippable = true;
 }
 
-BaseObject::~BaseObject() {}
+DynamicObject::~DynamicObject() {}
 
 
 // ========================================================================================================== //
 // Initialize function
 // ========================================================================================================== //
 
-bool BaseObject::init() {
+bool DynamicObject::init() {
     IF(!Node::init());
-    IF(!SpriteObject::initWithAnimation(_name, __run_speed));
+    IF(!SpriteObject::initWithAnimation(__name, __run_speed));
     addChild(__sprite, 5);
-//  IF(!Physics::init(c2b(getContentSize())));                              /* Using custom physics body is recommended */
+//  IF(!Physics::init(c2b(getContentSize())));                                      /* Using custom physics body is recommended */
     scheduleUpdate();
     return true;
 }
@@ -37,27 +36,15 @@ bool BaseObject::init() {
 // Update function
 // ========================================================================================================== //
 
-void BaseObject::update(float dt) {
-    if (__time > 0.0f) {
-        __time -= dt;
-        return;
-    }
-    Node::setPosition(B2C(__body->GetPosition())*PTM_RATIO);
-#ifdef DIR_MOUSE
-    auto __v = __velocity_mouse;
-#else
-    auto __v = __velocity;
-#endif
-    if (__current == MOVE) {
-        __v.x *= __speed;
-        __v.y *= __speed;
-    }
-    else if (__current == RUN) {
-        __v.x *= __speed * __run_speed;
-        __v.y *= __speed * __run_speed;
-    }
-//    __body->SetLinearVelocity(__v);
-    __body->ApplyForceToCenter(__v, true);
+void DynamicObject::update(float dt) {
+    if (!isMoveAble()) return;
+    if (isFlipNeeded()) flip();
+    move();
+    syncToPhysics();
+}
+
+void DynamicObject::updateTimer(float dt) {
+    __time.update(dt);
 }
 
 
@@ -65,15 +52,28 @@ void BaseObject::update(float dt) {
 // Transformation Section
 // ========================================================================================================== //
 
-void BaseObject::flip() {
+void DynamicObject::flip() {
     __sprite->setScaleX(__sprite->getScaleX() * -1);
 }
 
-bool BaseObject::isFlipped() {
+bool DynamicObject::isFlipNeeded() {
+    if (!__is_flippable) return false;
     return __sprite->getScaleX()*__velocity.x < 0.0f;
 }
 
-void BaseObject::scale(float size) {
+bool DynamicObject::isFlipped() {
+    return __sprite->getScaleX() < 0.0f;
+}
+
+void DynamicObject::fixFlip() {
+    __is_flippable = false;
+}
+
+void DynamicObject::releaseFlip() {
+    __is_flippable = true;
+}
+
+void DynamicObject::scale(float size) {
     setScale(getScale()*size);
     auto __s = getContentSize()*size;
     float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
@@ -85,28 +85,33 @@ void BaseObject::scale(float size) {
     reCreate(&__p);
 }
 
-cocos2d::Size BaseObject::getContentSize() {
+cocos2d::Size DynamicObject::getContentSize() {
     return __sprite->getContentSize();
 }
 
-void BaseObject::setAbsolutePosition(const cocos2d::Vec2 &position) {
-    setPosition(position.x, position.y);
+void DynamicObject::setAbsolutePosition(const cocos2d::Vec2 &position) {
+    setAbsolutePosition(position.x, position.y);
 }
 
-void BaseObject::setAbsolutePosition(const float x, const float y) {
+void DynamicObject::setAbsolutePosition(const float x, const float y) {
     float __x = x/absoluteResolution.width*resolution.width;
     float __y = y/absoluteResolution.height*resolution.height;
     setPosition(__x, __y);
 }
 
-void BaseObject::setPosition(const cocos2d::Vec2 &position) {
+void DynamicObject::setPosition(const cocos2d::Vec2 &position) {
     setPosition(position.x, position.y);
 }
 
-void BaseObject::setPosition(const float x, const float y) {
+void DynamicObject::setPosition(const float x, const float y) {
     Node::setPosition(x, y);
     b2Vec2 __p(x/PTM_RATIO, y/PTM_RATIO);
     __body->SetTransform(__p, 0.0f);
+}
+
+void DynamicObject::syncToPhysics() {
+    auto position = B2C(__body->GetPosition()) * PTM_RATIO;
+    Node::setPosition(position.x, position.y);
 }
 
 
@@ -114,32 +119,49 @@ void BaseObject::setPosition(const float x, const float y) {
 // Move Section
 // ========================================================================================================== //
 
-void BaseObject::setVelocity(const b2Vec2 velocity) {
+void DynamicObject::move() {
+    auto __v = __velocity;
+    if (__current == MOVE) {
+        __v.x *= __speed;
+        __v.y *= __speed;
+    }
+    else if (__current == RUN) {
+        __v.x *= __speed * __run_speed;
+        __v.y *= __speed * __run_speed;
+    }
+    __body->ApplyForceToCenter(__v, true);
+}
+
+void DynamicObject::setVelocity(const b2Vec2 velocity) {
     __velocity = velocity;
 }
 
-b2Vec2 BaseObject::getVelocity() {
+b2Vec2 DynamicObject::getVelocity() {
     return __velocity;
 }
 
-void BaseObject::setSpeed(float speed) {
+void DynamicObject::setSpeed(float speed) {
     __speed = speed;
 }
 
-void BaseObject::setRunSpeed(float runSpeed) {
+void DynamicObject::setRunSpeed(float runSpeed) {
     __run_speed = runSpeed;
 }
 
-float BaseObject::getRunSpeed() {
+float DynamicObject::getSpeed() {
+    return __speed;
+}
+
+float DynamicObject::getRunSpeed() {
     return __run_speed;
 }
 
-void BaseObject::pause(float time) {
-    __time = time;
+void DynamicObject::pause(float time) {
+    __time.set(time);
 }
 
-bool BaseObject::isMoveAble() {
-    return !(__time > 0.0f);
+bool DynamicObject::isMoveAble() {
+    return __time.isEnd();
 }
 
 
@@ -147,15 +169,15 @@ bool BaseObject::isMoveAble() {
 // Action Section
 // ========================================================================================================== //
 
-void BaseObject::setFuture(ACTION action) {
+void DynamicObject::setFuture(ACTION action) {
     __future = action;
 }
 
-ACTION BaseObject::getCurrent() {
+ACTION DynamicObject::getCurrent() {
     return __current;
 }
 
-void BaseObject::updateAction() {
+void DynamicObject::updateAction() {
     if (__current != __future) {
         stopActionByKey(__current);
         __current = __future;
@@ -164,3 +186,16 @@ void BaseObject::updateAction() {
 }
 
 // ========================================================================================================== //
+
+
+void DynamicObject::setHP(int hp) {
+    __hp = hp;
+}
+
+int DynamicObject::getHP() {
+    return __hp;
+}
+
+void DynamicObject::damaged(int damage) {
+    __hp -= damage;
+}

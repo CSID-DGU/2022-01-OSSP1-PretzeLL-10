@@ -2,10 +2,9 @@
 
 
 Hero::Hero()
-: BaseObject("knight_f", 10.0f, 2.0f) {
-    __weapon.resize(3);
-    __current = 0;
-    myHP = 6;
+: DynamicObject("knight_f", 10.0f, 2.0f) {
+    __key.fill(false);
+    __weapon = std::make_pair(std::vector<weapon_t*>(3), 0);
 }
 
 Hero::~Hero()
@@ -13,79 +12,92 @@ Hero::~Hero()
 
 
 bool Hero::init() {
-    IF(!BaseObject::init());
-
+    IF(!DynamicObject::init());
+    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
     
-    IF(!PhysicsObject::init(C2B(getContentSize()), b2Vec2(0.0f, -0.5f)));
-    setCategory(BITMASK_PLAYER);
-    
+    setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     runActionByKey(IDLE);
+    setHP(6);
+    
+    /* For test */
+    /* ============================================= */
+    __weapon.first[0] = Bow::create();
+    addChild(__weapon.first[0]);
+    __weapon.first[0]->activate();
+    __weapon.first[0]->registerKey(&__key[ATTACK]);
+    /* ============================================= */
+    
     
     return true;
 }
 
 void Hero::update(float dt) {
-    updateAction();
-    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
-        auto fixtureA = contact->contact->GetFixtureA();
-        auto fixtureB = contact->contact->GetFixtureB();
+//    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
+//        auto fixtureA = contact->contact->GetFixtureA();
+//        auto fixtureB = contact->contact->GetFixtureB();
+//        float categoryA = PhysicsObject::getCategory(fixtureA);
+//        float categoryB = PhysicsObject::getCategory(fixtureB);
+//    }
+    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
+        if (!contact->IsTouching()) continue;
         
-        if (fixtureA->GetFilterData().categoryBits == BITMASK_PLAYER) {
-            
+        auto fixtureA = contact->GetFixtureA();
+        auto fixtureB = contact->GetFixtureB();
+        float categoryA = PhysicsObject::getCategory(fixtureA);
+        float categoryB = PhysicsObject::getCategory(fixtureB);
+
+        if (categoryA == CATEGORY_BULLET) {
+            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
+                fixtureA->GetBody()->SetType(b2_staticBody);
+                return;
+            }
+        }
+        else if (categoryB == CATEGORY_BULLET) {
+            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
+                fixtureB->GetBody()->SetType(b2_staticBody);
+                return;
+            }
         }
     }
     
+    updateTimer(dt);
+    updateAction();
+    syncToPhysics();
     if (!isMoveAble()) return;
-    if (isFlipped()) flip();
-#ifdef DIR_MOUSE
-    auto __v_1 = c2b(*__mouse - _position);
-    if (length(__v_1) > 15.0f) {
-        __velocity_mouse = normalize(__v_1);
-        setFuture(MOVE);
-        if (__key[SHIFT]) {
-            setFuture(RUN);
-        }
-    }
-    else {
-        __velocity_mouse = b2Vec2(0.0f, 0.0f);
-        setFuture(IDLE);
-    }
-//    auto __v_2 = b2Vec2(-__velocity.x, __velocity.y);
-//    normalize(__v_1);
-//    float __d = __v_1.x*__v_2.y - __v_1.y*__v_2.x;
-//    float __c = __v_1.x*__v_2.x + __v_1.y*__v_2.y;
-//    float __s = std::sinf(std::acosf(__c));
-//    __s = (__d > 0.0f) ? __s : -__s;
-//    __velocity_mouse = b2Vec2(__s, __c);
-#endif
-    
-    BaseObject::update(dt);
+    if (isFlipNeeded()) flip();
+    DynamicObject::move();
 }
 
-void Hero::setInput(cocos2d::Vec2* mouse, bool* key) {
-    __mouse = mouse;
-    __key = key;
+void Hero::updateMouse(cocos2d::Vec2 pos) {
+    __mouse = pos;
 }
 
 
 void Hero::flip() {
-    BaseObject::flip();
+    DynamicObject::flip();
     flipWeapon();
 }
 
+bool Hero::isFlipNeeded() {
+    if (!__is_flippable) return false;
+    float x_diff = __mouse.x - getPositionX();
+    float sprite_x = __sprite->getScaleX();
+    return x_diff * sprite_x < 0.0f;
+}
+
 void Hero::flipWeapon() {
-    auto sprite = __weapon[__current];
+    auto sprite = __weapon.first[__weapon.second];
     if (!sprite) return;
     float hero_scale = __sprite->getScaleX();
     float weapon_scale = sprite->getScaleX();
     if (hero_scale*weapon_scale > 0.0f) return;
     
     sprite->setScaleX(sprite->getScaleX() * -1);
-    sprite->setPositionX(sprite->getPositionX() * -1);
     sprite->setRotation(sprite->getRotation() * -1);
 }
 
 void Hero::move(KEY state) {
+    __key[state] = true;
     auto __v = getVelocity();
     switch (state) {
         case UP:    __v.y =  1.0f; break;
@@ -103,6 +115,7 @@ void Hero::move(KEY state) {
 }
 
 void Hero::stop(KEY state) {
+    __key[state] = false;
     auto __v = getVelocity();
     switch (state) {
         case UP:    if (__key[DOWN ]) __v.y = -1.0f; else __v.y = 0.0f; break;
@@ -123,60 +136,80 @@ void Hero::stop(KEY state) {
 }
 
 void Hero::run() {
+    __key[RUN] = true;
     if (getCurrent() == ACTION::MOVE) setFuture(RUN);
 }
 
 void Hero::stopRun() {
+    __key[RUN] = false;
     if (getCurrent() == ACTION::RUN) setFuture(MOVE);
 }
 
 
 void Hero::attack() {
+    if (__key[ATTACK]) __key[ATTACK] = false;
+    else __key[ATTACK] = true;
     
+    int current = __weapon.second;
+    if (!__weapon.first[current]) return;
+    if (__weapon.first[current]->isAttacking()) return;
+    
+    auto direction = C2B(__mouse - getPosition());
+    normalize(direction);
+    __weapon.first[current]->attack(isFlipped(), direction);
+    
+    int type = __weapon.first[current]->getType();
+    if (type == IMMEDIATE) {
+        pause(__weapon.first[current]->getAttackTime());
+    }
+    else if (type == CHARGE) {
+        static float speed_backup = getSpeed();
+        if (__key[ATTACK]) setSpeed(getSpeed()*0.25f);
+        else {
+            setSpeed(speed_backup);
+            pause(__weapon.first[current]->getAttackTime());
+        }
+    }
 }
 
 void Hero::changeWeapon(int index) {
-    if (index-1 == __current) return;
-    if (!__weapon[index-1]) return;
+    int current = __weapon.second;
+    if (index-1 == current) return;
+    if (!__weapon.first[index-1]) return;
     
-    __weapon[__current]->setVisible(false);
-    __current = index - 1;
-    __weapon[__current]->setVisible(true);
+    __weapon.first[current]->deactivate();
+    current = index - 1;
+    __weapon.second = current;
+    __weapon.first[current]->activate();
     flipWeapon();
 }
 
-void Hero::setWeapon(std::vector<cocos2d::Sprite*> weapons) {
-    for (auto iter : __weapon) {
+void Hero::setWeapon(std::vector<weapon_t*> weapons) {
+    int current = __weapon.second;
+    for (auto iter : __weapon.first) {
         if (!iter) continue;
+        iter->deactivate();
         iter->removeFromParent();
     }
-    __weapon = weapons;
+    __weapon.first.clear();
+    __weapon.first = weapons;
     bool changed = false;
     
-    for (auto iter : __weapon) {
+    for (auto iter : __weapon.first) {
         if (!iter) continue;
         iter->setRotation(20.0f);
-        float x = iter->getContentSize().width;
-        iter->setPosition(cocos2d::Vec2(x, 0.0f));
+        float y = getContentSize().width/-2.0f;
+        iter->setPosition(0.0f, y);
         addChild(iter, 0);
         iter->setScale(0.8f);
-        iter->release();
-        iter->setVisible(false);
+        iter->registerKey(&__key[ATTACK]);
         changed = true;
     }
     
     if (changed) {
-        __weapon[__current]->setVisible(true);
+        if (!__weapon.first[current]) return;
+        __weapon.first[current]->activate();
         flipWeapon();
     }
 }
 
-int Hero::getHP()
-{
-    return myHP;
-}
-
-void Hero::damaged(int i)
-{
-    myHP -= i;
-}

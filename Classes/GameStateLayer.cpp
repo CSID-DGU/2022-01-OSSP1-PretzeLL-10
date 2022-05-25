@@ -7,10 +7,14 @@ void GameStateLayer::startNewGame(Hero* hero)
 	_heroHP.second = _player->getHP();
 	showHeroHP();
 
-	// ÀÓ½Ã·Î ¿©±â¼­ SlotMachine create
+	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½â¼­ SlotMachine create
 	_slot = SlotMachine::create();
-	_slot->react(_player);
+//	_slot->react(_player);
 	addChild(_slot);
+}
+
+void GameStateLayer::react() {
+    _slot->react(_player);
 }
 
 bool GameStateLayer::init()

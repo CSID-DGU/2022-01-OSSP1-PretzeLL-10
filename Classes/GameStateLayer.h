@@ -2,8 +2,7 @@
 #define __GAMESTATE_LAYER_H__
 
 #include "cocos2d.h"
-#include "Hero.h"
-#include "SlotMachine.h"
+#include "Object.h"
 
 class GameStateLayer : public cocos2d::Layer
 {
@@ -17,6 +16,7 @@ public:
 	virtual void update(float delta) override;
 
 	void startNewGame(Hero* hero);
+    void react();
 
 	void updateHeroHP();
 	void showHeroHP();
