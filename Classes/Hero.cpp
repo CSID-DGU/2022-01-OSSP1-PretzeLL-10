@@ -36,35 +36,34 @@ void Hero::update(float dt) {
         auto fixtureA = contact->contact->GetFixtureA();
         auto fixtureB = contact->contact->GetFixtureB();
         if (PhysicsObject::getCategory(fixtureB) == CATEGORY_PLAYER) swap(fixtureA, fixtureB);
-        Hero* hero_ptr = (Hero*)fixtureA->GetUserData();
         
-        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_MONSTER) hero_ptr->damaged(1);
+        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_MONSTER) damaged(1);
     }
     
-//    /* Test */
-//    // ================================================================================================================ //
-//    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
-//        if (!contact->IsTouching()) continue;
-//
-//        auto fixtureA = contact->GetFixtureA();
-//        auto fixtureB = contact->GetFixtureB();
-//        float categoryA = PhysicsObject::getCategory(fixtureA);
-//        float categoryB = PhysicsObject::getCategory(fixtureB);
-//
-//        if (categoryA == CATEGORY_BULLET) {
-//            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
-//                fixtureA->GetBody()->SetType(b2_staticBody);
-//                return;
-//            }
-//        }
-//        else if (categoryB == CATEGORY_BULLET) {
-//            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
-//                fixtureB->GetBody()->SetType(b2_staticBody);
-//                return;
-//            }
-//        }
-//    }
-//    // ================================================================================================================ //
+    /* Test */
+    // ================================================================================================================ //
+    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
+        if (!contact->IsTouching()) continue;
+
+        auto fixtureA = contact->GetFixtureA();
+        auto fixtureB = contact->GetFixtureB();
+        float categoryA = PhysicsObject::getCategory(fixtureA);
+        float categoryB = PhysicsObject::getCategory(fixtureB);
+
+        if (categoryA == CATEGORY_BULLET) {
+            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
+                fixtureA->GetBody()->SetType(b2_staticBody);
+                return;
+            }
+        }
+        else if (categoryB == CATEGORY_BULLET) {
+            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
+                fixtureB->GetBody()->SetType(b2_staticBody);
+                return;
+            }
+        }
+    }
+    // ================================================================================================================ //
     
     updateTimer(dt);
     updateAction();
@@ -220,5 +219,7 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
 }
 
 void Hero::damaged(int damage) {
-    __hp -= damage;
+    DynamicObject::damaged(damage);
+    pause(0.5f);
+    __body->ApplyForceToCenter(b2Vec2(500.0f, 0.0f), false);
 }
