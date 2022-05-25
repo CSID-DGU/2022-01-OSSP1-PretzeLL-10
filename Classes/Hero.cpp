@@ -27,38 +27,44 @@ bool Hero::init() {
     __weapon.first[0]->registerKey(&__key[ATTACK]);
     /* ============================================= */
     
-    
     return true;
 }
 
 void Hero::update(float dt) {
-//    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
-//        auto fixtureA = contact->contact->GetFixtureA();
-//        auto fixtureB = contact->contact->GetFixtureB();
+    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
+        if (!contact->contact->IsTouching()) continue;
+        auto fixtureA = contact->contact->GetFixtureA();
+        auto fixtureB = contact->contact->GetFixtureB();
+        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_PLAYER) swap(fixtureA, fixtureB);
+        Hero* hero_ptr = (Hero*)fixtureA->GetUserData();
+        
+        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_MONSTER) hero_ptr->damaged(1);
+    }
+    
+//    /* Test */
+//    // ================================================================================================================ //
+//    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
+//        if (!contact->IsTouching()) continue;
+//
+//        auto fixtureA = contact->GetFixtureA();
+//        auto fixtureB = contact->GetFixtureB();
 //        float categoryA = PhysicsObject::getCategory(fixtureA);
 //        float categoryB = PhysicsObject::getCategory(fixtureB);
+//
+//        if (categoryA == CATEGORY_BULLET) {
+//            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
+//                fixtureA->GetBody()->SetType(b2_staticBody);
+//                return;
+//            }
+//        }
+//        else if (categoryB == CATEGORY_BULLET) {
+//            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
+//                fixtureB->GetBody()->SetType(b2_staticBody);
+//                return;
+//            }
+//        }
 //    }
-    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
-        if (!contact->IsTouching()) continue;
-        
-        auto fixtureA = contact->GetFixtureA();
-        auto fixtureB = contact->GetFixtureB();
-        float categoryA = PhysicsObject::getCategory(fixtureA);
-        float categoryB = PhysicsObject::getCategory(fixtureB);
-
-        if (categoryA == CATEGORY_BULLET) {
-            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
-                fixtureA->GetBody()->SetType(b2_staticBody);
-                return;
-            }
-        }
-        else if (categoryB == CATEGORY_BULLET) {
-            if (fixtureB->GetBody()->GetType() != b2_staticBody) {
-                fixtureB->GetBody()->SetType(b2_staticBody);
-                return;
-            }
-        }
-    }
+//    // ================================================================================================================ //
     
     updateTimer(dt);
     updateAction();
@@ -213,4 +219,6 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     }
 }
 
-
+void Hero::damaged(int damage) {
+    __hp -= damage;
+}

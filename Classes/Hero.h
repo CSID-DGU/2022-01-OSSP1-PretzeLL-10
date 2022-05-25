@@ -35,6 +35,7 @@ public:
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
     void attack() final;
+    void damaged(int damage) final;
 };
 
 #endif /* __PLAYER_H___ */

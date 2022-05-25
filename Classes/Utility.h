@@ -60,6 +60,13 @@ static inline const float VecToDegree(const b2Vec2& vec) {
     return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
 }
 
+template <typename t>
+void swap(t* first, t* second) {
+    t* temp = first;
+    first = second;
+    second = temp;
+}
+
 
 class Timer {
 private:

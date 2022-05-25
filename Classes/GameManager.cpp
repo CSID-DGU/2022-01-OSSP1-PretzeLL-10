@@ -69,38 +69,33 @@ void GameManager::startNewGame()
 	currentPosition = std::make_pair(mapWidth / 2 + 1, mapHeight / 2 + 1);
 	makeGameMap();
 	loadGameMap(currentPosition.first, currentPosition.second);
-
-	//------------------------------------------------- for merge object code
-//	auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
-//	auto __l_k = cocos2d::EventListenerKeyboard::create();
-//	__l_k->onKeyPressed = CC_CALLBACK_2(GameManager::onKeyPressed, this);
-//	__l_k->onKeyReleased = CC_CALLBACK_2(GameManager::onKeyReleased, this);
-//    _event_dispatcher->addEventListenerWithSceneGraphPriority(__l_k, _layer);
-//    auto _mouse_listener = cocos2d::EventListenerMouse::create();
-//    _mouse_listener->onMouseMove = CC_CALLBACK_1(GameManager::onMouseMove, this);
-//    _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, _layer);
     
-    PhysicsObject::getWorld();
-	_hero = Hero::create();
-	_hero->setAbsolutePosition(500, 500);
-	_hero->setZOrder(2);
-    
-    auto event = EventHandler::create();
-    event->setup(_layer, _hero);
-    _layer->addChild(event);
-
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(PhysicsObject::getWorld());
 	_layer->addChild(__d_l, 2);
+#elif
+    PhysicsObject::getWorld();
 #endif
 	_layer->scheduleUpdate();
 
+    _hero = Hero::create();
+    _hero->setAbsolutePosition(500, 500);
+    _hero->setLocalZOrder(2);
 	_layer->addChild(_hero);
+    
+    auto _big_demon = BigDemon::create();
+    _big_demon->setAbsolutePosition(200, 700);
+    _big_demon->scale(2.0f);
+    _layer->addChild(_big_demon);
 
 	//------------------------------------------------- addChild GameStateLayer
 	_state_layer = GameStateLayer::create();
 	_state_layer->startNewGame(_hero);
 	_layer->addChild(_state_layer);
+    
+    auto event = EventHandler::create();
+    event->setup(_layer, _hero);
+    _layer->addChild(event);
 }
 
 void GameManager::goNextStage()
@@ -131,12 +126,18 @@ void GameManager::loadGameMap(int w, int h)
 	TMXTiledMap* temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 140);
 	_layer->addChild(temp);
+    
+//    _gameMap[w][h]->_wall = PhysicsObject::createWall(temp);
 }
 
 TMXTiledMap* GameManager::doLoadGameMap(int w, int h)
 {
 	//if (!_gameMap[0])
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
+    
+//    auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
+//    if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
+    
 	return _gameMap[w][h]->getTmxTiledMap();
 }
 

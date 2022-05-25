@@ -3,13 +3,17 @@
 
 void EventHandler::setup(cocos2d::Layer* layer, Hero* hero) {
     _hero = hero;
+    _slot = layer->getChildByName<cocos2d::Layer*>("state_layer")->getChildByName<SlotMachine*>("slot_machine");
+    
     auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
     auto _keyboard_event = cocos2d::EventListenerKeyboard::create();
+    auto _mouse_listener = cocos2d::EventListenerMouse::create();
+    
     _keyboard_event->onKeyPressed = CC_CALLBACK_2(EventHandler::onKeyPressed, this);
     _keyboard_event->onKeyReleased = CC_CALLBACK_2(EventHandler::onKeyReleased, this);
-    _event_dispatcher->addEventListenerWithSceneGraphPriority(_keyboard_event, layer);
-    auto _mouse_listener = cocos2d::EventListenerMouse::create();
     _mouse_listener->onMouseMove = CC_CALLBACK_1(EventHandler::onMouseMove, this);
+    
+    _event_dispatcher->addEventListenerWithSceneGraphPriority(_keyboard_event, layer);
     _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, layer);
 }
 
@@ -26,6 +30,7 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
         case keyCode_t::KEY_ENTER   : _hero->attack(); break;
                 
+        case KEY_GROUP_M            : _slot->react(_hero); break;
         case keyCode_t::KEY_ESCAPE  : endProgram(); break;
         default: break;
     }

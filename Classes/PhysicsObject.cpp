@@ -35,6 +35,7 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
     __f.shape = &__p;
     __f.friction = 0.0f;
     __f.density = 1.0f;
+    __f.userData = this;
     
     IF(!init(__b, __f));
     return true;
@@ -55,6 +56,7 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
     b2FixtureDef fixture;
     fixture.shape = &shape;
     fixture.isSensor = true;
+    fixture.userData = this;
     
     IF(!init(body, fixture));
     return true;
@@ -80,6 +82,7 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
     fixture.shape = &shape;
     fixture.friction = 1.0f;
     fixture.density = 0.3f;
+    fixture.userData = this;
     
     IF(!init(body, fixture));
     return true;
@@ -117,8 +120,16 @@ void PhysicsObject::destoryPhysics() {
 }
 
 
-b2World* PhysicsObject::__world = nullptr;
+void PhysicsObject::enablePhysics() {
+    __body->SetAwake(true);
+}
 
+void PhysicsObject::disablePhysics() {
+    __body->SetAwake(false);
+}
+
+
+b2World* PhysicsObject::__world = nullptr;
 
 b2World* PhysicsObject::getWorld() {
     if (!__world) {

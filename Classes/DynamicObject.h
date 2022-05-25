@@ -58,7 +58,7 @@ public:
     virtual void attack() = 0;                                          // Need Overriding!!
     void setHP(int hp);
     int getHP();
-    void damaged(int damage);
+    virtual void damaged(int damage);
     
     /* Animation */
     void updateAction();

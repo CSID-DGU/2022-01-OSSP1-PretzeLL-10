@@ -2,6 +2,7 @@
 #define __GAME_MAP_H__
 
 #include <cocos2d.h>
+#include "Object.h"
 
 using cocos2d::TMXTiledMap;
 
@@ -27,6 +28,8 @@ public:
     cocos2d::TMXTiledMap* getTmxTiledMap();
     cocos2d::TMXTiledMap* getTmxTiledMap() const;
     const std::string& getTmxTiledMapFileName() const;
+    
+    b2Body* _wall = nullptr;
 
 private:
     void createTriggers();
