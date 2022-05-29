@@ -5,4 +5,7 @@
 #include "BigZombie.h"
 #include "Goblin.h"
 
+
+typedef BaseMonster monster_t;
+
 #endif /* __MONSTER_H__ */

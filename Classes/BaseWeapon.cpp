@@ -1,9 +1,10 @@
 #include "BaseWeapon.h"
 
 
-BaseWeapon::BaseWeapon(std::string name, float attackT, float revertT, float chargeT)
+BaseWeapon::BaseWeapon(std::string name, int damage, float attackT, float revertT, float chargeT)
 : StaticObject("frames", "weapon_" + name) {
     __name = name;
+    __damage = damage;
     __attackTime = attackT;
     __revertTime = revertT;
     __chargeTime = chargeT;

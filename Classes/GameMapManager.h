@@ -18,6 +18,9 @@ private:
 	void doMakeGameMap0(GameMap***& maparr);
 	void doMakeGameMap1(GameMap***& maparr);
 	void doMakeGameMap2(GameMap***& maparr);
+	void doMakeGameMap3(GameMap***& maparr);
+	void doMakeGameMap4(GameMap***& maparr);
+	void doMakeGameMap5(GameMap***& maparr);
 };
 
 #endif

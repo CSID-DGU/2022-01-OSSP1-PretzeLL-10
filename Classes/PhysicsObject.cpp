@@ -6,7 +6,7 @@ PhysicsObject::PhysicsObject() {
 }
 
 PhysicsObject::~PhysicsObject() {
-    if (__world && __body) __world->DestroyBody(__body);
+    removePhysics();
 }
 
 
@@ -96,6 +96,10 @@ void PhysicsObject::recreate(const b2Shape* shape) {
     __body->CreateFixture(&__f_n);
 }
 
+void PhysicsObject::setType(b2BodyType type) {
+    __body->SetType(type);
+}
+
 void PhysicsObject::setCategory(const int category, const int mask) {
     for (auto __f = __body->GetFixtureList(); __f; __f = __f->GetNext()) {
         auto __d = __f->GetFilterData();
@@ -117,10 +121,14 @@ void PhysicsObject::removePhysics() {
 
 
 void PhysicsObject::enablePhysics() {
-    __body->SetAwake(true);
+    __body->SetActive(true);
 }
 
 void PhysicsObject::disablePhysics() {
+    __body->SetActive(false);
+}
+
+void PhysicsObject::sleepPhysics() {
     __body->SetAwake(false);
 }
 

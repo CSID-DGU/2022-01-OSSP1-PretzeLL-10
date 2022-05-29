@@ -17,6 +17,8 @@ void EventHandler::setup(cocos2d::Layer* layer, Hero* hero) {
     
     _event_dispatcher->addEventListenerWithSceneGraphPriority(_keyboard_event, layer);
     _event_dispatcher->addEventListenerWithSceneGraphPriority(_mouse_listener, layer);
+    
+    PhysicsObject::getWorld()->SetContactListener(this);
 }
 
 
@@ -33,7 +35,7 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
                 
         case KEY_GROUP_M            : _slot->react(_hero); break;
         case keyCode_t::KEY_ESCAPE  : endProgram(); break;
-        default: break;
+        default: _hero->updateKey(ATTACK, true); _hero->attack(); break;
     }
 }
 
@@ -44,7 +46,7 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
         case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
         case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
         case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
-        default: break;
+        default: _hero->updateKey(ATTACK, false); _hero->attack(); break;
     }
 }
 
@@ -67,4 +69,23 @@ void EventHandler::onMouseMove(cocos2d::EventMouse *event) {
     pos.x = event->getCursorX();
     pos.y = event->getCursorY();
     _hero->updateMouse(pos);
+}
+
+
+void EventHandler::BeginContact(b2Contact* contact) {
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    int categoryA = PhysicsObject::getCategory(fixtureA);
+    int categoryB = PhysicsObject::getCategory(fixtureB);
+  
+    INVOKE_CONTACT(CATEGORY_PLAYER, Hero);
+    INVOKE_CONTACT(CATEGORY_MONSTER, monster_t);
+    INVOKE_CONTACT(CATEGORY_BULLET, bullet_t);
+}
+    
+void EventHandler::EndContact(b2Contact *contact) {
+//    auto fixtureA = contact->GetFixtureA();
+//    auto fixtureB = contact->GetFixtureB();
+//    float categoryA = PhysicsObject::getCategory(fixtureA);
+//    float categoryB = PhysicsObject::getCategory(fixtureB);
 }

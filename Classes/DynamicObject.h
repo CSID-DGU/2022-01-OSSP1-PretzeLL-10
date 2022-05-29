@@ -59,6 +59,7 @@ public:
     void setHP(int hp);
     int getHP();
     virtual void damaged(int damage);
+    virtual void onContact(b2Contact* contact) override = 0;
     
     /* Animation */
     void updateAction();

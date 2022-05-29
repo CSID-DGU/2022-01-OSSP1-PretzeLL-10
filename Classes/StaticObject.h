@@ -20,6 +20,8 @@ public:
     void setAbsolutePosition(const float x, const float y);
     cocos2d::Size getContentSize();
     void syncToSprite();
+    
+    virtual void onContact(b2Contact* contact) override;
 };
 
 #endif /* __STATIC_OBJECT_H__ */

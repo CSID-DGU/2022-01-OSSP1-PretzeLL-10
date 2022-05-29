@@ -47,3 +47,8 @@ void StaticObject::syncToSprite() {
     auto worldPos = convertToWorldSpace(position);
     __body->SetTransform(C2B(worldPos / PTM_RATIO), C2B(getRotation()));
 }
+
+
+void StaticObject::onContact(b2Contact* contact) {
+    // Nothing to do with static objects
+}

@@ -74,15 +74,15 @@ void DynamicObject::releaseFlip() {
 }
 
 void DynamicObject::scale(float size) {
-    setScale(getScale()*size);
-    auto __s = getContentSize()*size;
-    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
-    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    
-    b2PolygonShape __p;
-    __p.SetAsBox(__s.width * __s_w, __s.height * __s_h,
-                 b2Vec2(0.0f, -10.0f*size/PTM_RATIO), 0.0f);
-    recreate(&__p);
+//    setScale(getScale()*size);
+//    auto __s = getContentSize()*size;
+//    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
+//    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+//
+//    b2PolygonShape __p;
+//    __p.SetAsBox(__s.width * __s_w, __s.height * __s_h,
+//                 b2Vec2(0.0f, -10.0f*size/PTM_RATIO), 0.0f);
+//    recreate(&__p);
 }
 
 cocos2d::Size DynamicObject::getContentSize() {

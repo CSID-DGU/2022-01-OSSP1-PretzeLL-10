@@ -14,7 +14,6 @@ private:
     
     bool isAttacking;
 
-    int myHP;
 public:
     Hero();
     virtual ~Hero();                                              
@@ -38,6 +37,7 @@ public:
     void setWeapon(std::vector<weapon_t*> weapons);
     void attack() final;
     void damaged(int damage) final;
+    void onContact(b2Contact* contact) final;
 };
 
 #endif /* __PLAYER_H___ */

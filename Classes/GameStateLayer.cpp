@@ -7,8 +7,8 @@ void GameStateLayer::startNewGame(Hero* hero)
 	_heroHP.second = _player->getHP();
 	showHeroHP();
 
-	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½â¼­ SlotMachine create
-	_slot = SlotMachine::create();
+	// ÀÓ½Ã·Î ¿©±â¼­ SlotMachine create
+	auto _slot = SlotMachine::create();
 //	_slot->react(_player);
 	addChild(_slot);
     setName("state_layer");
@@ -22,7 +22,7 @@ bool GameStateLayer::init()
 	_heroHP = std::make_pair(cocos2d::Sprite::create(), 0 );
 	_heroHP.first->setTextureRect(cocos2d::Rect(0, 0, 240, 50));
 	_heroHP.first->setPosition(cocos2d::Vec2(500, 200));
-	_heroHP.first->setOpacity(0);
+    _heroHP.first->setOpacity(0.0f);
 	addChild(_heroHP.first);
 	scheduleUpdate();
 	return true;

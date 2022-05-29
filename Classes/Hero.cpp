@@ -2,7 +2,7 @@
 
 
 Hero::Hero()
-: DynamicObject("knight_f", 10.0f, 2.0f) {
+: DynamicObject("knight_f", 3.0f, 2.0f) {
     __key.fill(false);
     __weapon = std::make_pair(std::vector<weapon_t*>(3), 0);
 }
@@ -13,9 +13,13 @@ Hero::~Hero()
 
 bool Hero::init() {
     IF(!DynamicObject::init());
-    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f), this));
     
+    auto size = C2B(getContentSize());
+    size.x *= 0.7f;
+    size.y *= 0.5f;
+    IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -1.0f), this));
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
+    
     runActionByKey(IDLE);
     setHP(6);
     
@@ -31,41 +35,6 @@ bool Hero::init() {
 }
 
 void Hero::update(float dt) {
-    for (auto contact = __body->GetContactList(); contact; contact = contact->next) {
-        if (!contact->contact->IsTouching()) continue;
-        auto fixtureA = contact->contact->GetFixtureA();
-        auto fixtureB = contact->contact->GetFixtureB();
-        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_PLAYER) swap(fixtureA, fixtureB);
-        
-        if (PhysicsObject::getCategory(fixtureB) == CATEGORY_MONSTER) damaged(1);
-    }
-    
-    /* Test */
-    // ================================================================================================================ //
-    for (auto contact = __body->GetWorld()->GetContactList(); contact; contact = contact->GetNext()) {
-        if (!contact->IsTouching()) continue;
-
-        auto fixtureA = contact->GetFixtureA();
-        auto fixtureB = contact->GetFixtureB();
-        float categoryA = PhysicsObject::getCategory(fixtureA);
-        float categoryB = PhysicsObject::getCategory(fixtureB);
-
-        if (categoryA == CATEGORY_BULLET) {
-//            if (fixtureA->GetBody()->GetType() != b2_staticBody) {
-//                fixtureA->GetBody()->SetType(b2_staticBody);
-//                return;
-//            }
-            
-            ((bullet_t*)fixtureA->GetUserData())->removePhysics();
-            return;
-        }
-        else if (categoryB == CATEGORY_BULLET) {
-            ((bullet_t*)fixtureB->GetUserData())->removePhysics();
-            return;
-        }
-    }
-    // ================================================================================================================ //
-    
     updateTimer(dt);
     updateAction();
     syncToPhysics();
@@ -224,4 +193,16 @@ void Hero::damaged(int damage) {
     DynamicObject::damaged(damage);
     pause(0.5f);
     __body->ApplyForceToCenter(b2Vec2(500.0f, 0.0f), false);
+}
+
+void Hero::onContact(b2Contact* contact) {
+    b2Fixture* other = contact->GetFixtureB();
+    if (getCategory(other) == CATEGORY_PLAYER) {
+        other = contact->GetFixtureA();
+    }
+    
+    switch (getCategory(other)) {
+        case CATEGORY_MONSTER: damaged(1); break;
+        default: break;
+    }
 }

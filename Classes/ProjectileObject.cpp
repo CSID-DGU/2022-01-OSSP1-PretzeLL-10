@@ -4,6 +4,7 @@
 ProjectileObject::ProjectileObject(std::string path, std::string name) {
     __path = path;
     __name = name;
+    __end = false;
 }
 
 ProjectileObject::~ProjectileObject() {}
@@ -19,8 +20,14 @@ bool ProjectileObject::init() {
 }
 
 void ProjectileObject::update(float dt) {
-    if (!isMoveAble()) return;
-    syncToPhysics();
+    if (!__end) syncToPhysics();
+    else {
+        __time.update(dt);
+        if (__body) removePhysics();
+        if (__time.isEnd()) {
+            removeFromParent();
+        }
+    }
 }
 
 
@@ -108,12 +115,8 @@ void ProjectileObject::pause(float time) {
     __time.set(time);
 }
 
-bool ProjectileObject::isMoveAble() {
-    return __time.isEnd();
-}
-
-void ProjectileObject::removePhysics() {
-    PhysicsObject::removePhysics();
-    unscheduleUpdate();
+void ProjectileObject::removeAfter(float delay) {
+    __end = true;
+    __time.set(delay);
 }
 

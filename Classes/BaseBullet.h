@@ -6,13 +6,18 @@
 
 class BaseBullet : public ProjectileObject {
 protected:
-    BaseBullet(std::string name);
+    int __damage;
+    
+protected:
+    BaseBullet(std::string name, int damage);
     virtual ~BaseBullet();
     
 public:
 //    CREATE_FUNC(BaseBullet);
     
-    bool init() override;
+    virtual bool init() override;
+    
+    virtual void onContact(b2Contact* contact) override;
 };
 
 #endif /* __BASE_BULLET_H__ */

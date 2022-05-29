@@ -14,6 +14,7 @@ protected:
     float __attackTime;
     float __revertTime;
     float __chargeTime;
+    int __damage;
     
     bool* __fire_key;
     
@@ -22,6 +23,7 @@ protected:
     
 protected:
     BaseWeapon(std::string name,
+               int damage = 1,
                float attackTime = 0.2f,
                float revertTime = 0.0f,
                float chargeTime = 0.0f);
@@ -39,10 +41,15 @@ public:
     void registerKey(bool* key);
     WEAPON getType();
     
+    void setAttackTime(float time);
+    void setRevertTime(float time);
+    void setChargeTime(float time);
+    float getAttackTime();
+    
     bool isAttacking();
     bool isAttackAble();
     bool isCharging();
-    float getAttackTime();
+    virtual void onContact(b2Contact* contact) override {}
     virtual void attack(bool flipped, const b2Vec2& direction);
     
     static void insertCreateFunc(int tag, create_func_t func);

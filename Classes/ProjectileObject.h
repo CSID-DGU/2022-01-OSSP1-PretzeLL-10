@@ -8,6 +8,7 @@
 
 class ProjectileObject : public cocos2d::Node, public SpriteObject, public PhysicsObject {
 protected:
+    bool __end;
     float __speed;
     b2Vec2 __velocity;
     
@@ -37,10 +38,10 @@ public:
     float getSpeed();
     b2Vec2 getVelocity();
     void pause(float time);
-    bool isMoveAble();
-    
+
     void syncToPhysics();
-    void removePhysics() override;
+    void removeAfter(float delay);
+    virtual void onContact(b2Contact* contact) override = 0;
 };
 
 #endif /* __PROJECTILE_OBJECT_H__ */

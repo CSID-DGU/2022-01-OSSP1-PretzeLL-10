@@ -12,10 +12,26 @@ BaseMonster::~BaseMonster()
 
 bool BaseMonster::init() {
     IF(!DynamicObject::init());
-    IF(!PhysicsObject::initDynamic(C2B(getContentSize()), b2Vec2(0.0f, -0.5f), this));
     
+    auto size = C2B(getContentSize());
+    size.x *= 1.3f;
+    size.y *= 1.4f;
+    IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -0.3f), this));
     setCategory(CATEGORY_MONSTER, MASK_MONSTER);
+    
     runActionByKey(IDLE);
     
     return true;
+}
+
+
+void BaseMonster::onContact(b2Contact* contact) {
+    b2Fixture* other = contact->GetFixtureB();
+    if (getCategory(other) == CATEGORY_MONSTER) {
+        other = contact->GetFixtureA();
+    }
+    
+    switch (getCategory(other)) {
+        default: break;
+    }
 }
