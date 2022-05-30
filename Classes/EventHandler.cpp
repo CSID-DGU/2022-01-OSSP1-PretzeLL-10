@@ -35,6 +35,7 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
                 
         case KEY_GROUP_M            : _slot->react(_hero); break;
         case keyCode_t::KEY_ESCAPE  : endProgram(); break;
+        case keyCode_t::KEY_N       : test(); break;
         default: _hero->updateKey(ATTACK, true); _hero->attack(); break;
     }
 }
@@ -88,4 +89,12 @@ void EventHandler::EndContact(b2Contact *contact) {
 //    auto fixtureB = contact->GetFixtureB();
 //    float categoryA = PhysicsObject::getCategory(fixtureA);
 //    float categoryB = PhysicsObject::getCategory(fixtureB);
+}
+
+
+void EventHandler::test() {
+    auto monster = BigZombie::create();
+    _hero->getParent()->addChild(monster);
+    monster->setAbsolutePosition(500, 700);
+    monster->setScale(2.0f);
 }

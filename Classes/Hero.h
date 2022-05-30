@@ -2,17 +2,19 @@
 #define __PLAYER_H___
 
 #include "DynamicObject.h"
+#include "Monster.h"
 #include "Weapon.h"
 
 
 class Hero : public DynamicObject {
+public:
+    typedef std::pair<std::vector<weapon_t*>, int> weapon_info;
+    
 private:
     std::array<bool, 6>__key;
     cocos2d::Vec2 __mouse;
     
-    std::pair<std::vector<weapon_t*>, int> __weapon;
-    
-    bool isAttacking;
+    weapon_info __weapon;
 
 public:
     Hero();
@@ -33,11 +35,15 @@ public:
     void run();
     void stopRun();
     
+    void attack();
+    void testWeapon(float t);
+    void damaged(int damage) final;
+    
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
-    void attack() final;
-    void damaged(int damage) final;
     void onContact(b2Contact* contact) final;
+    
+    friend class BaseWeapon;
 };
 
 #endif /* __PLAYER_H___ */

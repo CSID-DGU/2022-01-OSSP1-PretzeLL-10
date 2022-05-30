@@ -35,12 +35,7 @@ bool Hero::init() {
 }
 
 void Hero::update(float dt) {
-    updateTimer(dt);
-    updateAction();
-    syncToPhysics();
-    if (!isMoveAble()) return;
-    if (isFlipNeeded()) flip();
-    DynamicObject::move();
+    DynamicObject::update(dt);
 }
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
@@ -59,6 +54,11 @@ void Hero::flip() {
 
 bool Hero::isFlipNeeded() {
     if (!__is_flippable) return false;
+    auto weapon = __weapon.first[__weapon.second];
+    if (weapon) {
+        if (weapon->isAttacking()) return false;
+    }
+    
     float x_diff = __mouse.x - getPositionX();
     float sprite_x = __sprite->getScaleX();
     return x_diff * sprite_x < 0.0f;
@@ -67,16 +67,16 @@ bool Hero::isFlipNeeded() {
 void Hero::flipWeapon() {
     auto sprite = __weapon.first[__weapon.second];
     if (!sprite) return;
-    float hero_scale = __sprite->getScaleX();
-    float weapon_scale = sprite->getScaleX();
-    if (hero_scale*weapon_scale > 0.0f) return;
-    
-    sprite->setScaleX(sprite->getScaleX() * -1);
-    sprite->setRotation(sprite->getRotation() * -1);
+    if (__sprite->getScaleX() * sprite->getScaleX() < 0.0f) {
+        sprite->setScaleX(sprite->getScaleX() * -1);
+    }
+    if (__sprite->getScaleX() * sprite->getRotation() < 0.0f) {
+        sprite->setRotation(sprite->getRotation() * -1);
+    }
 }
 
 void Hero::move(KEY state) {
-    __key[state] = true;
+    if (state != ALL) __key[state] = true;
     auto __v = getVelocity();
     switch (state) {
         case UP:    __v.y =  1.0f; break;
@@ -85,6 +85,7 @@ void Hero::move(KEY state) {
         case RIGHT: __v.x =  1.0f; break;
         default: break;
     }
+    if (!__v.x && !__v.y) return;
     setFuture(MOVE);
     normalize(__v);
     if (__key[SHIFT]) {
@@ -103,9 +104,7 @@ void Hero::stop(KEY state) {
         case RIGHT: if (__key[LEFT ]) __v.x = -1.0f; else __v.x = 0.0f; break;
         default: break;
     }
-    if (__v.x == 0.0f && __v.y == 0.0f) {
-        setFuture(IDLE);
-    }
+    if (!__v.x && !__v.y) setFuture(IDLE);
     else {
         normalize(__v);
         if (__key[SHIFT]) setFuture(RUN);
@@ -133,6 +132,7 @@ void Hero::attack() {
     auto direction = C2B(__mouse - getPosition());
     normalize(direction);
     __weapon.first[current]->attack(isFlipped(), direction);
+    schedule(schedule_selector(Hero::testWeapon));
     
     int type = __weapon.first[current]->getType();
     if (type == IMMEDIATE) {
@@ -147,6 +147,31 @@ void Hero::attack() {
         }
     }
 }
+
+void Hero::testWeapon(float t) {
+    auto weapon = __weapon.first[__weapon.second];
+    auto contact = weapon->getContact();
+    for (; contact; contact = contact->next) {
+        if (!contact->contact->IsTouching()) continue;
+        auto other = contact->other;
+        float other_cat = getCategory(other);
+        
+        if (other_cat == CATEGORY_MONSTER) {
+            auto monster = PhysicsObject::getUserData<monster_t*>(other);
+            monster->damaged(weapon->getDamage());
+            unschedule(schedule_selector(Hero::testWeapon));
+        }
+    }
+    
+    if (!weapon->isAttacking()) {
+        unschedule(schedule_selector(Hero::testWeapon));
+    }
+}
+
+void Hero::damaged(int damage) {
+    __hp -= damage;
+}
+
 
 void Hero::changeWeapon(int index) {
     int current = __weapon.second;
@@ -189,20 +214,19 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     }
 }
 
-void Hero::damaged(int damage) {
-    DynamicObject::damaged(damage);
-    pause(0.5f);
-    __body->ApplyForceToCenter(b2Vec2(500.0f, 0.0f), false);
-}
-
 void Hero::onContact(b2Contact* contact) {
     b2Fixture* other = contact->GetFixtureB();
     if (getCategory(other) == CATEGORY_PLAYER) {
         other = contact->GetFixtureA();
     }
     
-    switch (getCategory(other)) {
-        case CATEGORY_MONSTER: damaged(1); break;
-        default: break;
+    float other_cat = getCategory(other);
+    if (other_cat == CATEGORY_MONSTER) {
+        auto monster = PhysicsObject::getUserData<DynamicObject*>(other);
+        damaged(monster->getDamage());
+        pause(0.5f);
+        auto diff = getPosition() - monster->getPosition();
+        normalize(diff);
+        __body->ApplyForceToCenter(C2B(diff*500.0f), false);
     }
 }

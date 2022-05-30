@@ -6,10 +6,17 @@
 
 class BigDemon : public BaseMonster {
 public:
-    BigDemon() : BaseMonster("big_demon", 2) {}
+    BigDemon() : BaseMonster("big_demon") {}
     ~BigDemon() {}
     
     CREATE_FUNC(BigDemon);
+    
+    bool init() final {
+        IF(!BaseMonster::init());
+        setHP(10);
+        setDamage(1);
+        return true;
+    }
     
     void attack() override {}
 };

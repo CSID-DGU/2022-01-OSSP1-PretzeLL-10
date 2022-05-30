@@ -2,12 +2,12 @@
 #define __BASE_MONSTER_H__
 
 #include "DynamicObject.h"
-#include "Bullet.h"
+#include "BaseBullet.h"
 
 
 class BaseMonster : public DynamicObject {
 protected:
-    BaseMonster(std::string name, int hp = 0);          // Constructor, initialize variables
+    BaseMonster(std::string name);                      // Constructor, initialize variables
     virtual ~BaseMonster();                             // Destructor
     
 public:
@@ -15,8 +15,12 @@ public:
     
     virtual bool init() override;                       // Initialize
     
-    virtual void attack() override {}                   // Need update!
+    virtual void attack() {}                            // Need update!
+    virtual void damaged(int damage) override;
+    
     virtual void onContact(b2Contact* contact) override;
 };
+
+typedef BaseMonster monster_t;
 
 #endif /* __MONSTER_H__ */

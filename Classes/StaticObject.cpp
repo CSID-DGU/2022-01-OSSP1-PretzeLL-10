@@ -18,6 +18,11 @@ bool StaticObject::init() {
 }
 
 
+void StaticObject::scale(float scaleFactor) {
+    setScale(getScale() * scaleFactor);
+    PhysicsObject::scale(scaleFactor);
+}
+
 void StaticObject::setPosition(const cocos2d::Vec2 &position) {
     setPosition(position.x, position.y);
 }
@@ -49,6 +54,15 @@ void StaticObject::syncToSprite() {
 }
 
 
+void StaticObject::setDamage(int damage) {
+    __damage = damage;
+}
+
+int StaticObject::getDamage() {
+    return __damage;
+}
+
+
 void StaticObject::onContact(b2Contact* contact) {
-    // Nothing to do with static objects
+    // Do nothing on default
 }

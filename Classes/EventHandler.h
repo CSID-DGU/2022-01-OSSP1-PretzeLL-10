@@ -30,6 +30,8 @@ public:
     
     void BeginContact(b2Contact* contact) final;
     void EndContact(b2Contact* contact) final;
+    
+    void test();
 };
 
 #endif /* __EVENT_HANDLER_H__ */

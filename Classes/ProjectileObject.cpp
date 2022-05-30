@@ -4,7 +4,7 @@
 ProjectileObject::ProjectileObject(std::string path, std::string name) {
     __path = path;
     __name = name;
-    __end = false;
+    __time = Timer(true);
 }
 
 ProjectileObject::~ProjectileObject() {}
@@ -20,27 +20,20 @@ bool ProjectileObject::init() {
 }
 
 void ProjectileObject::update(float dt) {
-    if (!__end) syncToPhysics();
-    else {
-        __time.update(dt);
-        if (__body) removePhysics();
-        if (__time.isEnd()) {
-            removeFromParent();
-        }
+    __time.update(dt);
+    if (__time.isEnd()) {
+        __time.reset();
+        restart();
     }
+    
+    if (__time.isRunning()) syncToSprite();                                     // if object is stopped, position is affected by sprite
+    else syncToPhysics();
 }
 
 
 void ProjectileObject::scale(float size) {
     setScale(getScale()*size);
-    auto __s = getContentSize()*size;
-    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
-    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    
-    b2PolygonShape __p;
-    __p.SetAsBox(__s.width * __s_w, __s.height * __s_h,
-                 b2Vec2(0.0f, -10.0f*size/PTM_RATIO), 0.0f);
-    recreate(&__p);
+    PhysicsObject::scale(size);
 }
 
 void ProjectileObject::setPosition(const cocos2d::Vec2 &position) {
@@ -79,6 +72,12 @@ void ProjectileObject::syncToPhysics() {
     Node::setRotation(B2C(__body->GetAngle()));
 }
 
+void ProjectileObject::syncToSprite() {
+    if (!__body) return;
+    auto position = C2B(getPosition()/PTM_RATIO);
+    __body->SetTransform(position, C2B(getRotation()));
+}
+
 
 void ProjectileObject::move() {
     auto __v = __velocity;
@@ -106,17 +105,26 @@ b2Vec2 ProjectileObject::getVelocity() {
     return __velocity;
 }
 
-void ProjectileObject::pause(float time) {
+void ProjectileObject::stop(float time) {
     __velocity = __body->GetLinearVelocity();
-    __velocity.x /= __speed;
-    __velocity.y /= __speed;
-    __body->SetType(b2_staticBody);
-    
+    __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
     __time.set(time);
 }
 
-void ProjectileObject::removeAfter(float delay) {
-    __end = true;
-    __time.set(delay);
+void ProjectileObject::restart() {
+    __body->SetLinearVelocity(__velocity);
 }
 
+void ProjectileObject::removeAfter(float delay) {
+    stop(delay);
+    scheduleOnce(schedule_selector(ProjectileObject::removal), delay);
+}
+
+void ProjectileObject::removal(float t) {
+    removePhysics();
+    removeFromParent();
+}
+
+cocos2d::Action* ProjectileObject::runAction(cocos2d::Action* action) {
+    return __sprite->runAction(action);
+}

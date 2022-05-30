@@ -29,8 +29,8 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center, void* 
     b2PolygonShape box;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
-    box.SetAsBox(scaledSize.x, scaledSize.y, b2Vec2(scaledSize.x*center.x, scaledSize.y*center.y), 0.0f);
+    auto __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    box.SetAsBox(__size.x, __size.y, b2Vec2(__size.x * center.x, __size.y * center.y), 0.0f);
     
     b2FixtureDef fixture;
     fixture.shape = &box;
@@ -48,9 +48,8 @@ bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center, void* u
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
-    shape.SetAsBox(scaledSize.x, scaledSize.y,
-                   b2Vec2(center.x * scaledSize.x, center.y * scaledSize.y), 0.0f);
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
     
     b2FixtureDef fixture;
     fixture.shape = &shape;
@@ -71,9 +70,8 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center, voi
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
-    shape.SetAsBox(scaledSize.x, scaledSize.y,
-                   b2Vec2(center.x * scaledSize.x, center.y * scaledSize.y), 0.0f);
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
     
     b2FixtureDef fixture;
     fixture.shape = &shape;
@@ -96,6 +94,24 @@ void PhysicsObject::recreate(const b2Shape* shape) {
     __body->CreateFixture(&__f_n);
 }
 
+void PhysicsObject::recreate(const b2Vec2& size, const b2Vec2& center) {
+    b2PolygonShape shape;
+    auto scaleWidth = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    auto scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
+    recreate(&shape);
+}
+
+void PhysicsObject::scale(float scaleFactor) {
+    __size.x *= scaleFactor;
+    __size.y *= scaleFactor;
+    b2PolygonShape shape;
+    auto center = __body->GetLocalCenter();
+    shape.SetAsBox(__size.x, __size.y, center, 0.0f);
+    recreate(&shape);
+}
+
 void PhysicsObject::setType(b2BodyType type) {
     __body->SetType(type);
 }
@@ -111,6 +127,10 @@ void PhysicsObject::setCategory(const int category, const int mask) {
 
 int PhysicsObject::getCategory(const b2Fixture* fixture) {
     return fixture->GetFilterData().categoryBits;
+}
+
+int PhysicsObject::getCategory(const b2Body* body) {
+    return getCategory(body->GetFixtureList());
 }
 
 void PhysicsObject::removePhysics() {
@@ -130,6 +150,11 @@ void PhysicsObject::disablePhysics() {
 
 void PhysicsObject::sleepPhysics() {
     __body->SetAwake(false);
+}
+
+
+b2ContactEdge* PhysicsObject::getContact() {
+    return __body->GetContactList();
 }
 
 
@@ -187,3 +212,4 @@ void PhysicsObject::remove(b2Fixture* fixture) {
 void PhysicsObject::remove(b2Body* body) {
     __world->DestroyBody(body);
 }
+

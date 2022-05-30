@@ -16,10 +16,10 @@
 #define MASK_NONE                       0x0000
 #define MASK_ALL                        0xFFFF
 #define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL
-#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL | CATEGORY_BULLET
+#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL | CATEGORY_BULLET | CATEGORY_WEAPON
 #define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET
 #define MASK_BULLET                     CATEGORY_WALL | CATEGORY_MONSTER
-#define MASK_WEAPON                     MASK_NONE
+#define MASK_WEAPON                     CATEGORY_MONSTER
 #define MASK_ITEM                       MASK_NONE
 
 #define PIXEL_FONT                      "fonts/pixel_font.ttf"

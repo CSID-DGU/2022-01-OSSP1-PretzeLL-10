@@ -6,7 +6,7 @@
 
 class Arrow : public BaseBullet {
 protected:
-    Arrow() : BaseBullet("weapon_arrow", 1) {}
+    Arrow() : BaseBullet("weapon_arrow") {}
     virtual ~Arrow() {}
     
 public:
@@ -14,12 +14,7 @@ public:
     
     bool init() final {
         IF(!BaseBullet::init());
-        
-        auto size = C2B(getContentSize());
-        size.x *= 0.5f;
-        size.y *= 0.5f;
-        IF(!PhysicsObject::initProjectile(size, b2Vec2(0.0f, 0.0f), this));
-        setCategory(CATEGORY_BULLET, MASK_BULLET);
+        PhysicsObject::scale(0.5f);
         return true;
     }
 };

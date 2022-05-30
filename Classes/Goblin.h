@@ -6,7 +6,7 @@
 
 class Goblin : public BaseMonster {
 public:
-    Goblin() : BaseMonster("goblin", 1) {}
+    Goblin() : BaseMonster("goblin") {}
     ~Goblin() {}
     
     CREATE_FUNC(Goblin);
@@ -16,6 +16,9 @@ public:
         __body->SetGravityScale(0.004f);
         __body->SetLinearDamping(0.004f);
         __body->SetLinearVelocity(b2Vec2(-3.5f, 0.0f));
+        
+        setHP(1);
+        setDamage(3);
         return true;
     }
     void attack() final {}

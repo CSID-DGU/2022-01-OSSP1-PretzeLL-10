@@ -11,12 +11,14 @@ protected:
     float __speed;                                                      // Speed Velocity
     float __run_speed;                                                  // Run velocity
     b2Vec2 __velocity;
+    
     Timer __time;
     bool __is_flippable;
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
     
     int __hp;
+    int __damage;
     
 protected:                                                              // BaseObject should not be generated
     DynamicObject(std::string name, float speed, float run_speed);
@@ -35,7 +37,7 @@ public:
     bool isFlipped();
     void fixFlip();
     void releaseFlip();
-    void scale(float size);
+    void scale(float scaleFactor);
     void setPosition(const cocos2d::Vec2& position) final;
     void setPosition(const float x, const float y) final;
     void setAbsolutePosition(const cocos2d::Vec2& position);
@@ -54,17 +56,25 @@ public:
     void pause(float time);
     bool isMoveAble();
     
-    /* Attack */
-    virtual void attack() = 0;                                          // Need Overriding!!
-    void setHP(int hp);
-    int getHP();
-    virtual void damaged(int damage);
-    virtual void onContact(b2Contact* contact) override = 0;
-    
     /* Animation */
     void updateAction();
     ACTION getCurrent();
     void setFuture(ACTION action);
+    cocos2d::Action* runAction(cocos2d::Action* action) final;
+    void stopAction(cocos2d::Action* action);
+    void stopAllActions();
+    
+    void removeAfter(float delay);
+    virtual void onContact(b2Contact* contact) override = 0;
+    
+    int getHP();
+    void setHP(int hp);
+    int getDamage();
+    void setDamage(int damage);
+    virtual void damaged(int damage);
+    
+private:
+    void removal(float t);
 };
 
 #endif /* __DYNAMIC_OBJECT_H__ */

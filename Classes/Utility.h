@@ -30,9 +30,19 @@ inline float length(const b2Vec2& vec) {
     return std::sqrtf(std::powf(vec.x,2)+std::powf(vec.y,2));;
 }
 
+inline float length(const cocos2d::Vec2& vec) {
+    return std::sqrtf(std::powf(vec.x,2)+std::powf(vec.y,2));;
+}
+
 inline b2Vec2 normalize(b2Vec2& vec) {
     float __l = length(vec);
     vec = b2Vec2(vec.x/__l, vec.y/__l);
+    return vec;
+}
+
+inline cocos2d::Vec2 normalize(cocos2d::Vec2& vec) {
+    float __l = length(vec);
+    vec = cocos2d::Vec2(vec.x/__l, vec.y/__l);
     return vec;
 }
 
@@ -83,11 +93,13 @@ public:
     }
     
     void update(float dt) {
-        if (__time > 0) __time -= dt;
+        if (__time > 0) {
+            __time -= dt;
+        }
         if (__time < 0) __end = true;
     }
     
-    void reset(bool inverted) {
+    void reset() {
         set(0.0f);
         if (!__invert) __end = true;
     }
@@ -112,6 +124,10 @@ public:
     
     bool isEnd() {
         return __end;
+    }
+    
+    bool isRunning() {
+        return __time > 0;
     }
 };
 
