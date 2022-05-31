@@ -84,8 +84,8 @@ void GameManager::startNewGame()
 	_layer->addChild(_hero);
     
     auto _big_demon = BigDemon::create();
-    _big_demon->setAbsolutePosition(200, 700);
-    _big_demon->scale(2.0f);
+    _big_demon->setAbsolutePosition(300, 700);
+    _big_demon->setScale(2.0f);
     _big_demon->setLocalZOrder(2);
     _layer->addChild(_big_demon);
 

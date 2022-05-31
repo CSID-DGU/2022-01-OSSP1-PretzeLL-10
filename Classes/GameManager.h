@@ -5,6 +5,7 @@
 #include <utility>
 #include "GameMap.h"
 #include "GameStateLayer.h"
+#include "EventHandler.h"
 
 class GameManager
 {

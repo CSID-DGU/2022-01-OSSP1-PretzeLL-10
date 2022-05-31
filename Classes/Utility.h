@@ -8,6 +8,7 @@
 #include <cmath>
 #include <random>
 #include <functional>
+#include <limits>
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -30,9 +31,21 @@ inline float length(const b2Vec2& vec) {
     return std::sqrtf(std::powf(vec.x,2)+std::powf(vec.y,2));;
 }
 
+inline float length(const cocos2d::Vec2& vec) {
+    return std::sqrtf(std::powf(vec.x,2)+std::powf(vec.y,2));;
+}
+
 inline b2Vec2 normalize(b2Vec2& vec) {
     float __l = length(vec);
+    if (__l == 0 || __l == 1) return vec;
     vec = b2Vec2(vec.x/__l, vec.y/__l);
+    return vec;
+}
+
+inline cocos2d::Vec2 normalize(cocos2d::Vec2& vec) {
+    float __l = length(vec);
+    if (__l == 0 || __l == 1) return vec;
+    vec = cocos2d::Vec2(vec.x/__l, vec.y/__l);
     return vec;
 }
 
@@ -61,7 +74,7 @@ static inline const float VecToDegree(const b2Vec2& vec) {
 }
 
 template <typename t>
-void swap(t* first, t* second) {
+inline void swap(t* first, t* second) {
     t* temp = first;
     first = second;
     second = temp;
@@ -82,36 +95,41 @@ public:
         __invert = inverted;
     }
     
-    void update(float dt) {
+    inline void update(float dt) {
+        if (__end) return;
         if (__time > 0) __time -= dt;
         if (__time < 0) __end = true;
     }
     
-    void reset(bool inverted) {
+    inline void reset() {
         set(0.0f);
         if (!__invert) __end = true;
     }
     
-    void set(float time) {
+    inline void set(float time) {
         __run_time = time;
         __time = time;
         __end = false;
     }
     
-    float getSetTime() {
+    inline float getSetTime() {
         return __run_time;
     }
     
-    float getLeft() {
+    inline float getLeft() {
         return __time;
     }
     
-    float getRunTime() {
+    inline float getRunTime() {
         return __run_time - __time;
     }
     
-    bool isEnd() {
+    inline bool isEnd() {
         return __end;
+    }
+    
+    inline bool isRunning() {
+        return __time > 0;
     }
 };
 

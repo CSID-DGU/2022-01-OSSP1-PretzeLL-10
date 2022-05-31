@@ -68,7 +68,7 @@ bool GameScene::init()
     //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
     auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, damage, NULL);
     mapMenu->alignItemsVertically();
-    mapMenu->setPosition(Vec2(400, 300));
+    mapMenu->setPosition(Vec2(100, 200));
     this->addChild(mapMenu, 1);
 
     /////////////////////////////

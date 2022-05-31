@@ -12,11 +12,16 @@ StaticObject::~StaticObject() {}
 bool StaticObject::init() {
     IF(!Node::init());
     IF(!SpriteObject::init(__path, _name));
-    IF(!PhysicsObject::initStatic(C2B(getContentSize()), b2Vec2(0.0f, 0.0f)));
+    IF(!PhysicsObject::initStatic(C2B(getContentSize()), b2Vec2(0.0f, 0.0f), this));
     addChild(__sprite);
     return true;
 }
 
+
+void StaticObject::scale(float scaleFactor) {
+    setScale(getScale() * scaleFactor);
+    PhysicsObject::scale(scaleFactor);
+}
 
 void StaticObject::setPosition(const cocos2d::Vec2 &position) {
     setPosition(position.x, position.y);
@@ -46,4 +51,9 @@ void StaticObject::syncToSprite() {
     auto position = __sprite->getPosition();
     auto worldPos = convertToWorldSpace(position);
     __body->SetTransform(C2B(worldPos / PTM_RATIO), C2B(getRotation()));
+}
+
+
+void StaticObject::onContact(b2Contact* contact) {
+    IF_RV(true, "Can't collide on static objects");
 }

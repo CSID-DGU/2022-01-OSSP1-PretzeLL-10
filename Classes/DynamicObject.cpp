@@ -5,15 +5,14 @@
 // Constructor, Destructor
 // ========================================================================================================== //
 
-DynamicObject::DynamicObject(std::string name, float speed, float runSpeed) {
-    __speed = speed/powf(scaleFactor, 3.0f);
-    __run_speed = runSpeed;
-    __velocity = b2Vec2(0.0f, 0.0f);
-    __current = IDLE;
-    __future = IDLE;
-    __name = name;
-    __is_flippable = true;
-}
+DynamicObject::DynamicObject(std::string name)
+: SpriteObject("", name)
+, __speed(0.0f)
+, __run_speed(1.0f)
+, __velocity(b2Vec2(0.0f, 0.0f))
+, __current(IDLE)
+, __future(IDLE)
+, __is_flippable(true) {}
 
 DynamicObject::~DynamicObject() {}
 
@@ -37,9 +36,10 @@ bool DynamicObject::init() {
 // ========================================================================================================== //
 
 void DynamicObject::update(float dt) {
-    if (!isMoveAble()) return;
+    updateTimer(dt);
+    updateAction();
     if (isFlipNeeded()) flip();
-    move();
+    if (isMoveAble()) move();
     syncToPhysics();
 }
 
@@ -75,14 +75,7 @@ void DynamicObject::releaseFlip() {
 
 void DynamicObject::scale(float size) {
     setScale(getScale()*size);
-    auto __s = getContentSize()*size;
-    float __s_w = PHYSICS_BODY_WIDTH/PTM_RATIO;
-    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    
-    b2PolygonShape __p;
-    __p.SetAsBox(__s.width * __s_w, __s.height * __s_h,
-                 b2Vec2(0.0f, -10.0f*size/PTM_RATIO), 0.0f);
-    reCreate(&__p);
+    PhysicsObject::scale(size);
 }
 
 cocos2d::Size DynamicObject::getContentSize() {
@@ -134,6 +127,7 @@ void DynamicObject::move() {
 
 void DynamicObject::setVelocity(const b2Vec2 velocity) {
     __velocity = velocity;
+    normalize(__velocity);
 }
 
 b2Vec2 DynamicObject::getVelocity() {
@@ -141,7 +135,7 @@ b2Vec2 DynamicObject::getVelocity() {
 }
 
 void DynamicObject::setSpeed(float speed) {
-    __speed = speed;
+    __speed = speed/powf(scaleFactor, 3.0f);
 }
 
 void DynamicObject::setRunSpeed(float runSpeed) {
@@ -188,14 +182,23 @@ void DynamicObject::updateAction() {
 // ========================================================================================================== //
 
 
-void DynamicObject::setHP(int hp) {
-    __hp = hp;
+void DynamicObject::removeAfter(float delay) {
+    scheduleOnce(CC_SCHEDULE_SELECTOR(DynamicObject::removal), delay);
 }
 
-int DynamicObject::getHP() {
-    return __hp;
+void DynamicObject::removal(float t) {
+    removePhysics();
+    removeFromParent();
 }
 
-void DynamicObject::damaged(int damage) {
-    __hp -= damage;
+cocos2d::Action* DynamicObject::runAction(cocos2d::Action* action) {
+    return __sprite->runAction(action);
+}
+
+void DynamicObject::stopAction(cocos2d::Action* action) {
+    __sprite->stopAction(action);
+}
+
+void DynamicObject::stopAllActions() {
+    __sprite->stopAllActions();
 }

@@ -1,9 +1,10 @@
 #include "BaseWeapon.h"
 
 
-BaseWeapon::BaseWeapon(std::string name, float attackT, float revertT, float chargeT)
+BaseWeapon::BaseWeapon(std::string name, int damage, float attackT, float revertT, float chargeT)
 : StaticObject("frames", "weapon_" + name) {
     __name = name;
+    __damage = damage;
     __attackTime = attackT;
     __revertTime = revertT;
     __chargeTime = chargeT;
@@ -27,7 +28,7 @@ void BaseWeapon::update(float dt) {
     __chargeTimer.update(dt);
 }
 
-void BaseWeapon::addBullet(bullet_t* bullet) {
+void BaseWeapon::addBullet(cocos2d::Node* bullet) {
     auto hero = getParent();
     if (hero) {
         auto world = hero->getParent();
@@ -67,9 +68,17 @@ void BaseWeapon::attack(bool flipped, const b2Vec2& direction) {
     float angle = 60.0f;
     if (flipped) angle *= -1.0f;
     auto attack = cocos2d::RotateBy::create(__attackTime, angle);
-    auto revoke = cocos2d::RotateBy::create(__revertTime, -angle);
+    auto revoke = cocos2d::RotateTo::create(__revertTime, getRotation());
     auto seq = cocos2d::Sequence::createWithTwoActions(attack, revoke);
     runAction(seq);
+}
+
+void BaseWeapon::setDamage(int damage) {
+    __damage = damage;
+}
+
+int BaseWeapon::getDamage() {
+    return __damage;
 }
 
 bool BaseWeapon::isAttacking() {
@@ -99,7 +108,7 @@ bool BaseWeapon::isCharging() {
 }
 
 float BaseWeapon::getAttackTime() {
-    return __attackTime + __revertTime + 0.02f;                             // jumping one frame  prevents inverted weapon
+    return __attackTime + __revertTime + 0.02f;
 }
 
 

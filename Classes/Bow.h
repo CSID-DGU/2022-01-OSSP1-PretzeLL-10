@@ -2,11 +2,13 @@
 #define __BOW_H__
 
 #include "BaseWeapon.h"
+#include "Arrow.h"
 
 
 class Bow : public BaseWeapon {
 protected:
-    Bow() : BaseWeapon("bow", 0.1f, 0.0f, 0.5f) {}
+//    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.5f) {}
+    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.0f) {}               // testing
     virtual ~Bow() {}
     
 public:
@@ -18,7 +20,8 @@ public:
         auto arrow = Arrow::create();
         if(!arrow) return;
         addBullet(arrow);
-        arrow->setSpeed(100.0f);
+        arrow->setParent(this);
+        arrow->setSpeed(25.0f);
         arrow->setRotation(VecToDegree(direction));
         arrow->setVelocity(direction);
         arrow->move();

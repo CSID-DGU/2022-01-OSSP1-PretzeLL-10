@@ -13,7 +13,4 @@
 #include "Knife.h"
 #include "Machete.h"
 
-
-typedef BaseWeapon weapon_t;
-
 #endif /* __WEAPON_H__ */

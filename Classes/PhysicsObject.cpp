@@ -6,59 +6,60 @@ PhysicsObject::PhysicsObject() {
 }
 
 PhysicsObject::~PhysicsObject() {
-    if (__world && __body) __world->DestroyBody(__body);
+    removePhysics();
 }
 
 
-bool PhysicsObject::init(const b2BodyDef& body, const b2FixtureDef& fixture) {
+bool PhysicsObject::init(b2BodyDef& body, b2FixtureDef& fixture, void* userData) {
+    body.userData = userData;
+    fixture.userData = userData;
     __body = __world->CreateBody(&body);
     IF(!__body);
     IF(!__body->CreateFixture(&fixture));
     return true;
 }
 
-bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center) {
-    b2BodyDef __b;
-    __b.type = b2_dynamicBody;
-    __b.linearDamping = 20.0f;
-    __b.gravityScale = 0.0f;
-    __b.fixedRotation = true;
+bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center, void* userData) {
+    b2BodyDef body;
+    body.type = b2_dynamicBody;
+    body.linearDamping = 20.0f;
+    body.gravityScale = 0.0f;
+    body.fixedRotation = true;
     
-    b2PolygonShape __p;
-    float __s_w = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    float __s_h = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto __s = b2Vec2(size.x * __s_w, size.y * __s_h);
-    __p.SetAsBox(__s.x, __s.y, b2Vec2(__s.x*center.x, __s.y*center.y), 0.0f);
+    b2PolygonShape box;
+    float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    auto __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    box.SetAsBox(__size.x, __size.y, b2Vec2(__size.x * center.x, __size.y * center.y), 0.0f);
     
-    b2FixtureDef __f;
-    __f.shape = &__p;
-    __f.friction = 0.0f;
-    __f.density = 1.0f;
+    b2FixtureDef fixture;
+    fixture.shape = &box;
+    fixture.friction = 0.0f;
+    fixture.density = 1.0f;
     
-    IF(!init(__b, __f));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
-bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center) {
+bool PhysicsObject::initStatic(const b2Vec2& size, const b2Vec2& center, void* userData) {
     b2BodyDef body;
     body.type = b2_staticBody;
     
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
-    shape.SetAsBox(scaledSize.x, scaledSize.y,
-                   b2Vec2(center.x * scaledSize.x, center.y * scaledSize.y), 0.0f);
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
     
     b2FixtureDef fixture;
     fixture.shape = &shape;
     fixture.isSensor = true;
     
-    IF(!init(body, fixture));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
-bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
+bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center, void* userData) {
     b2BodyDef body;
     body.type = b2_dynamicBody;
     body.linearDamping = 0.1f;
@@ -69,21 +70,20 @@ bool PhysicsObject::initProjectile(const b2Vec2 &size, const b2Vec2 &center) {
     b2PolygonShape shape;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto scaledSize = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
-    shape.SetAsBox(scaledSize.x, scaledSize.y,
-                   b2Vec2(center.x * scaledSize.x, center.y * scaledSize.y), 0.0f);
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
     
     b2FixtureDef fixture;
     fixture.shape = &shape;
     fixture.friction = 1.0f;
     fixture.density = 0.3f;
     
-    IF(!init(body, fixture));
+    IF(!init(body, fixture, userData));
     return true;
 }
 
 
-void PhysicsObject::reCreate(const b2Shape* shape) {
+void PhysicsObject::recreate(const b2Shape* shape) {
     auto __f = __body->GetFixtureList();
     b2FixtureDef __f_n;
     __f_n.shape = shape;
@@ -92,6 +92,28 @@ void PhysicsObject::reCreate(const b2Shape* shape) {
     __f_n.filter = __f->GetFilterData();
     __body->DestroyFixture(__f);
     __body->CreateFixture(&__f_n);
+}
+
+void PhysicsObject::recreate(const b2Vec2& size, const b2Vec2& center) {
+    b2PolygonShape shape;
+    auto scaleWidth = PHYSICS_BODY_WIDTH/PTM_RATIO;
+    auto scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    shape.SetAsBox(__size.x, __size.y, b2Vec2(center.x * __size.x, center.y * __size.y), 0.0f);
+    recreate(&shape);
+}
+
+void PhysicsObject::scale(float scaleFactor) {
+    __size.x *= scaleFactor;
+    __size.y *= scaleFactor;
+    b2PolygonShape shape;
+    auto center = __body->GetLocalCenter();
+    shape.SetAsBox(__size.x, __size.y, center, 0.0f);
+    recreate(&shape);
+}
+
+void PhysicsObject::setType(b2BodyType type) {
+    __body->SetType(type);
 }
 
 void PhysicsObject::setCategory(const int category, const int mask) {
@@ -107,7 +129,11 @@ int PhysicsObject::getCategory(const b2Fixture* fixture) {
     return fixture->GetFilterData().categoryBits;
 }
 
-void PhysicsObject::destoryPhysics() {
+int PhysicsObject::getCategory(const b2Body* body) {
+    return getCategory(body->GetFixtureList());
+}
+
+void PhysicsObject::removePhysics() {
     if (!__world || !__body) return;
     __world->DestroyBody(__body);
     __body = nullptr;
@@ -115,11 +141,20 @@ void PhysicsObject::destoryPhysics() {
 
 
 void PhysicsObject::enablePhysics() {
-    __body->SetAwake(true);
+    __body->SetActive(true);
 }
 
 void PhysicsObject::disablePhysics() {
+    __body->SetActive(false);
+}
+
+void PhysicsObject::sleepPhysics() {
     __body->SetAwake(false);
+}
+
+
+b2ContactEdge* PhysicsObject::getContact() {
+    return __body->GetContactList();
 }
 
 
@@ -169,3 +204,12 @@ b2Body* PhysicsObject::createWall(cocos2d::TMXTiledMap* tmap) {
     
     return body;
 }
+
+void PhysicsObject::remove(b2Fixture* fixture) {
+    remove(fixture->GetBody());
+}
+
+void PhysicsObject::remove(b2Body* body) {
+    __world->DestroyBody(body);
+}
+

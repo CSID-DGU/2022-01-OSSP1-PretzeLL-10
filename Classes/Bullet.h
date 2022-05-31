@@ -3,7 +3,4 @@
 
 #include "Arrow.h"
 
-
-typedef BaseBullet bullet_t;
-
 #endif /* __BULLET_H__ */

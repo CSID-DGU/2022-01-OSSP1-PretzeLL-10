@@ -22,7 +22,7 @@ bool GameStateLayer::init()
 	_heroHP = std::make_pair(cocos2d::Sprite::create(), 0 );
 	_heroHP.first->setTextureRect(cocos2d::Rect(0, 0, 240, 50));
 	_heroHP.first->setPosition(cocos2d::Vec2(500, 200));
-	_heroHP.first->setColor(cocos2d::Color3B(0, 0, 255));
+    _heroHP.first->setOpacity(0.0f);
 	addChild(_heroHP.first);
 	scheduleUpdate();
 	return true;
