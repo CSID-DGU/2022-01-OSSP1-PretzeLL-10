@@ -36,12 +36,14 @@ inline float length(const cocos2d::Vec2& vec) {
 
 inline b2Vec2 normalize(b2Vec2& vec) {
     float __l = length(vec);
+    if (__l == 0 || __l == 1) return vec;
     vec = b2Vec2(vec.x/__l, vec.y/__l);
     return vec;
 }
 
 inline cocos2d::Vec2 normalize(cocos2d::Vec2& vec) {
     float __l = length(vec);
+    if (__l == 0 || __l == 1) return vec;
     vec = cocos2d::Vec2(vec.x/__l, vec.y/__l);
     return vec;
 }

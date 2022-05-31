@@ -5,17 +5,14 @@
 // Constructor, Destructor
 // ========================================================================================================== //
 
-DynamicObject::DynamicObject(std::string name, float speed, float runSpeed) {
-    __speed = speed/powf(scaleFactor, 3.0f);
-    __run_speed = runSpeed;
-    __velocity = b2Vec2(0.0f, 0.0f);
-    __current = IDLE;
-    __future = IDLE;
-    __name = name;
-    __is_flippable = true;
-    __hp = 0;
-    __damage = 0;
-}
+DynamicObject::DynamicObject(std::string name)
+: SpriteObject("", name)
+, __speed(0.0f)
+, __run_speed(1.0f)
+, __velocity(b2Vec2(0.0f, 0.0f))
+, __current(IDLE)
+, __future(IDLE)
+, __is_flippable(true) {}
 
 DynamicObject::~DynamicObject() {}
 
@@ -130,6 +127,7 @@ void DynamicObject::move() {
 
 void DynamicObject::setVelocity(const b2Vec2 velocity) {
     __velocity = velocity;
+    normalize(__velocity);
 }
 
 b2Vec2 DynamicObject::getVelocity() {
@@ -137,7 +135,7 @@ b2Vec2 DynamicObject::getVelocity() {
 }
 
 void DynamicObject::setSpeed(float speed) {
-    __speed = speed;
+    __speed = speed/powf(scaleFactor, 3.0f);
 }
 
 void DynamicObject::setRunSpeed(float runSpeed) {
@@ -203,25 +201,4 @@ void DynamicObject::stopAction(cocos2d::Action* action) {
 
 void DynamicObject::stopAllActions() {
     __sprite->stopAllActions();
-}
-
-
-int DynamicObject::getHP() {
-    return __hp;
-}
-
-void DynamicObject::setHP(int hp) {
-    __hp = hp;
-}
-
-int DynamicObject::getDamage() {
-    return __damage;
-}
-
-void DynamicObject::setDamage(int damage) {
-    __damage = damage;
-}
-
-void DynamicObject::damaged(int damage) {
-    __hp -= damage;
 }

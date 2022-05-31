@@ -73,6 +73,14 @@ void BaseWeapon::attack(bool flipped, const b2Vec2& direction) {
     runAction(seq);
 }
 
+void BaseWeapon::setDamage(int damage) {
+    __damage = damage;
+}
+
+int BaseWeapon::getDamage() {
+    return __damage;
+}
+
 bool BaseWeapon::isAttacking() {
     return !__attackTimer.isEnd();
 }
@@ -101,19 +109,6 @@ bool BaseWeapon::isCharging() {
 
 float BaseWeapon::getAttackTime() {
     return __attackTime + __revertTime + 0.02f;
-}
-
-
-void BaseWeapon::onContact(b2Contact *contact) {
-    b2Fixture* other = contact->GetFixtureB();
-    if (getCategory(other) == CATEGORY_WEAPON) {
-        other = contact->GetFixtureA();
-    }
-    
-    float other_cat = getCategory(other);
-    if (other_cat == CATEGORY_MONSTER) {
-//        auto monster = PhysicsObject::getUserData<DynamicObject*>(other);
-    }
 }
 
 

@@ -15,8 +15,8 @@ protected:
     float __chargeTime;
     
     bool* __fire_key;
-    
     float __angle;
+    int __damage;
     
     Timer __attackTimer;
     Timer __chargeTimer;
@@ -51,7 +51,8 @@ public:
     bool isCharging();
     
     virtual void attack(bool flipped, const b2Vec2& direction);
-    virtual void onContact(b2Contact* contact) override;
+    void setDamage(int damage);
+    int getDamage();
     
     static void insertCreateFunc(int tag, create_func_t func);
     static BaseWeapon* getByTag(int tag);

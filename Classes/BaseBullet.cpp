@@ -21,7 +21,15 @@ void BaseBullet::setParent(weapon_t* weapon) {
 }
 
 int BaseBullet::getDamage() {
-    if (__weapon == nullptr) return 0;
+    if (__weapon == nullptr) {
+#if COCOS2D_DEBUG > 0
+        std::string err = __name + "::";
+        err.append("weapon is not defined on bullet. ");
+        err.append("damage will be fixed to ZERO");
+        CCLOG("%s", err.data());
+#endif
+        return 0;
+    }
     return __weapon->getDamage();
 }
 

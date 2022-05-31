@@ -17,11 +17,8 @@ protected:
     ACTION __current;                                                   // Action status
     ACTION __future;                                                    // Action future
     
-    int __hp;
-    int __damage;
-    
 protected:                                                              // BaseObject should not be generated
-    DynamicObject(std::string name, float speed, float run_speed);
+    DynamicObject(std::string name);
     virtual ~DynamicObject();
     
 public:
@@ -66,12 +63,6 @@ public:
     
     void removeAfter(float delay);
     virtual void onContact(b2Contact* contact) override = 0;
-    
-    int getHP();
-    void setHP(int hp);
-    int getDamage();
-    void setDamage(int damage);
-    virtual void damaged(int damage);
     
 private:
     void removal(float t);

@@ -1,11 +1,9 @@
 #include "ProjectileObject.h"
 
 
-ProjectileObject::ProjectileObject(std::string path, std::string name) {
-    __path = path;
-    __name = name;
-    __time = Timer(true);
-}
+ProjectileObject::ProjectileObject(std::string path, std::string name)
+: SpriteObject(path, name)
+, __time(Timer(true)) {}
 
 ProjectileObject::~ProjectileObject() {}
 
@@ -20,14 +18,17 @@ bool ProjectileObject::init() {
 }
 
 void ProjectileObject::update(float dt) {
+    updateTimer(dt);
+    if (isStopped()) syncToSprite();                                                // if object is stopped, position is affected by sprite
+    else syncToPhysics();
+}
+
+void ProjectileObject::updateTimer(float dt) {
     __time.update(dt);
     if (__time.isEnd()) {
         __time.reset();
         restart();
     }
-    
-    if (__time.isRunning()) syncToSprite();                                     // if object is stopped, position is affected by sprite
-    else syncToPhysics();
 }
 
 
@@ -105,6 +106,11 @@ b2Vec2 ProjectileObject::getVelocity() {
     return __velocity;
 }
 
+bool ProjectileObject::isStopped() {
+    return __time.isRunning();
+}
+
+
 void ProjectileObject::stop(float time) {
     __velocity = __body->GetLinearVelocity();
     __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
@@ -127,4 +133,12 @@ void ProjectileObject::removal(float t) {
 
 cocos2d::Action* ProjectileObject::runAction(cocos2d::Action* action) {
     return __sprite->runAction(action);
+}
+
+void ProjectileObject::stopAction(cocos2d::Action *action) {
+    __sprite->stopAction(action);
+}
+
+void ProjectileObject::stopAllActions() {
+    __sprite->stopAllActions();
 }

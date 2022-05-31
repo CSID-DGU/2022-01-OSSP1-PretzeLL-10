@@ -13,8 +13,11 @@ public:
 private:
     std::array<bool, 6>__key;
     cocos2d::Vec2 __mouse;
-    
+
     weapon_info __weapon;
+    int __hp;
+    int __damage;
+    float __speed_bak;
 
 public:
     Hero();
@@ -37,13 +40,15 @@ public:
     
     void attack();
     void testWeapon(float t);
-    void damaged(int damage) final;
+    void damaged(int damage);
+    int getHP();
+    void setHP(int hp);
+    int getDamage();
+    void setDamage(int damage);
     
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
     void onContact(b2Contact* contact) final;
-    
-    friend class BaseWeapon;
 };
 
 #endif /* __PLAYER_H___ */

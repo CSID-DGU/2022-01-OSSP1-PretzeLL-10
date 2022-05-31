@@ -8,9 +8,6 @@
 
 class StaticObject : public cocos2d::Node, public SpriteObject, public PhysicsObject {
 protected:
-    int __damage;
-    
-protected:
     StaticObject(std::string path, std::string name);
     virtual ~StaticObject();
     
@@ -25,10 +22,8 @@ public:
     cocos2d::Size getContentSize();
     void syncToSprite();
     
-    void setDamage(int damage);
-    int getDamage();
-    
-    virtual void onContact(b2Contact* contact) override;
+private:
+    void onContact(b2Contact* contact) final;                               // Static object does not recieve contacts
 };
 
 #endif /* __STATIC_OBJECT_H__ */

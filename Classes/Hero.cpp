@@ -2,13 +2,15 @@
 
 
 Hero::Hero()
-: DynamicObject("knight_f", 3.0f, 2.0f) {
+: DynamicObject("knight_f")
+, __weapon(std::make_pair(std::vector<weapon_t*>(3), 0)) {
+    BaseMonster::addTarget(this);
     __key.fill(false);
-    __weapon = std::make_pair(std::vector<weapon_t*>(3), 0);
 }
 
-Hero::~Hero()
-{}
+Hero::~Hero() {
+    BaseMonster::deleteTarget(this);
+}
 
 
 bool Hero::init() {
@@ -22,6 +24,8 @@ bool Hero::init() {
     
     runActionByKey(IDLE);
     setHP(6);
+    setSpeed(3.0f);
+    setRunSpeed(2.0f);
     
     /* For test */
     /* ============================================= */
@@ -87,10 +91,10 @@ void Hero::move(KEY state) {
     }
     if (!__v.x && !__v.y) return;
     setFuture(MOVE);
-    normalize(__v);
     if (__key[SHIFT]) {
         setFuture(RUN);
     }
+    normalize(__v);
     setVelocity(__v);
 }
 
@@ -106,10 +110,10 @@ void Hero::stop(KEY state) {
     }
     if (!__v.x && !__v.y) setFuture(IDLE);
     else {
-        normalize(__v);
         if (__key[SHIFT]) setFuture(RUN);
         else setFuture(MOVE);
     }
+    normalize(__v);
     setVelocity(__v);
 }
 
@@ -125,31 +129,38 @@ void Hero::stopRun() {
 
 
 void Hero::attack() {
-    int current = __weapon.second;
-    if (!__weapon.first[current]) return;
-    if (__weapon.first[current]->isAttacking()) return;
+    auto weapon = __weapon.first[__weapon.second];
+    if (!weapon) return;
+    if (weapon->isAttacking()) return;
     
     auto direction = C2B(__mouse - getPosition());
     normalize(direction);
-    __weapon.first[current]->attack(isFlipped(), direction);
-    schedule(schedule_selector(Hero::testWeapon));
+    weapon->attack(isFlipped(), direction);
     
-    int type = __weapon.first[current]->getType();
+    int type = weapon->getType();
     if (type == IMMEDIATE) {
-        pause(__weapon.first[current]->getAttackTime());
+        schedule(schedule_selector(Hero::testWeapon));
+        pause(weapon->getAttackTime());
     }
     else if (type == CHARGE) {
-        static float speed_backup = getSpeed();
-        if (__key[ATTACK]) setSpeed(getSpeed()*0.25f);
+        if (__key[ATTACK]) {
+            __speed_bak = getSpeed();
+            setSpeed(getSpeed()*0.25f);
+        }
         else {
-            setSpeed(speed_backup);
-            pause(__weapon.first[current]->getAttackTime());
+            setSpeed(__speed_bak);
+            pause(weapon->getAttackTime());
         }
     }
 }
 
 void Hero::testWeapon(float t) {
     auto weapon = __weapon.first[__weapon.second];
+    if (!weapon->isAttacking()) {
+        unschedule(schedule_selector(Hero::testWeapon));
+        return;
+    }
+    
     auto contact = weapon->getContact();
     for (; contact; contact = contact->next) {
         if (!contact->contact->IsTouching()) continue;
@@ -160,16 +171,29 @@ void Hero::testWeapon(float t) {
             auto monster = PhysicsObject::getUserData<monster_t*>(other);
             monster->damaged(weapon->getDamage());
             unschedule(schedule_selector(Hero::testWeapon));
+            return;
         }
-    }
-    
-    if (!weapon->isAttacking()) {
-        unschedule(schedule_selector(Hero::testWeapon));
     }
 }
 
 void Hero::damaged(int damage) {
     __hp -= damage;
+}
+
+int Hero::getHP() {
+    return __hp;
+}
+
+void Hero::setHP(int hp) {
+    __hp = hp;
+}
+
+int Hero::getDamage() {
+    return __damage;
+}
+
+void Hero::setDamage(int damage) {
+    __damage = damage;
 }
 
 
@@ -222,7 +246,7 @@ void Hero::onContact(b2Contact* contact) {
     
     float other_cat = getCategory(other);
     if (other_cat == CATEGORY_MONSTER) {
-        auto monster = PhysicsObject::getUserData<DynamicObject*>(other);
+        auto monster = PhysicsObject::getUserData<monster_t*>(other);
         damaged(monster->getDamage());
         pause(0.5f);
         auto diff = getPosition() - monster->getPosition();

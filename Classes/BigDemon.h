@@ -15,6 +15,7 @@ public:
         IF(!BaseMonster::init());
         setHP(10);
         setDamage(1);
+        setSpeed(15.0f);
         return true;
     }
     

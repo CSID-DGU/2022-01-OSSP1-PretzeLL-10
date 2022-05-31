@@ -54,15 +54,6 @@ void StaticObject::syncToSprite() {
 }
 
 
-void StaticObject::setDamage(int damage) {
-    __damage = damage;
-}
-
-int StaticObject::getDamage() {
-    return __damage;
-}
-
-
 void StaticObject::onContact(b2Contact* contact) {
-    // Do nothing on default
+    IF_RV(true, "Can't collide on static objects");
 }

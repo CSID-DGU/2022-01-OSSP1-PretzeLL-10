@@ -7,7 +7,7 @@
 
 class Bow : public BaseWeapon {
 protected:
-//    Bow() : BaseWeapon("bow", 0, 0.1f, 0.0f, 0.5f) {}
+//    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.5f) {}
     Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.0f) {}               // testing
     virtual ~Bow() {}
     
