@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="25" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" source="0x72_DungeonTilesetII_v1.4.tsx"/>
+ <tileset firstgid="1025" source="modify_wall_v4.tsx"/>
+ <tileset firstgid="1025" source="MetaSet.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="25" height="16">
+  <data encoding="base64" compression="zlib">
+   eJy1lOENgyAQhY/EURzFpGvww0laBiGt7mGatO7RpnaNPiImlHBAkZp8EY33ng8OiIgOguhJPE2EWB10NdkLz7LFvQNtJty37nvo+h5ywPhYCaMX8qilz3l0nsdppwf09D9yKCbHKEjewEuEPUrXyHhc0VdnMEB7Bm/GozTPAu07uKxIjOUS8FBe/tT8uOCf9bxmMFlMJvmwHinNX+YKa6BHuw9r9q5yPFK9W8rWI31iD+7ZG7EcobnKXZtQfzMeX2dbT/nnI1fjeuAMNp5TiCYDrha6k9H/AAVM5no=
+  </data>
+ </layer>
+ <layer id="6" name="door meta" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DoAiYWCKalmfSwYxSMgqEIAJyAADE=
+  </data>
+ </layer>
+ <layer id="4" name="pillar" width="25" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlIJlNFKLDI6RYBY2tcSAZySYhU0tuYCaZg0XQG46IQWQm05IcRu+uMVnDrluI8UcaqW7kZx+ATqWDe0=
+  </data>
+ </layer>
+ <layer id="5" name="wall meta" width="25" height="16" opacity="0.4">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAfYGShPsZmB7XdTEiMFDuJdTMxduCydzDYgS+OiLUDl1pSzKYE0NMOdLuoYS8hc8m1g5AZxNpBrBwl+Xyg7SCkjh5lIi0BAKDPAc0=
+  </data>
+ </layer>
+</map>
