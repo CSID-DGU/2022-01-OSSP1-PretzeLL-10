@@ -8,6 +8,7 @@
 #include <cmath>
 #include <random>
 #include <functional>
+#include <limits>
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -73,7 +74,7 @@ static inline const float VecToDegree(const b2Vec2& vec) {
 }
 
 template <typename t>
-void swap(t* first, t* second) {
+inline void swap(t* first, t* second) {
     t* temp = first;
     first = second;
     second = temp;
@@ -94,41 +95,40 @@ public:
         __invert = inverted;
     }
     
-    void update(float dt) {
-        if (__time > 0) {
-            __time -= dt;
-        }
+    inline void update(float dt) {
+        if (__end) return;
+        if (__time > 0) __time -= dt;
         if (__time < 0) __end = true;
     }
     
-    void reset() {
+    inline void reset() {
         set(0.0f);
         if (!__invert) __end = true;
     }
     
-    void set(float time) {
+    inline void set(float time) {
         __run_time = time;
         __time = time;
         __end = false;
     }
     
-    float getSetTime() {
+    inline float getSetTime() {
         return __run_time;
     }
     
-    float getLeft() {
+    inline float getLeft() {
         return __time;
     }
     
-    float getRunTime() {
+    inline float getRunTime() {
         return __run_time - __time;
     }
     
-    bool isEnd() {
+    inline bool isEnd() {
         return __end;
     }
     
-    bool isRunning() {
+    inline bool isRunning() {
         return __time > 0;
     }
 };
