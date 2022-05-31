@@ -30,15 +30,14 @@ bool Hero::init() {
     
     /* For test */
     /* ============================================= */
-//    __weapon.first[0] = Bow::create();
-//    addChild(__weapon.first[0]);
-//    __weapon.first[0]->activate();
-//    __weapon.first[0]->registerKey(&__key[ATTACK]);
+    __weapon.first[0] = Knife::create();
+    addChild(__weapon.first[0]);
+    __weapon.first[0]->activate();
+    __weapon.first[0]->registerKey(&__key[ATTACK]);
     /* ============================================= */
     
     return true;
 }
-
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
