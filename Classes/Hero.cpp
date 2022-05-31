@@ -26,13 +26,14 @@ bool Hero::init() {
     setHP(6);
     setSpeed(3.0f);
     setRunSpeed(2.0f);
+    setTag(TAG_PLAYER);
     
     /* For test */
     /* ============================================= */
-    __weapon.first[0] = Bow::create();
-    addChild(__weapon.first[0]);
-    __weapon.first[0]->activate();
-    __weapon.first[0]->registerKey(&__key[ATTACK]);
+//    __weapon.first[0] = Bow::create();
+//    addChild(__weapon.first[0]);
+//    __weapon.first[0]->activate();
+//    __weapon.first[0]->registerKey(&__key[ATTACK]);
     /* ============================================= */
     
     return true;

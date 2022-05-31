@@ -1,13 +1,20 @@
 #include "EventHandler.h"
 
 
-void EventHandler::setup(cocos2d::Layer* layer, Hero* hero) {
-    _hero = hero;
+EventHandler::EventHandler() {}
+
+EventHandler::~EventHandler() {
+    _eventDispatcher->removeEventListener(_keyboard_event);
+    _eventDispatcher->removeEventListener(_mouse_listener);
+}
+
+
+void EventHandler::setup(cocos2d::Layer* layer) {
     _slot = layer->getChildByName<cocos2d::Layer*>("state_layer")->getChildByName<SlotMachine*>("slot_machine");
     
-    auto _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
-    auto _keyboard_event = cocos2d::EventListenerKeyboard::create();
-    auto _mouse_listener = cocos2d::EventListenerMouse::create();
+    _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
+    _keyboard_event = cocos2d::EventListenerKeyboard::create();
+    _mouse_listener = cocos2d::EventListenerMouse::create();
     
     _keyboard_event->onKeyPressed = CC_CALLBACK_2(EventHandler::onKeyPressed, this);
     _keyboard_event->onKeyReleased = CC_CALLBACK_2(EventHandler::onKeyReleased, this);
@@ -23,6 +30,8 @@ void EventHandler::setup(cocos2d::Layer* layer, Hero* hero) {
 
 
 void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     switch (key) {
         case KEY_GROUP_UP           : _hero->move(UP); break;
         case KEY_GROUP_LEFT         : _hero->move(LEFT); break;
@@ -41,6 +50,8 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
 }
 
 void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     switch (key) {
         case KEY_GROUP_UP           : _hero->stop(UP); break;
         case KEY_GROUP_DOWN         : _hero->stop(DOWN); break;
@@ -52,6 +63,8 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
 }
 
 void EventHandler::onMouseUp(cocos2d::EventMouse *event) {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     switch (event->getMouseButton()) {
         case mouseButton_t::BUTTON_LEFT : _hero->updateKey(ATTACK, false); _hero->attack(); break;
         default: break;
@@ -59,6 +72,8 @@ void EventHandler::onMouseUp(cocos2d::EventMouse *event) {
 }
 
 void EventHandler::onMouseDown(cocos2d::EventMouse *event) {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     switch (event->getMouseButton()) {
         case mouseButton_t::BUTTON_LEFT : _hero->updateKey(ATTACK, true); _hero->attack(); break;
         default: break;
@@ -66,6 +81,8 @@ void EventHandler::onMouseDown(cocos2d::EventMouse *event) {
 }
 
 void EventHandler::onMouseMove(cocos2d::EventMouse *event) {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     cocos2d::Vec2 pos;
     pos.x = event->getCursorX();
     pos.y = event->getCursorY();
@@ -93,6 +110,8 @@ void EventHandler::EndContact(b2Contact *contact) {
 
 
 void EventHandler::test() {
+    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+    if (!_hero) return;
     auto monster = BigZombie::create();
     _hero->getParent()->addChild(monster);
     monster->setAbsolutePosition(500, 700);

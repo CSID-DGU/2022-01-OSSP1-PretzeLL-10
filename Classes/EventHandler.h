@@ -14,13 +14,19 @@ if (categoryA | categoryB || bit) return;
 
 class EventHandler : public cocos2d::Node, public b2ContactListener {
 private:
-    Hero* _hero;
+    cocos2d::EventDispatcher* _event_dispatcher;
+    cocos2d::EventListenerKeyboard* _keyboard_event;
+    cocos2d::EventListenerMouse* _mouse_listener;
+    
     SlotMachine* _slot;
     
 public:
+    EventHandler();
+    virtual ~EventHandler();
+    
     CREATE_FUNC(EventHandler);
     
-    void setup(cocos2d::Layer* layer, Hero* hero);
+    void setup(cocos2d::Layer* layer);
     
     void onKeyPressed(keyCode_t key, cocos2d::Event* event);
     void onKeyReleased(keyCode_t key, cocos2d::Event* event);
