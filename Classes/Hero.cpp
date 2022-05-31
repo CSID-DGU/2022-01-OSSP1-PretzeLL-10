@@ -38,6 +38,7 @@ bool Hero::init() {
     return true;
 }
 
+
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
 }
