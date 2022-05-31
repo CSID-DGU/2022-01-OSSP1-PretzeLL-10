@@ -95,7 +95,7 @@ void GameManager::startNewGame()
 	_layer->addChild(_state_layer);
     
     auto event = EventHandler::create();
-    event->setup(_layer, _hero);
+    event->setup(_layer);
     _layer->addChild(event);
 }
 

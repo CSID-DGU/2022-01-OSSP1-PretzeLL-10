@@ -35,6 +35,8 @@
 #define KEY_GROUP_SHIFT                 keyCode_t::KEY_SHIFT: case keyCode_t::KEY_RIGHT_SHIFT
 #define KEY_GROUP_M                     keyCode_t::KEY_M: case keyCode_t::KEY_CAPITAL_M
 
+#define TAG_PLAYER                      0x1000
+
 #ifndef __KEYCODE_T__
 #define __KEYCODE_T__
 typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
