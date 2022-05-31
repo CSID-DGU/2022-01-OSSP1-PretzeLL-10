@@ -17,7 +17,7 @@ protected:
     AnimationMap __anim;                                                // Animation
     
 protected:
-    SpriteObject();
+    SpriteObject(std::string path = "", std::string name = "");
     virtual ~SpriteObject();
     
 public:

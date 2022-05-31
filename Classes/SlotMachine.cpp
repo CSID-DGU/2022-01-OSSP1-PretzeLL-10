@@ -15,7 +15,7 @@ int SlotMachine::counter = 0;
 
 bool SlotMachine::init() {
     /* Super init */
-    IF(!Sprite::init());
+    IF(!Node::init());
     
     /* Init weapons */
     IF(!createWeapon<AnimeSword>("anime_sword"));
@@ -45,7 +45,6 @@ bool SlotMachine::init() {
     /* Init background */
     auto sprite = cocos2d::Sprite::create("sprite/slotmachineStyle.png");
     IF(!sprite);
-    sprite->setScale(1.0f);
     addChild(sprite, 0);
         
     /* Init laber */
@@ -65,8 +64,8 @@ bool SlotMachine::init() {
     rand = std::uniform_int_distribution<int>(0, weapons.size()-1);
     
     /* Init clipper */
-    auto size = cocos2d::Size(600.0f, 250.0f);
-    auto pos = cocos2d::Vec2(-250.0f, -150.0f);
+    auto size = cocos2d::Size(600.0f, 200.0f);
+    auto pos = cocos2d::Vec2(-250.0f, -100.0f);
     auto rect = cocos2d::Rect(pos, size);
     auto clipper = cocos2d::ClippingRectangleNode::create(rect);
     IF(!clipper);
@@ -84,6 +83,7 @@ bool SlotMachine::init() {
     createItem();
     setPosition(640.0f, 100.0f);
     setScale(0.5f);
+    setName("slot_machine");
 
     return true;
 }
@@ -147,7 +147,7 @@ void SlotMachine::createItem() {
         auto texture = weapons[rand_int]->getTexture();
         auto sprite = cocos2d::Sprite::createWithTexture(texture);
         
-        sprite->setScale(2.0f);
+        sprite->setScale(1.75f);
         sprite->setTag(weapons[rand_int]->getTag());
         layers[i]->addChild(sprite);
     }

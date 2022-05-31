@@ -6,10 +6,18 @@
 
 class BigZombie : public BaseMonster {
 public:
-    BigZombie() : BaseMonster("big_zombie", 3) {}
+    BigZombie() : BaseMonster("big_zombie") {}
     ~BigZombie() {}
     
     CREATE_FUNC(BigZombie);
+    
+    bool init() final {
+        IF(!BaseMonster::init());
+        setHP(20);
+        setDamage(2);
+        setSpeed(7.0f);
+        return true;
+    }
     
     void attack() final {}
 };

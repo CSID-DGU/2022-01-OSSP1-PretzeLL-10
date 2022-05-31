@@ -1,7 +1,9 @@
 #include "SpriteObject.h"
 
 
-SpriteObject::SpriteObject() {}
+SpriteObject::SpriteObject(std::string path, std::string name)
+: __path(path)
+, __name(name) {}
 
 SpriteObject::~SpriteObject() {
     for (auto i : __inf_anim) i->release();
