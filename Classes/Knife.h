@@ -7,7 +7,7 @@
 
 class Knife : public BaseWeapon {
 protected:
-    Knife() : BaseWeapon("regular_sword", 1, 0.1f, 0.0f, 0.2f) {}
+    Knife() : BaseWeapon("regular_sword", 1, 0.2f, 0.1f) {}
     virtual ~Knife() {}
     
 public:
@@ -26,6 +26,15 @@ public:
         knife->PhysicsObject::scale(0.5);
         knife->move();
         knife->setInitialPos();
+        
+        float angle = -30.0f;
+        if (flipped) angle *= -1;
+        auto up = cocos2d::RotateBy::create(0.0f, angle);
+        auto down = cocos2d::RotateBy::create(0.1f, angle * -3.0f);
+        auto revoke = cocos2d::RotateTo::create(0.1f, getRotation());
+        auto seq = cocos2d::Sequence::create(up, down, revoke, nullptr);
+        runAction(seq);
+        
     }
 };
 

@@ -59,11 +59,11 @@ void BaseMonster::attack() {
 
 void BaseMonster::damaged(int damage) {
     if ((__hp -= damage) <= 0) {
+        unschedule(schedule_selector(BaseMonster::behavior));
         setCategory(CATEGORY_MONSTER, MASK_NONE);
+        setVelocity(b2Vec2(0.0f, 0.0f));
         stopAllActions();
         removeAfter(1.5f);
-        setVelocity(b2Vec2(0.0f, 0.0f));
-        unschedule(schedule_selector(BaseMonster::behavior));
         
         auto delay = cocos2d::DelayTime::create(0.5f);
         auto fade = cocos2d::FadeOut::create(1.0f);
