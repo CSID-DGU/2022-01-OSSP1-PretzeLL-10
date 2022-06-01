@@ -5,6 +5,7 @@
 #include <utility>
 #include "GameMap.h"
 #include "GameStateLayer.h"
+#include "BaseMonster.h"
 #include "EventHandler.h"
 
 class GameManager
@@ -15,6 +16,7 @@ public:
 
     cocos2d::Layer* getLayer() const;
     Hero* getHero() const;      // for test
+    std::vector<BaseMonster*> monsterVec;
 
     void startNewGame();
     

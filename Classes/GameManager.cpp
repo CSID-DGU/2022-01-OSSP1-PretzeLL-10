@@ -99,6 +99,11 @@ void GameManager::startNewGame()
     _layer->addChild(event);
 }
 
+void GameManager::createMonster()
+{
+
+}
+
 void GameManager::goNextStage()
 {
 
