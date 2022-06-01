@@ -48,7 +48,7 @@ public:
     
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
-    DIRECTION getDirection();
+    DIRECTION getDirection(bool isAbleToMove);
     void onContact(b2Contact* contact) final;
 };
 
