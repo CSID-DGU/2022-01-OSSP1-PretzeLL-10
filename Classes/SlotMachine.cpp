@@ -84,7 +84,7 @@ bool SlotMachine::init() {
     setPosition(640.0f, 100.0f);
     setScale(0.5f);
     setName("slot_machine");
-
+        
     return true;
 }
 

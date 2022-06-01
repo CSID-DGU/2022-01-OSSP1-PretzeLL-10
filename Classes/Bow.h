@@ -8,7 +8,7 @@
 class Bow : public BaseWeapon {
 protected:
 //    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.5f) {}
-    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.0f) {}               // testing
+    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f) {}               // testing
     virtual ~Bow() {}
     
 public:
@@ -24,6 +24,7 @@ public:
         arrow->setSpeed(25.0f);
         arrow->setRotation(VecToDegree(direction));
         arrow->setVelocity(direction);
+        arrow->PhysicsObject::scale(0.5f);
         arrow->move();
     }
 };
