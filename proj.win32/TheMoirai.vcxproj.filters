@@ -263,6 +263,9 @@
     <ClInclude Include="..\Classes\EventHandler.h">
       <Filter>src\Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AxeProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

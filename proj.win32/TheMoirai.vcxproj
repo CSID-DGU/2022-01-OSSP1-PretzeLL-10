@@ -194,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\DynamicObject.h" />
     <ClInclude Include="..\Classes\EventHandler.h" />
     <ClInclude Include="..\Classes\FlaskBlue.h" />
+    <ClInclude Include="..\Classes\AxeProjectile.h" />
     <ClInclude Include="..\Classes\GameManager.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h" />
