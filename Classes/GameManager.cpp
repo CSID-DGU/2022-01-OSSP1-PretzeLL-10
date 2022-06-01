@@ -240,7 +240,8 @@ void GameManager::update(float dt)
 {
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 	updateMapClear();
-    switch (_hero->getDirection()) {
+    bool isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
+    switch (_hero->getDirection(isClear)) {
         case MAP_UP     : loadUpMap();    break;
         case MAP_DOWN   : loadDownMap();  break;
         case MAP_LEFT   : loadLeftMap();  break;
