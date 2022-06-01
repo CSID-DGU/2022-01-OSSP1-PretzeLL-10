@@ -14,3 +14,13 @@ TMXTiledMap* GameMap::getTmxTiledMap() const
 {
     return _tmxTiledMap;
 }
+
+void GameMap::setClear()
+{
+    isClear = true;
+}
+
+bool GameMap::getIsClear()
+{
+    return isClear;
+}
