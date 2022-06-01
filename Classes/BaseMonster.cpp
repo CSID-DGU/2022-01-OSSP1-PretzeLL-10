@@ -15,13 +15,16 @@ std::list<DynamicObject*> BaseMonster::__target = std::list<DynamicObject*>();
 bool BaseMonster::init() {
     IF(!DynamicObject::init());
     
+    AI = MonsterAI::create();
+
+    addChild(AI);
     auto size = C2B(getContentSize());
     size.x *= 1.3f;
     size.y *= 1.4f;
     IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -0.3f), this));
     setCategory(CATEGORY_MONSTER, MASK_MONSTER);
     schedule(schedule_selector(BaseMonster::behavior));
-    
+    scheduleUpdate();
     runActionByKey(IDLE);
     
     return true;
@@ -29,28 +32,42 @@ bool BaseMonster::init() {
 
 
 void BaseMonster::behavior(float dt) {
-    setVelocity(b2Vec2(0.0f, 0.0f));
-    followTarget();
+    State state = AI->getState();
+    switch (state)
+    {
+    case State::ATTACK:
+        std::cout << "Attack" << std::endl;
+        AI->setState(State::WAIT, 1);
+        break;
+    case State::MOVE:
+        followTarget();
+        break;
+    case State::ROAM:
+        roaming();
+        break;
+    case State::DIE:
+        dieing();
+        break;
+    case State::WAIT:
+        doNothing();
+        break;
+    default:
+        setVelocity(b2Vec2(0.0f, 0.0f));
+    }
 }
 
-void BaseMonster::followTarget() {
-    float distance = std::numeric_limits<float>::max();
-    auto diff = cocos2d::Vec2::ZERO;
-    
-    for (auto iter : __target) {
-        diff = iter->getPosition() - getPosition();
-        float diff_len = length(diff);
-        if (distance > diff_len) distance = diff_len;
-    }
-    
-    if (diff == cocos2d::Vec2::ZERO) return;
-    normalize(diff);
-    setVelocity(C2B(diff));
-    setFuture(MOVE);
-}
+void BaseMonster::followTarget() {}
 
 void BaseMonster::doNothing() {
+    setVelocity(b2Vec2(0.0f, 0.0f));
     setFuture(IDLE);
+}
+
+void BaseMonster::roaming()
+{
+    cocos2d::Vec2 vec = AI->getRoamVec();
+    setVelocity(b2Vec2(vec.x, vec.y));
+    setFuture(MOVE);
 }
 
 void BaseMonster::attack() {
@@ -72,6 +89,20 @@ void BaseMonster::damaged(int damage) {
     }
 }
 
+void BaseMonster::dieing()
+{
+    setCategory(CATEGORY_MONSTER, MASK_NONE);
+    stopAllActions();
+    removeAfter(1.5f);
+    setVelocity(b2Vec2(0.0f, 0.0f));
+    unschedule(schedule_selector(BaseMonster::behavior));
+
+    auto delay = cocos2d::DelayTime::create(0.5f);
+    auto fade = cocos2d::FadeOut::create(1.0f);
+    auto seq = cocos2d::Sequence::createWithTwoActions(delay, fade);
+    runAction(seq);
+}
+
 
 int BaseMonster::getHP() {
     return __hp;
@@ -83,6 +114,21 @@ void BaseMonster::setHP(int hp) {
 
 int BaseMonster::getDamage() {
     return __damage;
+}
+
+std::list<DynamicObject*> BaseMonster::getTarget()
+{
+    return __target;
+}
+
+float BaseMonster::getAttackRange()
+{
+    return attackRange;
+}
+
+float BaseMonster::getDetectRange()
+{
+    return detectRange;
 }
 
 void BaseMonster::setDamage(int damage) {
