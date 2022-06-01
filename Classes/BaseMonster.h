@@ -4,40 +4,50 @@
 #include "DynamicObject.h"
 #include "BaseBullet.h"
 #include "BaseWeapon.h"
-
+#include "MonsterAI.h"
 
 class BaseMonster : public DynamicObject {
 protected:
     typedef DynamicObject target_t;
-    
+
     static std::list<target_t*> __target;
     int __hp;
     int __damage;
-    
+
+    float attackRange;
+    float detectRange;
+
+    MonsterAI* AI;
 protected:
     BaseMonster(std::string name);                      // Constructor, initialize variables
     virtual ~BaseMonster();                             // Destructor
-    
+
 public:
-//    CREATE_FUNC(Monster);                          
-    
+    //    CREATE_FUNC(Monster);                          
+
     virtual bool init() override;                       // Initialize
-    
+
     virtual void behavior(float dt);
+    virtual void roaming();
     virtual void attack();                              // Need update!
     virtual void damaged(int damage);
-    void followTarget();
+    void dieing();
+    virtual void followTarget();
     void doNothing();
-    
+
     int getHP();
     void setHP(int hp);
     int getDamage();
     void setDamage(int damage);
-    
+    std::list<target_t*> getTarget();
+
     virtual void onContact(b2Contact* contact) override;
-    
+
     static void addTarget(target_t* target);
     static void deleteTarget(target_t* target);
+
+    float getAttackRange();
+    float getDetectRange();
 };
 
 typedef BaseMonster monster_t;
