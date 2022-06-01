@@ -112,8 +112,11 @@ void EventHandler::EndContact(b2Contact *contact) {
 void EventHandler::test() {
     auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
     if (!_hero) return;
-    auto monster = BigZombie::create();
-    _hero->getParent()->addChild(monster);
-    monster->setAbsolutePosition(500, 700);
-    monster->setScale(2.0f);
+    auto monster1 = BigZombie::create();
+    auto monster2 = Goblin::create();
+    _hero->getParent()->addChild(monster1);
+    monster1->setAbsolutePosition(500, 700);
+    monster1->setScale(2.0f);
+    _hero->getParent()->addChild(monster2);
+    monster2->setAbsolutePosition(300, 400);
 }
