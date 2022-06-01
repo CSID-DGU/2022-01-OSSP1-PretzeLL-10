@@ -36,8 +36,7 @@ void BaseMonster::behavior(float dt) {
     switch (state)
     {
     case State::ATTACK:
-        std::cout << "Attack" << std::endl;
-        AI->setState(State::WAIT, 1);
+        attack();
         break;
     case State::MOVE:
         followTarget();
@@ -64,14 +63,11 @@ void BaseMonster::doNothing() {
 }
 
 void BaseMonster::roaming()
-{
-    cocos2d::Vec2 vec = AI->getRoamVec();
-    setVelocity(b2Vec2(vec.x, vec.y));
-    setFuture(MOVE);
-}
+{}
 
 void BaseMonster::attack() {
     // Needs override
+    std::cout << "Attack" << std::endl;
 }
 
 void BaseMonster::damaged(int damage) {

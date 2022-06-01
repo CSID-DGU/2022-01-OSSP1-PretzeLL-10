@@ -37,7 +37,16 @@ public:
         setVelocity(C2B(diff));
         setFuture(MOVE);
     }
-    void attack() override {}
+    void roaming()
+    {
+        cocos2d::Vec2 vec = AI->getRoamVec();
+        setVelocity(b2Vec2(vec.x, vec.y));
+        setFuture(MOVE);
+    }
+    virtual void attack() override
+    {
+        AI->setState(State::WAIT, 1);
+    }
 };
 
 #endif /* __BIGDEMON_H__ */
