@@ -4,7 +4,8 @@
 #include "BaseWeapon.h"
 #include "AxeProjectile.h"
 
-class Axe : public BaseWeapon {
+class Axe : public BaseWeapon
+{
 protected:
 	Axe() : BaseWeapon("axe", 1, 0.2f, 0.0f) {}
 	virtual ~Axe() {}
@@ -12,12 +13,15 @@ protected:
 public:
 	CREATE_FUNC(Axe);
 
-	void attack(bool flipped, const b2Vec2& direction) final {
-		if (!isAttackAble()) return;
+	void attack(bool flipped, const b2Vec2 &direction) final
+	{
+		if (!isAttackAble())
+			return;
 
 		auto axe = AxeProjectile::create();
 
-		if (!axe) return;
+		if (!axe)
+			return;
 		addBullet(axe);
 		axe->setParent(this);
 		axe->setSpeed(25.0f);
@@ -28,7 +32,8 @@ public:
 		axe->setInitialPos();
 
 		float angle = 30.0f;
-		if (flipped) angle *= -1;
+		if (flipped)
+			angle *= -1;
 		auto up = cocos2d::RotateBy::create(0.0f, angle);
 		auto down = cocos2d::RotateBy::create(0.07f, angle * -3.0f);
 		auto revoke = cocos2d::RotateTo::create(0.03f, getRotation());
