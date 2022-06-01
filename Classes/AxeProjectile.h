@@ -1,5 +1,5 @@
-#ifndef __AxeProjectile_H__
-#define __AxeProjectile_H__
+#ifndef __AXEPROJECTILE_H__
+#define __AXEPROJECTILE_H__
 
 //#include "utility.h"
 #include "BaseBullet.h"
@@ -60,4 +60,4 @@ public:
 	}
 };
 
-#endif /* __AxeProjectile_H__ */
+#endif /* __AXEPROJECTILE_H__ */

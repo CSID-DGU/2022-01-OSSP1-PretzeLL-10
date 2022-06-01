@@ -30,7 +30,7 @@ bool Hero::init()
 
     /* For test */
     /* ============================================= */
-    __weapon.first[0] = Axe::create();
+    __weapon.first[0] = MagicStaff::create();
     addChild(__weapon.first[0]);
     __weapon.first[0]->activate();
     __weapon.first[0]->registerKey(&__key[ATTACK]);
