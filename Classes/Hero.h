@@ -13,6 +13,7 @@ public:
 private:
     std::array<bool, 6>__key;
     cocos2d::Vec2 __mouse;
+    DIRECTION __map_dir;
 
     weapon_info __weapon;
     int __hp;
@@ -47,6 +48,7 @@ public:
     
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
+    DIRECTION getDirection();
     void onContact(b2Contact* contact) final;
 };
 

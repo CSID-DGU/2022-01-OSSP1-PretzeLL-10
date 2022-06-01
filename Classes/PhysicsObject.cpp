@@ -171,39 +171,63 @@ b2World* PhysicsObject::getWorld() {
 }
 
 b2Body* PhysicsObject::createWall(cocos2d::TMXTiledMap* tmap) {
-    auto metaSet = tmap->getLayer(WALL_LAYER);
-    if(!metaSet) return nullptr;
+    auto wall = tmap->getLayer(WALL_LAYER);
+    auto door = tmap->getLayer(DOOR_LAYER);
+    if(!wall || !door) return nullptr;
     auto size = tmap->getTileSize()/PTM_RATIO*1.6f;
-    metaSet->setVisible(false);
+    wall->setVisible(false);
+    door->setVisible(false);
     
     b2BodyDef bodyDef;
-    b2PolygonShape shape;
-    b2FixtureDef fixtureDef;
     bodyDef.type = b2_staticBody;
     bodyDef.position.Set(size.width, size.height);
-    b2Body* body = __world->CreateBody(&bodyDef);
+    b2Body* body = PhysicsObject::getWorld()->CreateBody(&bodyDef);
     if(!body) return body;
     
-    auto layerSize = metaSet->getLayerSize();
+    auto layerSize = wall->getLayerSize();
     for (int i = 0; i < layerSize.width; i++) {
         for (int j = 0; j < layerSize.height; j++) {
-            auto gid = metaSet->getTileGIDAt(cocos2d::Vec2(i, j));
-            if (gid) {
-                auto pos = metaSet->getPositionAt(cocos2d::Vec2(i, j))/PTM_RATIO;
-                shape.SetAsBox(size.width, size.height, C2B(pos), 0.0f);
-                fixtureDef.shape = &shape;
-                fixtureDef.density = 1.0f;
-                fixtureDef.friction = 0.1f;
-                fixtureDef.restitution = 0.0f;
-                fixtureDef.filter.categoryBits = CATEGORY_WALL;
-                fixtureDef.filter.maskBits = MASK_WALL;
-                if(!body->CreateFixture(&fixtureDef)) return body;
+            auto gid_wall = wall->getTileGIDAt(cocos2d::Vec2(i, j));
+            auto gid_door = door->getTileGIDAt(cocos2d::Vec2(i, j));
+            if (gid_wall) {
+                auto pos = wall->getPositionAt(cocos2d::Vec2(i, j))/PTM_RATIO;
+                if (!createBlock(body, size, pos, CATEGORY_WALL)) return nullptr;
+            }
+            if (gid_door) {
+                auto pos = wall->getPositionAt(cocos2d::Vec2(i, j))/PTM_RATIO;
+                if (!createBlock(body, size, pos, CATEGORY_DOOR)) return nullptr;
             }
         }
     }
     
     return body;
 }
+
+bool PhysicsObject::createBlock(b2Body *body, cocos2d::Size size, cocos2d::Vec2 pos, int type) {
+    b2PolygonShape shape;
+    shape.SetAsBox(size.width, size.height, C2B(pos), 0.0f);
+    
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.0f;
+    if (type == CATEGORY_WALL) {
+        fixtureDef.filter.categoryBits = CATEGORY_WALL;
+        fixtureDef.filter.maskBits = MASK_WALL;
+    }
+    else if (type == CATEGORY_DOOR) {
+        fixtureDef.filter.categoryBits = CATEGORY_DOOR;
+        fixtureDef.filter.maskBits = MASK_DOOR;
+    }
+     
+    if(!body->CreateFixture(&fixtureDef)) {
+        PhysicsObject::getWorld()->DestroyBody(body);
+        return false;
+    }
+    return true;
+}
+
 
 void PhysicsObject::remove(b2Fixture* fixture) {
     remove(fixture->GetBody());
