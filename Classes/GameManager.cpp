@@ -14,10 +14,8 @@ GameManager* GameManager::getInstance()
 
 void GameManager::init()
 {
-}
-
-void GameManager::makeGameMap()
-{
+	mapWidth = 5;
+	mapHeight = 5;
 	_gameMap = new GameMap * *[mapWidth];
 	for (int i = 0; i < mapWidth; i++)
 	{
@@ -27,18 +25,14 @@ void GameManager::makeGameMap()
 	{
 		for (int j = 0; j < mapHeight; j++)
 		{
-			if (j % 2 == 0)
-				if (i % 2 == 0)
-					_gameMap[i][j] = new GameMap("tmx/samplemap0.tmx");
-				else
-					_gameMap[i][j] = new GameMap("tmx/samplemap1.tmx");
-			else
-				if (i % 2 == 0)
-					_gameMap[i][j] = new GameMap("tmx/samplemap2.tmx");
-				else
-					_gameMap[i][j] = new GameMap("tmx/samplemap3.tmx");
+			_gameMap[i][j] = NULL;
 		}
 	}
+}
+
+void GameManager::makeGameMap()
+{
+	mapManager.makeGameMap(_gameMap);
 }
 
 void GameManager::deleteGameMap()
@@ -99,6 +93,11 @@ void GameManager::startNewGame()
     _layer->addChild(event);
 }
 
+void GameManager::createMonster()
+{
+
+}
+
 void GameManager::goNextStage()
 {
 
@@ -152,6 +151,8 @@ void GameManager::loadUpMap()
 		return;
 	else
 	{
+		if (_gameMap[currentPosition.first][currentPosition.second + 1] == nullptr)
+			return;
 		loadGameMap(currentPosition.first, currentPosition.second + 1);
 		currentPosition.second++;
 	}
@@ -163,6 +164,8 @@ void GameManager::loadDownMap()
 		return;
 	else
 	{
+		if (_gameMap[currentPosition.first][currentPosition.second - 1] == nullptr)
+			return;
 		loadGameMap(currentPosition.first, currentPosition.second - 1);
 		currentPosition.second--;
 	}
@@ -174,6 +177,8 @@ void GameManager::loadRightMap()
 		return;
 	else
 	{
+		if (_gameMap[currentPosition.first + 1][currentPosition.second] == nullptr)
+			return;
 		loadGameMap(currentPosition.first + 1, currentPosition.second);
 		currentPosition.first++;
 		_hero->setAbsolutePosition(500, 500);
@@ -186,6 +191,8 @@ void GameManager::loadLeftMap()
 		return;
 	else
 	{
+		if (_gameMap[currentPosition.first - 1][currentPosition.second] == nullptr)
+			return;
 		loadGameMap(currentPosition.first - 1, currentPosition.second);
 		currentPosition.first--;
 	}

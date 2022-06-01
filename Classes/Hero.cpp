@@ -30,15 +30,18 @@ bool Hero::init() {
     
     /* For test */
     /* ============================================= */
-//    __weapon.first[0] = Bow::create();
-//    addChild(__weapon.first[0]);
-//    __weapon.first[0]->activate();
-//    __weapon.first[0]->registerKey(&__key[ATTACK]);
+    __weapon.first[0] = Knife::create();
+    addChild(__weapon.first[0]);
+    __weapon.first[0]->activate();
+    __weapon.first[0]->registerKey(&__key[ATTACK]);
+    __weapon.first[0]->setRotation(__weapon.first[0]->getAngle());
+    float y = getContentSize().width/-2.0f;
+    __weapon.first[0]->setPosition(0.0f, y);
+    __weapon.first[0]->setScale(0.8f);
     /* ============================================= */
     
     return true;
 }
-
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
@@ -50,7 +53,9 @@ void Hero::updateKey(KEY key, bool state) {
 
 
 void Hero::flip() {
-    DynamicObject::flip();
+    float x_diff = __mouse.x - getPositionX();
+    float sprite_x = __sprite->getScaleX();
+    if (x_diff * sprite_x < 0.0f) DynamicObject::flip();
     flipWeapon();
 }
 
@@ -60,10 +65,7 @@ bool Hero::isFlipNeeded() {
     if (weapon) {
         if (weapon->isAttacking()) return false;
     }
-    
-    float x_diff = __mouse.x - getPositionX();
-    float sprite_x = __sprite->getScaleX();
-    return x_diff * sprite_x < 0.0f;
+    return true;
 }
 
 void Hero::flipWeapon() {
@@ -138,7 +140,6 @@ void Hero::attack() {
     int type = weapon->getType();
     if (type == IMMEDIATE) {
         schedule(schedule_selector(Hero::testWeapon));
-        pause(weapon->getAttackTime());
     }
     else if (type == CHARGE) {
         if (__key[ATTACK]) {
@@ -147,7 +148,6 @@ void Hero::attack() {
         }
         else {
             setSpeed(__speed_bak);
-            pause(weapon->getAttackTime());
         }
     }
 }
@@ -220,7 +220,7 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     
     for (auto iter : __weapon.first) {
         if (!iter) continue;
-        iter->setRotation(20.0f);
+        iter->setRotation(iter->getAngle());
         float y = getContentSize().width/-2.0f;
         iter->setPosition(0.0f, y);
         addChild(iter, 0);

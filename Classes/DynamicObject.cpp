@@ -143,7 +143,7 @@ void DynamicObject::setRunSpeed(float runSpeed) {
 }
 
 float DynamicObject::getSpeed() {
-    return __speed;
+    return __speed*powf(scaleFactor, 3.0f);
 }
 
 float DynamicObject::getRunSpeed() {
