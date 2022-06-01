@@ -39,6 +39,7 @@ public:
     void setPosition(const float x, const float y) final;
     void setAbsolutePosition(const cocos2d::Vec2& position);
     void setAbsolutePosition(const float x, const float y);
+    cocos2d::Vec2 getAbsolutePosition();
     cocos2d::Size getContentSize();
     void syncToPhysics();
     

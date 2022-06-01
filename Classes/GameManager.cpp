@@ -78,6 +78,15 @@ void GameManager::startNewGame()
     _hero->setLocalZOrder(2);
 	_layer->addChild(_hero);
     
+<<<<<<< HEAD
+=======
+//    auto _big_demon = BigDemon::create();
+//    _big_demon->setAbsolutePosition(300, 700);
+//    _big_demon->setScale(2.0f);
+//    _big_demon->setLocalZOrder(2);
+//    _layer->addChild(_big_demon);
+
+>>>>>>> TACStest
 	//------------------------------------------------- addChild GameStateLayer
 	_state_layer = GameStateLayer::create();
 	_state_layer->startNewGame(_hero);
@@ -216,7 +225,6 @@ void GameManager::loadRightMap()
 		//-------------test end---------------
 		loadGameMap(currentPosition.first + 1, currentPosition.second);
 		currentPosition.first++;
-		_hero->setAbsolutePosition(500, 500);
 	}
 }
 
@@ -241,6 +249,13 @@ void GameManager::update(float dt)
 {
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 	updateMapClear();
+    switch (_hero->getDirection()) {
+        case MAP_UP     : loadUpMap();    break;
+        case MAP_DOWN   : loadDownMap();  break;
+        case MAP_LEFT   : loadLeftMap();  break;
+        case MAP_RIGHT  : loadRightMap(); break;
+        default: break;
+    }
 }
 
 

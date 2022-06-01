@@ -40,6 +40,7 @@ public:
 
     static b2World* getWorld();
     static b2Body* createWall(cocos2d::TMXTiledMap* tmap);
+    static bool createBlock(b2Body* body, cocos2d::Size size, cocos2d::Vec2 pos, int type);
     static void remove(b2Fixture* fixture);
     static void remove(b2Body* body);
 };
