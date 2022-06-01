@@ -5,6 +5,7 @@
 #include <utility>
 #include "GameMap.h"
 #include "GameStateLayer.h"
+#include "GameMapManager.h"
 #include "BaseMonster.h"
 #include "EventHandler.h"
 
@@ -42,6 +43,7 @@ private:
 
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;
+    GameMapManager mapManager;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 
