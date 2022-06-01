@@ -4,21 +4,24 @@
 #define PTM_RATIO                       64
 #define PHYSICS_BODY_WIDTH              0.5f
 #define PHYSICS_BODY_HEIGHT             0.5f
-#define WALL_LAYER                      "MetaInfo"
+#define WALL_LAYER                      "wall meta"
+#define DOOR_LAYER                      "door meta"
 
 #define CATEGORY_PLAYER                 0x0001
 #define CATEGORY_MONSTER                0x0002
 #define CATEGORY_WALL                   0x0004
-#define CATEGORY_ITEM                   0x0008
-#define CATEGORY_WEAPON                 0x0010
-#define CATEGORY_BULLET                 0x0020
+#define CATEGORY_DOOR                   0x0008
+#define CATEGORY_ITEM                   0x0010
+#define CATEGORY_WEAPON                 0x0020
+#define CATEGORY_BULLET                 0x0040
 
 #define MASK_NONE                       0x0000
 #define MASK_ALL                        0xFFFF
-#define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL
-#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL | CATEGORY_BULLET | CATEGORY_WEAPON
+#define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL    | CATEGORY_DOOR
+#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL    | CATEGORY_DOOR   | CATEGORY_BULLET | CATEGORY_WEAPON
 #define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET
-#define MASK_BULLET                     CATEGORY_WALL | CATEGORY_MONSTER
+#define MASK_DOOR                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET
+#define MASK_BULLET                     CATEGORY_MONSTER | CATEGORY_WALL    | CATEGORY_DOOR
 #define MASK_WEAPON                     CATEGORY_MONSTER
 #define MASK_ITEM                       MASK_NONE
 
@@ -64,6 +67,14 @@ enum KEY {
 enum WEAPON {
     IMMEDIATE,
     CHARGE
+};
+
+enum DIRECTION {
+    MAP_NONE = 0,
+    MAP_UP,
+    MAP_DOWN,
+    MAP_LEFT,
+    MAP_RIGHT
 };
 
 

@@ -1,8 +1,9 @@
 #include "Hero.h"
 
 Hero::Hero()
-    : DynamicObject("knight_f"), __weapon(std::make_pair(std::vector<weapon_t *>(3), 0))
-{
+: DynamicObject("knight_f")
+, __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
+, __map_dir(MAP_NONE) {
     BaseMonster::addTarget(this);
     __key.fill(false);
 }
@@ -24,7 +25,7 @@ bool Hero::init()
 
     runActionByKey(IDLE);
     setHP(6);
-    setSpeed(3.0f);
+    setSpeed(5.0f);
     setRunSpeed(2.0f);
     setTag(TAG_PLAYER);
 
@@ -313,11 +314,25 @@ void Hero::setWeapon(std::vector<weapon_t *> weapons)
     }
 }
 
-void Hero::onContact(b2Contact *contact)
-{
-    b2Fixture *other = contact->GetFixtureB();
-    if (getCategory(other) == CATEGORY_PLAYER)
-    {
+DIRECTION Hero::getDirection() {
+    auto dir = __map_dir;
+    if (dir) {
+        __map_dir = MAP_NONE;
+        pause(0.5f);
+    }
+    switch (dir) {
+        case MAP_UP     : setAbsolutePosition(525.0f, 375.0f); break;
+        case MAP_DOWN   : setAbsolutePosition(525.0f, 850.0f); break;
+        case MAP_LEFT   : setAbsolutePosition(850.0f, 650.0f); break;
+        case MAP_RIGHT  : setAbsolutePosition(150.0f, 650.0f); break;
+        default: break;
+    }
+    return dir;
+}
+
+void Hero::onContact(b2Contact* contact) {
+    b2Fixture* other = contact->GetFixtureB();
+    if (getCategory(other) == CATEGORY_PLAYER) {
         other = contact->GetFixtureA();
     }
 
@@ -326,9 +341,15 @@ void Hero::onContact(b2Contact *contact)
     {
         auto monster = PhysicsObject::getUserData<monster_t *>(other);
         damaged(monster->getDamage());
-        pause(0.5f);
         auto diff = getPosition() - monster->getPosition();
         normalize(diff);
         __body->ApplyForceToCenter(C2B(diff * 500.0f), false);
+    }
+    else if (other_cat == CATEGORY_DOOR) {
+        auto pos = getAbsolutePosition();
+        if      (pos.x < 300.0f) __map_dir = MAP_LEFT;
+        else if (pos.x > 700.0f) __map_dir = MAP_RIGHT;
+        else if (pos.y > 700.0f) __map_dir = MAP_UP;
+        else if (pos.y < 500.0f) __map_dir = MAP_DOWN;
     }
 }

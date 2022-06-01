@@ -216,7 +216,6 @@ void GameManager::loadRightMap()
 		//-------------test end---------------
 		loadGameMap(currentPosition.first + 1, currentPosition.second);
 		currentPosition.first++;
-		_hero->setAbsolutePosition(500, 500);
 	}
 }
 
@@ -241,6 +240,13 @@ void GameManager::update(float dt)
 {
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 	updateMapClear();
+    switch (_hero->getDirection()) {
+        case MAP_UP     : loadUpMap();    break;
+        case MAP_DOWN   : loadDownMap();  break;
+        case MAP_LEFT   : loadLeftMap();  break;
+        case MAP_RIGHT  : loadRightMap(); break;
+        default: break;
+    }
 }
 
 

@@ -92,6 +92,13 @@ void DynamicObject::setAbsolutePosition(const float x, const float y) {
     setPosition(__x, __y);
 }
 
+cocos2d::Vec2 DynamicObject::getAbsolutePosition() {
+    auto pos = getPosition();
+    pos.x = pos.x*absoluteResolution.width/resolution.width;
+    pos.y = pos.y*absoluteResolution.height/resolution.height;
+    return pos;
+}
+
 void DynamicObject::setPosition(const cocos2d::Vec2 &position) {
     setPosition(position.x, position.y);
 }
