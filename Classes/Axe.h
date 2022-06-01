@@ -6,7 +6,7 @@
 
 class Axe : public BaseWeapon {
 protected:
-	Axe() : BaseWeapon("axe", 1, 0.1f, 0.0f, 0.0f) {}
+	Axe() : BaseWeapon("axe", 1, 0.1f, 0.0f) {}
 	virtual ~Axe() {}
 
 public:
@@ -23,9 +23,17 @@ public:
 		axe->setSpeed(25.0f);
 		axe->setRotation(VecToDegree(direction));
 		axe->setVelocity(direction);
+		axe->PhysicsObject::scale(0.5f);
 		axe->move();
 		axe->setInitialPos();
 
+		float angle = 30.0f;
+		if (flipped) angle *= -1;
+		auto up = cocos2d::RotateBy::create(0.0f, angle);
+		auto down = cocos2d::RotateBy::create(0.1f, angle * -3.0f);
+		auto revoke = cocos2d::RotateTo::create(0.1f, getRotation());
+		auto seq = cocos2d::Sequence::create(up, down, revoke, nullptr);
+		runAction(seq);
 	}
 };
 
