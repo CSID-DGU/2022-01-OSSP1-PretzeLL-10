@@ -10,6 +10,36 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{415a3c66-3182-4fb2-9ae0-edc8b3d310f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Map">
+      <UniqueIdentifier>{125383d0-52e0-4268-8ec1-cff2031a9cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object">
+      <UniqueIdentifier>{6bb3087e-9c3f-4e36-9010-78ae31ce2d04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Weapon">
+      <UniqueIdentifier>{dc58de0f-8048-4e18-8c3c-17fb19771038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Hero">
+      <UniqueIdentifier>{7f9dfd58-5c38-472a-8c26-27622cd9dad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Base">
+      <UniqueIdentifier>{fc9f4e9b-29e5-442a-9f5b-0d7d50150d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Monster">
+      <UniqueIdentifier>{0a6b412b-ac52-4b16-992d-337cf3e5f142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Debug">
+      <UniqueIdentifier>{1fd58a15-87e0-4d8b-ae6d-3be169225a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Bullet">
+      <UniqueIdentifier>{e0b335c3-07b0-441a-b668-0c5982ce5a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Item">
+      <UniqueIdentifier>{87e6e7f3-00a8-4ebf-a984-0cca372b853a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -19,13 +49,76 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\StartingMenuScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\GameSummaryScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\MenuSettingScene.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StartingMenuScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameMap.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseWeapon.cpp">
+      <Filter>src\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Hero.cpp">
+      <Filter>src\Object\Hero</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PhysicsObject.cpp">
+      <Filter>src\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpriteObject.cpp">
+      <Filter>src\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DynamicObject.cpp">
+      <Filter>src\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StaticObject.cpp">
+      <Filter>src\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseMonster.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\B2DebugDraw\GLES-Render.cpp">
+      <Filter>src\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.cpp">
+      <Filter>src\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Debug.cpp">
+      <Filter>src\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseItem.cpp">
+      <Filter>src\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BaseBullet.cpp">
+      <Filter>src\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ProjectileObject.cpp">
+      <Filter>src\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SlotMachine.cpp">
+      <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameManager.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameStateLayer.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameMapManager.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EventHandler.cpp">
+      <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MonsterAI.cpp">
+      <Filter>src\Object\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,14 +128,146 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\StartingMenuScene.h">
-      <Filter>src</Filter>
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameSummaryScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MenuSettingScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMap.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Utility.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Definition.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AnimeSword.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Axe.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseWeapon.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BatonWithSpikes.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BigHammer.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bow.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Cleaver.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DuelSword.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Hammer.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Katana.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Knife.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Machete.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Weapon.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Hero.h">
+      <Filter>src\Object\Hero</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PhysicsObject.h">
+      <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpriteObject.h">
+      <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DynamicObject.h">
+      <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StaticObject.h">
+      <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseMonster.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BigDemon.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BigZombie.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Goblin.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Monster.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\B2DebugDraw\GLES-Render.h">
+      <Filter>src\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h">
+      <Filter>src\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Debug.h">
+      <Filter>src\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseItem.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FlaskBlue.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Arrow.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseBullet.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bullet.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ProjectileObject.h">
+      <Filter>src\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SlotMachine.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Object.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameManager.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameStateLayer.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameMapManager.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EventHandler.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MonsterAI.h">
+      <Filter>src\Object\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

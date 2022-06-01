@@ -1,28 +1,5 @@
-/****************************************************************************
- Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
-
- http://www.cocos2d-x.org
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- ****************************************************************************/
-
 #include "GameScene.h"
+#include "GameSummaryScene.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -60,7 +37,7 @@ bool GameScene::init()
     auto closeItem = MenuItemImage::create(
         "CloseNormal.png",
         "CloseSelected.png",
-        CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+        CC_CALLBACK_1(GameScene::menuGotoSummarySceneCallback, this));
 
     if (closeItem == nullptr ||
         closeItem->getContentSize().width <= 0 ||
@@ -80,11 +57,22 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
+    //============================================================================================
+    //                          buttons for test
+    //============================================================================================
+    auto goRight = MenuItemFont::create("Right", CC_CALLBACK_1(GameScene::mapTravelRight, this));
+    auto goLeft = MenuItemFont::create("Left", CC_CALLBACK_1(GameScene::mapTravelLeft, this));
+    auto goUp = MenuItemFont::create("Up", CC_CALLBACK_1(GameScene::mapTravelUp, this));
+    auto goDown = MenuItemFont::create("Down", CC_CALLBACK_1(GameScene::mapTravelDown, this));
+    auto damage = MenuItemFont::create("Damage", CC_CALLBACK_1(GameScene::heroDamage, this));
+    //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
+    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, damage, NULL);
+    mapMenu->alignItemsVertically();
+    mapMenu->setPosition(Vec2(100, 200));
+    this->addChild(mapMenu, 1);
+
     /////////////////////////////
     // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
 
     auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
@@ -100,47 +88,62 @@ bool GameScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+    _gamemapmanager = GameManager::getInstance();
 
-    //// add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("sprite/backgroundMenu.png");
-    //if (sprite == nullptr)
-    //{
-    //    problemLoading("'sprite/backgroundMenu.png'");
-    //}
-    //else
-    //{
-    //    // position the sprite on the center of the screen
-    //    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-    //    // add the sprite as a child to this layer
-    //    this->addChild(sprite, 0);
-    //}
-    
-    
-    auto tmap = TMXTiledMap::create("tmx/samplemap.tmx");
-    if (tmap == nullptr)
-    {
-        problemLoading("'tmx/samplemap.tmx'");
-    }
-    else
-    {
-        // add the sprite as a child to this layer
-        this->addChild(tmap, 0, 11);
-    }
+    addChild(_gamemapmanager->getLayer());
 
+    startNewGame();
+    scheduleUpdate();
     return true;
 }
 
+void GameScene::update(float delta)
 
-void GameScene::menuCloseCallback(Ref* pSender)
 {
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+    _gamemapmanager->update(delta);
+}
 
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() as given above,instead trigger a custom event created in RootViewController.mm as below*/
+void GameScene::startNewGame()
+{
+    GameManager::getInstance()->startNewGame();
+}
 
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
+void GameScene::menuGotoSummarySceneCallback(Ref* pSender)
+{
+    const auto scene = GameSummary::create();
+    Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
+    GameManager::getInstance()->clearLayer();
+}
 
+//=============================================================== callback for test
 
+void GameScene::mapTravelUp(Ref* pSender)
+{
+    GameManager::getInstance()->loadUpMap();
+}
+
+void GameScene::mapTravelDown(Ref* pSender)
+{
+    GameManager::getInstance()->loadDownMap();
+}
+
+void GameScene::mapTravelRight(Ref* pSender)
+{
+    GameManager::getInstance()->loadRightMap();
+}
+
+void GameScene::mapTravelLeft(Ref* pSender)
+{
+    GameManager::getInstance()->loadLeftMap();
+}
+
+void GameScene::goNextLevel(Ref* pSender)
+{
+
+}
+
+void GameScene::heroDamage(Ref* pSender)
+{
+    GameManager::getInstance()->getHero()->damaged(1);
 }

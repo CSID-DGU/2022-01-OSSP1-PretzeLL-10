@@ -27,6 +27,9 @@
 #include "MenuSettingScene.h"
 #include "SimpleAudioEngine.h"
 
+#include "Utility.h"
+#include "SlotMachine.h"
+
 USING_NS_CC;
 
 Scene* StartingMenu::createScene()
@@ -68,7 +71,8 @@ bool StartingMenu::init()
 
     /////////////////////////////
     // 3.
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24*10);
+    label->setScale(0.1f);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -97,6 +101,7 @@ bool StartingMenu::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+    
     return true;
 }
 
@@ -117,11 +122,13 @@ void StartingMenu::menuCloseCallback(Ref* pSender)
 void StartingMenu::menuPlayCallback(Ref* pSender)
 {
     const auto scene = GameScene::createScene();
+    IF_RV(!scene, "Failed to create scene");
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
 }
 
 void StartingMenu::menuSettingCallback(Ref* pSender)
 {
     const auto scene = MenuSetting::create();
+    IF_RV(!scene, "Failed to create scene");
     Director::getInstance()->replaceScene(TransitionCrossFade::create(0.5, scene));
 }
