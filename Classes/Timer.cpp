@@ -21,8 +21,8 @@ bool _Timer::init()
 	else
 	{
 		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2+100,
-			origin.y + visibleSize.height - label->getContentSize().height+100));
+		label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 100,
+			origin.y + visibleSize.height - label->getContentSize().height + 100));
 
 		// add the label as a child to this layer
 		this->addChild(label, 1);
@@ -38,18 +38,7 @@ bool _Timer::init()
 void _Timer::TimerMethod(float dt) {
 	time += dt;
 	save_time = time;
-	__String* timeToDisplay = __String::createWithFormat("%02d : %02d",int(save_time/60), int(save_time));
+	__String* timeToDisplay = __String::createWithFormat("%02d : %02d", int(save_time / 60), int(save_time) % 60);
 
 	label->setString(timeToDisplay->getCString());
 }
-
-//void _Timer::menuCloseCallback(Ref* pSender)
-//{
-//	if (lapIndex < 3) {
-//		laps[lapIndex] = time;
-//		lapIndex++;
-//		log("Lab %i: %.2f", lapIndex, time);
-//
-//		time = 0;
-//	}
-//}

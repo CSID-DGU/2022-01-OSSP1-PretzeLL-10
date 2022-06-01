@@ -24,6 +24,7 @@
 
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
+#include "Timer.h"
 
 USING_NS_CC;
 
