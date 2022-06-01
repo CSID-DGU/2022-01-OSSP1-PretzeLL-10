@@ -20,6 +20,8 @@ public:
     std::vector<BaseMonster*> monsterVec;
 
     void startNewGame();
+
+    void deleteMonster(BaseMonster* dM);
     
     void clearLayer();
     void removeAllGameMap();
@@ -37,9 +39,12 @@ private:
     static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);
 
-    void createMonster();
+    void createMonsters();
+ 
+
     void makeGameMap();
     void deleteGameMap();
+    void updateMapClear();
 
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;

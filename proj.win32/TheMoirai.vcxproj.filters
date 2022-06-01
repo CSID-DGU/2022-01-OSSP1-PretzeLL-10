@@ -269,6 +269,42 @@
     <ClInclude Include="..\Classes\MonsterAI.h">
       <Filter>src\Object\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Chort.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Imp.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MaskedOrc.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Muddy.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Necromancer.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Ogre.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OrcShaman.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OrcWarrior.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Skeleton.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TinyZombie.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Wogol.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Zombie.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

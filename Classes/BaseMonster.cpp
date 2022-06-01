@@ -1,5 +1,5 @@
 #include "BaseMonster.h"
-
+#include "GameManager.h"
 
 BaseMonster::BaseMonster(std::string name)
 : DynamicObject(name)
@@ -80,6 +80,7 @@ void BaseMonster::dieing()
     stopAllActions();
     removeAfter(1.5f);
     setVelocity(b2Vec2(0.0f, 0.0f));
+    GameManager::getInstance()->deleteMonster(this);
     unschedule(schedule_selector(BaseMonster::behavior));
 
     auto delay = cocos2d::DelayTime::create(0.5f);
