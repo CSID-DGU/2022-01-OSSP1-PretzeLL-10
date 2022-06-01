@@ -2,6 +2,7 @@
 #define __BIG_DEMON_H__
 
 #include "BaseMonster.h"
+#include "Stone.h"
 
 
 class BigDemon : public BaseMonster {
@@ -16,8 +17,8 @@ public:
         setHP(10);
         setDamage(1);
         setSpeed(15.0f);
-        attackRange = 200.0f;
-        detectRange = 300.0f;
+        attackRange = 500.0f;
+        detectRange = 550.0f;
         return true;
     }
 
@@ -45,6 +46,19 @@ public:
     }
     virtual void attack() override
     {
+        auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
+        auto diff = hero->getPosition() - getPosition();
+        auto stone = Stone::create();
+        getParent()->addChild(stone, 10);
+        stone->setCategory(CATEGORY_ITEM, MASK_ITEM);
+        stone->setPosition(getPosition());
+        stone->setSpeed(100.0f);
+        stone->setRotation(VecToDegree(diff));
+        stone->setVelocity(C2B(normalize(diff)));
+        stone->Node::setScale(2.0f);
+//        stone->PhysicsObject::scale(0.5f);
+        stone->move();
+        
         AI->setState(State::WAIT, 1);
     }
 };

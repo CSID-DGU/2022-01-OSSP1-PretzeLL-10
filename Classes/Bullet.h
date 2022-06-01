@@ -5,5 +5,6 @@
 #include "KnifeProjectile.h"
 #include "AxeProjectile.h"
 #include "FireBall.h"
+#include "Stone.h"
 
 #endif /* __BULLET_H__ */

@@ -24,7 +24,6 @@ bool BaseMonster::init() {
     IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -0.3f), this));
     setCategory(CATEGORY_MONSTER, MASK_MONSTER);
     schedule(schedule_selector(BaseMonster::behavior));
-    scheduleUpdate();
     runActionByKey(IDLE);
     
     return true;
