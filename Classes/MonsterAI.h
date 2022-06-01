@@ -40,7 +40,7 @@ public:
 	void randRoamVec();
 	cocos2d::Vec2 getRoamVec();
 
-	void onEnter();
+	void onEnter() override;
 	void updateState(float delta);
 	void getDistanceDiff();
 public:

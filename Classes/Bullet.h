@@ -3,5 +3,6 @@
 
 #include "Arrow.h"
 #include "KnifeProjectile.h"
+#include "Stone.h"
 
 #endif /* __BULLET_H__ */
