@@ -32,17 +32,23 @@ public:
 	void update(float dt) final
 	{
 		ProjectileObject::update(dt);
-		float len = length(getPosition() - __initial_pos);
-		if (len > __desired_distance)
+
+		if (!__desired_distance)
+			return;
+
+		auto hero = getParent()->getChildByTag<DynamicObject *>(TAG_PLAYER);
+		float len1 = length(getPosition() - __initial_pos);
+		float len2 = length(getPosition() - hero->getPosition());
+
+		if (len1 > __desired_distance)
 		{
-			// setCategory(CATEGORY_BULLET, MASK_NONE);
-			// setRotation(180.0f);
-			tmp_velocity.x = getVelocity().x * -1.0f;
-			tmp_velocity.y = getVelocity().y * -1.0f;
+			tmp_velocity = cocos2d::Vec2(hero->getPosition().x - getPosition().x, hero->getPosition().y - getPosition().y) / PTM_RATIO;
+			normalize(tmp_velocity);
 			setVelocity(C2B(tmp_velocity));
 			move();
 		}
-		if (len < 1.0f)
+
+		if (len2 < 10.0f)
 		{
 			removeAfter(0.0f);
 			unscheduleUpdate();

@@ -35,8 +35,8 @@ public:
 		if (flipped)
 			angle *= -1;
 		auto up = cocos2d::RotateBy::create(0.0f, angle);
-		auto down = cocos2d::RotateBy::create(0.07f, angle * -3.0f);
-		auto revoke = cocos2d::RotateTo::create(0.03f, getRotation());
+		auto down = cocos2d::RotateBy::create(0.1f, angle * -3.0f);
+		auto revoke = cocos2d::RotateTo::create(0.1f, getRotation());
 		auto seq = cocos2d::Sequence::create(up, down, revoke, nullptr);
 		runAction(seq);
 	}
