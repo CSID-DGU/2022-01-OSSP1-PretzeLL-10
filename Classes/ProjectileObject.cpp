@@ -104,6 +104,18 @@ void ProjectileObject::move() {
     __body->ApplyTorque(__angular_velocity, true);
 }
 
+float ProjectileObject::moveTo(cocos2d::Vec2 position) {
+    auto dir = position - getPosition();
+    auto len = length(dir);
+    dir = normalize(dir) * __speed;
+    
+    __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+    __body->ApplyForceToCenter(C2B(dir), true);
+    
+    return len;
+}
+
+
 void ProjectileObject::setSpeed(float speed) {
     __speed = speed;
 }

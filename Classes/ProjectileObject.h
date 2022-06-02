@@ -35,6 +35,8 @@ public:
     cocos2d::Vec2 getAbsolutePosition();
     
     virtual void move();
+    float moveTo(cocos2d::Vec2 position);
+    
     void setSpeed(float speed);
     void setVelocity(const b2Vec2 velocity);
     void setAngularVelocity(float angularVelocity);
