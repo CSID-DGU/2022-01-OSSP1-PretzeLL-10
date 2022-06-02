@@ -92,7 +92,7 @@ void GameManager::startNewGame()
 
 void GameManager::createMonsters()
 {
-	auto _big_demon = BigDemon::create();
+  	auto _big_demon = BigDemon::create();
 	monsterVec.push_back(_big_demon);
 	_big_demon->setAbsolutePosition(300, 700);
 	_big_demon->setScale(2.0f);

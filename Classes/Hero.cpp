@@ -317,8 +317,8 @@ void Hero::setWeapon(std::vector<weapon_t *> weapons)
 DIRECTION Hero::getDirection(bool isAbleToMove) {
     auto dir = __map_dir;
     if (dir) {
-        __map_dir = MAP_NONE;
         if (!isAbleToMove) return MAP_NONE;
+        __map_dir = MAP_NONE;
         pause(0.5f);
     }
     switch (dir) {
