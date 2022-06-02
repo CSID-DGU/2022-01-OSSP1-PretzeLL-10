@@ -21,8 +21,8 @@ public:
         addBullet(knife);
         knife->setParent(this);
         knife->setSpeed(60.0f);
-        knife->setRotation(VecToDegree(direction));
         knife->setVelocity(direction);
+        knife->setAngularVelocity(C2B(30.0f) * (flipped ? -1 : 1));
         knife->PhysicsObject::scale(0.5);
         knife->move();
         knife->setInitialPos();

@@ -7,7 +7,7 @@
 class KnifeProjectile : public BaseBullet {
 protected:
     cocos2d::Vec2 __initial_pos;
-    float __desired_distance = 500.0f;
+    float __desired_distance = 300.0f;
     
 protected:
     KnifeProjectile() : BaseBullet("weapon_regular_sword") {}
@@ -18,12 +18,21 @@ public:
     
     void update(float dt) final {
         ProjectileObject::update(dt);
-        
+                
         if (!__desired_distance) return;
         float len = length(getPosition() - __initial_pos);
         if (len > __desired_distance) {
-            removeAfter(0.0);
-            unscheduleUpdate();
+//            removeAfter(0.0);
+//            unscheduleUpdate();
+            
+            /* Revert direction */
+            __desired_distance = 0.0f;
+            auto v = getVelocity();
+            v.x *= -1;
+            v.y *= -1;
+            setVelocity(v);
+            move();
+            /* ================ */
         }
     }
     
@@ -32,6 +41,11 @@ public:
     }
     
     void onContact(b2Contact* contact) final {
+        /* For rotation on end */
+        auto diff = getPosition() - __initial_pos;
+        Node::setRotation(VecToDegree(diff));
+        /* =================== */
+        
         __desired_distance = 0.0f;
         setCategory(CATEGORY_BULLET, MASK_NONE);
         removeAfter(3.0);

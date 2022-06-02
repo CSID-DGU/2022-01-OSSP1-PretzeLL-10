@@ -10,6 +10,7 @@ class ProjectileObject : public cocos2d::Node, public SpriteObject, public Physi
 protected:
     float __speed;
     b2Vec2 __velocity;
+    float __angular_velocity;
     
     Timer __time;
     
@@ -31,12 +32,15 @@ public:
     void setAbsolutePosition(const float x, const float y);
     void setRotation(float angle) override;
     cocos2d::Size getContentSize();
+    cocos2d::Vec2 getAbsolutePosition();
     
     virtual void move();
     void setSpeed(float speed);
     void setVelocity(const b2Vec2 velocity);
+    void setAngularVelocity(float angularVelocity);
     float getSpeed();
     b2Vec2 getVelocity();
+    float getAngularVelocity();
     
     bool isStopped();
     void stop(float time);
