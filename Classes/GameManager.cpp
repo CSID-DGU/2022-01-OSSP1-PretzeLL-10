@@ -137,7 +137,16 @@ void GameManager::updateMapClear()
 
 void GameManager::goNextStage()
 {
+	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
+	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
+	if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
+	removeAllGameMap();
+	allocateGameMap();
+	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
+	gameStage++;
 
+	mapManager.makeGameMap(_gameMap);
+	loadGameMap(currentPosition.first, currentPosition.second);
 }
 
 void GameManager::clearLayer()
@@ -273,14 +282,18 @@ void GameManager::gameOver()
 	else
 	{
 		float x = visibleSize.width / 2;
-		float y = visibleSize.height / 2;
+		float y = visibleSize.height / 2 - 100;
 		closeItem->setPosition(cocos2d::Vec2(x, y));
 	}
 
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
 	menu->setPosition(cocos2d::Vec2::ZERO);
+	auto gameoverSprite = cocos2d::Sprite::create("frames/gameover.png");
+	gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
+	gameoverSprite->setScale(0.3f);
 	gameOverLayer->addChild(menu);
+	gameOverLayer->addChild(gameoverSprite);
 	_layer->addChild(gameOverLayer, 50);
 	isGameOver = true;
 }
@@ -290,6 +303,10 @@ void GameManager::menuGotoSummarySceneCallback(cocos2d::Ref* pSender)
 	const auto scene = GameSummary::create();
 	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionCrossFade::create(0.5, scene));
 	clearLayer();
+	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
+
+	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
+	if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
 	removeAllGameMap();
 }
 

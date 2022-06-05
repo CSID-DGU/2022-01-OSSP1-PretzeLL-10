@@ -45,6 +45,7 @@ private:
     void mapTravelLeft(Ref* pSender);
     void goNextLevel(Ref* pSender);
     void heroDamage(Ref* pSender);
+    void levelup(Ref* pSender);
 };
 
 #endif // __GAME_SCENE_H__

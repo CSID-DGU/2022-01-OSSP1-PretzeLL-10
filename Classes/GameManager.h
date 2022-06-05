@@ -33,9 +33,11 @@ public:
     void loadLeftMap();
 
     void update(float dt);
+
+    void goNextStage(); // must move to private
 private:
     GameManager();
-    void goNextStage();
+    
     static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);
 
