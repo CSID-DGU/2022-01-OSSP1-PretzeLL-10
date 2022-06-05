@@ -15,9 +15,12 @@ public:
         IF(!BaseMonster::init());
         setHP(10);
         setDamage(1);
-        setSpeed(15.0f);
+        setSpeed(10.0f);
         attackRange = 200.0f;
         detectRange = 300.0f;
+
+        PhysicsObject::scale(0.8f, b2Vec2(0.0f,0.0f));
+
         return true;
     }
 
