@@ -19,6 +19,7 @@ private:
     int __hp;
     int __damage;
     float __speed_bak;
+    bool __zonya;
 
 public:
     Hero();
