@@ -15,9 +15,12 @@ public:
         IF(!BaseMonster::init());
         setHP(20);
         setDamage(2);
-        setSpeed(7.0f);
+        setSpeed(3.0f);
         attackRange = 200.0f;
         detectRange = 300.0f;
+
+        PhysicsObject::scale(0.6f, b2Vec2(0.0f, 0.0f));
+
         return true;
     }
     virtual void followTarget()

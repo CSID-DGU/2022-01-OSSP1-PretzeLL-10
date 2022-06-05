@@ -20,7 +20,7 @@ public:
     bool initStatic(const b2Vec2& size, const b2Vec2& center, void* userData);
     bool initProjectile(const b2Vec2& size, const b2Vec2& center, void* userData);
     
-    void scale(float scaleFactor);
+    void scale(float scaleFactor, const b2Vec2& center = b2Vec2(0.0f, 0.0f));
     void recreate(const b2Shape* shape);
     void recreate(const b2Vec2& size, const b2Vec2& center = b2Vec2(0.0f, 0.0f));
     void setType(b2BodyType type);
