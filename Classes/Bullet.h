@@ -11,5 +11,6 @@
 #include "BatonWithSpikesProjectile.h"
 #include "BigHammerProjectile.h"
 #include "CleaverProjectile.h"
+#include "DuelSwordProjectile.h"
 
 #endif /* __BULLET_H__ */
