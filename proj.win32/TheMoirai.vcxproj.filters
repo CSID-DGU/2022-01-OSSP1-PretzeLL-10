@@ -320,6 +320,9 @@
     <ClInclude Include="..\Classes\FireBall.h">
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\BatonWithSpikesProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

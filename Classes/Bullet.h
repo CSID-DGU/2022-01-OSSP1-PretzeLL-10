@@ -8,5 +8,6 @@
 #include "Stone.h"
 #include "AxeProjectile.h"
 #include "FireBall.h"
+#include "BatonWithSpikesProjectile.h"
 
 #endif /* __BULLET_H__ */
