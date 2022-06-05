@@ -1,7 +1,7 @@
 #include "GameMapManager.h"
 
 #define MAKEMAP(x, y, string) maparr[x][y] = new GameMap(string)
-#define MAPNUMBER 3
+#define MAPNUMBER 5
 
 void GameMapManager::makeGameMap(GameMap***& maparr)
 {
@@ -9,6 +9,7 @@ void GameMapManager::makeGameMap(GameMap***& maparr)
 	rand = std::uniform_int_distribution<int>(0, MAPNUMBER - 1);
 
 	int x = rand(engine);
+	std::cout << "Map number : " << x << std::endl;
 	switch (x)
 	{
 	case 0:

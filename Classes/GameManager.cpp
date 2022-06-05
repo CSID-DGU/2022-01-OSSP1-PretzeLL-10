@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "GameSummaryScene.h"
 
 GameManager* GameManager::sharedGameMapManager = nullptr;
 
@@ -13,6 +14,10 @@ GameManager* GameManager::getInstance()
 }
 
 void GameManager::init()
+{
+}
+
+void GameManager::allocateGameMap()
 {
 	mapWidth = 5;
 	mapHeight = 5;
@@ -49,8 +54,17 @@ void GameManager::deleteGameMap()
 	delete[] _gameMap;
 }
 
+void GameManager::removeAllGameMap()
+{
+	for (int i = 0; i < mapWidth; i++)
+		for (int j = 0; j < mapHeight; j++)
+			if (_gameMap[i][j] != nullptr)
+				_gameMap[i][j]->getTmxTiledMap()->release();
+	deleteGameMap();
+}
+
 GameManager::GameManager()
-	: _layer(cocos2d::Layer::create()), gameStage(0), mapWidth(0), mapHeight(0)
+	: _layer(cocos2d::Layer::create()), gameStage(0), mapWidth(0), mapHeight(0), isGameOver(true)
 {
 	_layer->retain();
 }
@@ -60,8 +74,10 @@ void GameManager::startNewGame()
 	gameStage = 1;
 	mapWidth = 5;
 	mapHeight = 5;
-	currentPosition = std::make_pair(mapWidth / 2 + 1, mapHeight / 2 + 1);
+	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
+	isGameOver = false;
 	monsterVec.clear();
+	allocateGameMap();
 	makeGameMap();
 	
     
@@ -127,11 +143,6 @@ void GameManager::goNextStage()
 void GameManager::clearLayer()
 {
 	_layer->removeAllChildren();
-}
-
-void GameManager::removeAllGameMap()
-{
-
 }
 
 cocos2d::Layer* GameManager::getLayer() const {
@@ -236,18 +247,70 @@ void GameManager::loadLeftMap()
 	}
 }
 
+void GameManager::gameOver()
+{
+	if (isGameOver)
+		return;
+	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+
+	auto gameOverLayer = cocos2d::LayerColor::create();
+	gameOverLayer->setContentSize(visibleSize);
+	gameOverLayer->setColor(cocos2d::Color3B(30, 15, 10));
+	gameOverLayer->setOpacity(150);
+
+	// add a "close" icon to exit the progress. it's an autorelease object
+	auto closeItem = cocos2d::MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(GameManager::menuGotoSummarySceneCallback, this));
+
+	if (closeItem == nullptr ||
+		closeItem->getContentSize().width <= 0 ||
+		closeItem->getContentSize().height <= 0)
+	{
+	}
+	else
+	{
+		float x = visibleSize.width / 2;
+		float y = visibleSize.height / 2;
+		closeItem->setPosition(cocos2d::Vec2(x, y));
+	}
+
+	// create menu, it's an autorelease object
+	auto menu = cocos2d::Menu::create(closeItem, NULL);
+	menu->setPosition(cocos2d::Vec2::ZERO);
+	gameOverLayer->addChild(menu);
+	_layer->addChild(gameOverLayer, 50);
+	isGameOver = true;
+}
+
+void GameManager::menuGotoSummarySceneCallback(cocos2d::Ref* pSender)
+{
+	const auto scene = GameSummary::create();
+	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionCrossFade::create(0.5, scene));
+	clearLayer();
+	removeAllGameMap();
+}
+
 void GameManager::update(float dt)
 {
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
-	updateMapClear();
-    bool isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
-    switch (_hero->getDirection(isClear)) {
-        case MAP_UP     : loadUpMap();    break;
-        case MAP_DOWN   : loadDownMap();  break;
-        case MAP_LEFT   : loadLeftMap();  break;
-        case MAP_RIGHT  : loadRightMap(); break;
-        default: break;
-    }
+	bool isClear = false;
+	if (!isGameOver)
+	{
+		updateMapClear();
+		isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
+		if (_hero->getHP() <= 0)
+			gameOver();
+		switch (_hero->getDirection(isClear)) {
+		case MAP_UP: loadUpMap();    break;
+		case MAP_DOWN: loadDownMap();  break;
+		case MAP_LEFT: loadLeftMap();  break;
+		case MAP_RIGHT: loadRightMap(); break;
+		default: break;
+		}
+	}
 }
 
 

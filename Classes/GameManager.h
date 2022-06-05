@@ -41,10 +41,13 @@ private:
 
     void createMonsters();
  
-
+    void allocateGameMap();
     void makeGameMap();
     void deleteGameMap();
     void updateMapClear();
+
+    void gameOver();
+    void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
 
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;
@@ -53,6 +56,8 @@ private:
     std::pair<int, int> currentPosition;
 
     Hero* _hero;
+
+    bool isGameOver;
 
     int gameStage;
     int mapWidth, mapHeight;
