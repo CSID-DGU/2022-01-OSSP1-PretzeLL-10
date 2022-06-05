@@ -3,7 +3,8 @@
 
 ProjectileObject::ProjectileObject(std::string path, std::string name)
 : SpriteObject(path, name)
-, __time(Timer(true)) {}
+, __time(Timer(true))
+, __angular_velocity(0.0f) {}
 
 ProjectileObject::~ProjectileObject() {}
 
@@ -66,6 +67,14 @@ cocos2d::Size ProjectileObject::getContentSize() {
     return __sprite->getContentSize();
 }
 
+cocos2d::Vec2 ProjectileObject::getAbsolutePosition() {
+    auto pos = getPosition();
+    pos.x = pos.x*absoluteResolution.width/resolution.width;
+    pos.y = pos.y*absoluteResolution.height/resolution.height;
+    return pos;
+}
+
+
 void ProjectileObject::syncToPhysics() {
     if (!__body) return;
     auto position = B2C(__body->GetPosition()) * PTM_RATIO;
@@ -81,14 +90,31 @@ void ProjectileObject::syncToSprite() {
 
 
 void ProjectileObject::move() {
+    setRotation(VecToDegree(__velocity));
+    __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+    __body->SetAngularVelocity(0.0f);
+    
     auto __v = __velocity;
     __v.x *= __speed;
     __v.y *= __speed;
-    
     float point = getContentSize().height / (-2.0f * PTM_RATIO);
     auto tailPos = __body->GetWorldPoint(b2Vec2(0.0f, point));
+    
     __body->ApplyForce(__v, tailPos, true);
+    __body->ApplyTorque(__angular_velocity, true);
 }
+
+float ProjectileObject::moveTo(cocos2d::Vec2 position) {
+    auto dir = position - getPosition();
+    auto len = length(dir);
+    dir = normalize(dir) * __speed;
+    
+    __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+    __body->ApplyForceToCenter(C2B(dir), true);
+    
+    return len;
+}
+
 
 void ProjectileObject::setSpeed(float speed) {
     __speed = speed;
@@ -96,6 +122,10 @@ void ProjectileObject::setSpeed(float speed) {
 
 void ProjectileObject::setVelocity(const b2Vec2 velocity) {
     __velocity = velocity;
+}
+
+void ProjectileObject::setAngularVelocity(float angularVelocity) {
+    __angular_velocity = angularVelocity;
 }
 
 float ProjectileObject::getSpeed() {
@@ -106,6 +136,11 @@ b2Vec2 ProjectileObject::getVelocity() {
     return __velocity;
 }
 
+float ProjectileObject::getAngularVelocity() {
+    return __angular_velocity;
+}
+
+
 bool ProjectileObject::isStopped() {
     return __time.isRunning();
 }
@@ -114,6 +149,7 @@ bool ProjectileObject::isStopped() {
 void ProjectileObject::stop(float time) {
     __velocity = __body->GetLinearVelocity();
     __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+    __body->SetAngularVelocity(0.0f);
     __time.set(time);
 }
 
@@ -122,6 +158,10 @@ void ProjectileObject::restart() {
 }
 
 void ProjectileObject::removeAfter(float delay) {
+    float frame_time = cocos2d::Director::getInstance()->getAnimationInterval();
+    if (delay < frame_time) {
+        delay = frame_time;
+    }
     stop(delay);
     scheduleOnce(schedule_selector(ProjectileObject::removal), delay);
 }

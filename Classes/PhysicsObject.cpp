@@ -103,12 +103,12 @@ void PhysicsObject::recreate(const b2Vec2& size, const b2Vec2& center) {
     recreate(&shape);
 }
 
-void PhysicsObject::scale(float scaleFactor, const b2Vec2& asdasdas) {
+void PhysicsObject::scale(float scaleFactor, const b2Vec2& center) {
     __size.x *= scaleFactor;
     __size.y *= scaleFactor;
     b2PolygonShape shape;
-    auto center = __body->GetLocalCenter();
-    shape.SetAsBox(__size.x, __size.y, center, 0.0f);
+    auto new_center = __body->GetLocalCenter() + center;
+    shape.SetAsBox(__size.x, __size.y, new_center, 0.0f);
     recreate(&shape);
 }
 

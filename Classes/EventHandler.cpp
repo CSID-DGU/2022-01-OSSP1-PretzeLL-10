@@ -42,10 +42,12 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
         case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
                 
-        case KEY_GROUP_M            : _slot->react(_hero); break;
+        case keyCode_t::KEY_SPACE   : _slot->spin(_hero); break;
+            
         case keyCode_t::KEY_ESCAPE  : endProgram(); break;
         case keyCode_t::KEY_N       : test(); break;
-        default: _hero->updateKey(ATTACK, true); _hero->attack(); break;
+        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, true); _hero->attack(); break;
+        default: break;
     }
 }
 
@@ -58,7 +60,9 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
         case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
         case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
         case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
-        default: _hero->updateKey(ATTACK, false); _hero->attack(); break;
+            
+        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, false); _hero->attack(); break;
+        default: break;
     }
 }
 
@@ -96,9 +100,9 @@ void EventHandler::BeginContact(b2Contact* contact) {
     int categoryA = PhysicsObject::getCategory(fixtureA);
     int categoryB = PhysicsObject::getCategory(fixtureB);
   
+    INVOKE_CONTACT(CATEGORY_BULLET, bullet_t);
     INVOKE_CONTACT(CATEGORY_PLAYER, Hero);
     INVOKE_CONTACT(CATEGORY_MONSTER, monster_t);
-    INVOKE_CONTACT(CATEGORY_BULLET, bullet_t);
 }
     
 void EventHandler::EndContact(b2Contact *contact) {

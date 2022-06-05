@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "GameSummaryScene.h"
 #include "SimpleAudioEngine.h"
+#include "Timer.h"
 
 USING_NS_CC;
 
@@ -69,6 +70,7 @@ bool GameScene::init()
 
 
     addChild(_gamemapmanager->getLayer());
+    addChild(_Timer::create());
 
     startNewGame();
     scheduleUpdate();

@@ -4,7 +4,9 @@
 Hero::Hero()
 : DynamicObject("knight_f")
 , __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
-, __map_dir(MAP_NONE) {
+, __map_dir(MAP_NONE)
+, __invincible(false)
+, __disarmed(false) {
     BaseMonster::addTarget(this);
     __key.fill(false);
 }
@@ -155,7 +157,7 @@ void Hero::attack() {
 
 void Hero::testWeapon(float t) {
     auto weapon = __weapon.first[__weapon.second];
-    if (!weapon->isAttacking()) {
+    if (!weapon || !weapon->isAttacking()) {
         unschedule(schedule_selector(Hero::testWeapon));
         return;
     }
@@ -173,6 +175,17 @@ void Hero::testWeapon(float t) {
             return;
         }
     }
+}
+
+void Hero::makeInvincible(float time) {
+    __invincible = true;
+    setCategory(CATEGORY_PLAYER, CATEGORY_WALL | CATEGORY_DOOR);
+    scheduleOnce(schedule_selector(Hero::invincible), time);
+}
+
+void Hero::invincible(float dt) {
+    __invincible = false;
+    setCategory(CATEGORY_PLAYER, MASK_PLAYER);
 }
 
 void Hero::damaged(int damage) {
@@ -196,15 +209,30 @@ void Hero::setDamage(int damage) {
 }
 
 
+void Hero::disarm(float time) {
+    changeWeapon(__weapon.first.size());
+    __disarmed = true;
+    if (time) scheduleOnce(schedule_selector(Hero::rearm), time);
+}
+
+void Hero::rearm(float dt) {
+    __disarmed = false;
+    changeWeapon(1);
+}
+
 void Hero::changeWeapon(int index) {
+    if (__disarmed) return;
     int current = __weapon.second;
     if (index-1 == current) return;
-    if (!__weapon.first[index-1]) return;
     
-    __weapon.first[current]->deactivate();
+    if (__weapon.first[current]) {
+        __weapon.first[current]->deactivate();
+    }
     current = index - 1;
     __weapon.second = current;
-    __weapon.first[current]->activate();
+    if (__weapon.first[current]) {
+        __weapon.first[current]->activate();
+    }
     flipWeapon();
 }
 
@@ -217,6 +245,7 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     }
     __weapon.first.clear();
     __weapon.first = weapons;
+    __weapon.first.push_back(nullptr);
     bool changed = false;
     
     for (auto iter : __weapon.first) {
@@ -240,8 +269,8 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
 DIRECTION Hero::getDirection(bool isAbleToMove) {
     auto dir = __map_dir;
     if (dir) {
-        __map_dir = MAP_NONE;
         if (!isAbleToMove) return MAP_NONE;
+        __map_dir = MAP_NONE;
         pause(0.5f);
     }
     switch (dir) {
@@ -262,11 +291,13 @@ void Hero::onContact(b2Contact* contact) {
     
     float other_cat = getCategory(other);
     if (other_cat == CATEGORY_MONSTER) {
+        if (__invincible) return;
         auto monster = PhysicsObject::getUserData<monster_t*>(other);
         damaged(monster->getDamage());
         auto diff = getPosition() - monster->getPosition();
         normalize(diff);
         __body->ApplyForceToCenter(C2B(diff*500.0f), false);
+        makeInvincible(1.0f);
     }
     else if (other_cat == CATEGORY_DOOR) {
         auto pos = getAbsolutePosition();
