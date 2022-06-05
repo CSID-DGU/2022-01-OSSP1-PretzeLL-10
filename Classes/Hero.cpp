@@ -179,6 +179,9 @@ void Hero::testWeapon(float t) {
 
 void Hero::makeInvincible(float time) {
     __invincible = true;
+    cocos2d::ActionInterval* action;
+    action = cocos2d::Blink::create(1, 3);
+    runAction(cocos2d::Repeat::create(action, (unsigned int)time));
     setCategory(CATEGORY_PLAYER, CATEGORY_WALL | CATEGORY_DOOR);
     scheduleOnce(schedule_selector(Hero::invincible), time);
 }
