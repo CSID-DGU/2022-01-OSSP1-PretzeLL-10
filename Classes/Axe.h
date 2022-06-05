@@ -25,11 +25,13 @@ public:
 		addBullet(axe);
 		axe->setParent(this);
 		axe->setSpeed(25.0f);
-		axe->setRotation(VecToDegree(direction));
+		// axe->setRotation(VecToDegree(direction));
 		axe->setVelocity(direction);
+		axe->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
 		axe->PhysicsObject::scale(0.5f);
 		axe->move();
 		axe->setInitialPos();
+		axe->getHeroPtr();
 
 		float angle = 30.0f;
 		if (flipped)
