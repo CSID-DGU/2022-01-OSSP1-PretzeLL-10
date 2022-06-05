@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "GameSummaryScene.h"
 #include "SimpleAudioEngine.h"
+#include "Timer.h"
 
 USING_NS_CC;
 
