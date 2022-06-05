@@ -10,5 +10,6 @@
 #include "FireBall.h"
 #include "BatonWithSpikesProjectile.h"
 #include "BigHammerProjectile.h"
+#include "CleaverProjectile.h"
 
 #endif /* __BULLET_H__ */
