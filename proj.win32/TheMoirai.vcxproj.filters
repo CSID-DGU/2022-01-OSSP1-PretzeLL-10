@@ -1,4 +1,4 @@
-﻿﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="win32">
@@ -119,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\MonsterAI.cpp">
       <Filter>src\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Timer.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FireBall.h">
       <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Timer.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

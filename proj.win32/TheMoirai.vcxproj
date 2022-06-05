@@ -176,6 +176,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\SpriteObject.cpp" />
     <ClCompile Include="..\Classes\StartingMenuScene.cpp" />
     <ClCompile Include="..\Classes\StaticObject.cpp" />
+    <ClCompile Include="..\Classes\Timer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +241,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\SpriteObject.h" />
     <ClInclude Include="..\Classes\StartingMenuScene.h" />
     <ClInclude Include="..\Classes\StaticObject.h" />
+    <ClInclude Include="..\Classes\Timer.h" />
     <ClInclude Include="..\Classes\TinyZombie.h" />
     <ClInclude Include="..\Classes\Utility.h" />
     <ClInclude Include="..\Classes\Weapon.h" />
