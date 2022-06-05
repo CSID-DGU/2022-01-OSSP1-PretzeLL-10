@@ -20,6 +20,12 @@ void GameMapManager::makeGameMap(GameMap***& maparr)
 	case 2:
 		doMakeGameMap2(maparr);
 		break;
+	case 3:
+		doMakeGameMap3(maparr);
+		break;
+	case 4:
+		doMakeGameMap4(maparr);
+		break;
 	default:
 		break;
 	}
@@ -81,4 +87,36 @@ void GameMapManager::doMakeGameMap2(GameMap***& maparr)
 	MAKEMAP(2, 4, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
 	MAKEMAP(3, 4, "tmx/Basic_type3_EmptyT.tmx");	//왼쪽 오른쪽 아래쪽
 	MAKEMAP(4, 4, "tmx/Basic_type1_Left.tmx");		//왼쪽
+}
+
+void GameMapManager::doMakeGameMap3(GameMap***& maparr)
+{
+	MAKEMAP(2, 0, "tmx/Basic_type1_Right.tmx");		//오른쪽
+	MAKEMAP(3, 0, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
+	MAKEMAP(4, 0, "tmx/Basic_type2_LT.tmx");		//왼쪽 위쪽
+	MAKEMAP(4, 1, "tmx/Basic_type2_TB.tmx");		//위쪽 아래쪽
+	MAKEMAP(0, 2, "tmx/Basic_type1_Right.tmx");		//오른쪽
+	MAKEMAP(1, 2, "tmx/Basic_type3_EmptyB.tmx");	//왼쪽 오른쪽 위쪽 		
+	MAKEMAP(2, 2, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
+	MAKEMAP(3, 2, "tmx/Basic_type3_EmptyB.tmx");	//왼쪽 오른쪽 위쪽
+	MAKEMAP(4, 2, "tmx/Basic_type2_LB.tmx");		//왼쪽 아래쪽
+	MAKEMAP(1, 3, "tmx/Basic_type2_TB.tmx");		//위쪽 아래쪽
+	MAKEMAP(3, 3, "tmx/Basic_type1_Bottom.tmx");	//아래쪽
+	MAKEMAP(1, 4, "tmx/Basic_type2_RB.tmx");		//오른쪽 아래쪽 
+	MAKEMAP(2, 4, "tmx/Basic_type1_Left.tmx");		//왼쪽
+}
+
+void GameMapManager::doMakeGameMap4(GameMap***& maparr)
+{
+	MAKEMAP(0, 0, "tmx/Basic_type1_Right.tmx");		//오른쪽
+	MAKEMAP(1, 0, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
+	MAKEMAP(2, 0, "tmx/Basic_type2_LT.tmx");		//왼쪽 위쪽
+	MAKEMAP(2, 1, "tmx/Basic_type2_TB.tmx");		//위쪽 아래쪽
+	MAKEMAP(2, 2, "tmx/Basic_type3_EmptyL.tmx");	//오른쪽 위쪽 아래쪽
+	MAKEMAP(3, 2, "tmx/Basic_type2_LR.tmx");		//왼쪽 오른쪽
+	MAKEMAP(4, 2, "tmx/Basic_type1_Left.tmx");		//왼쪽
+	MAKEMAP(1, 3, "tmx/Basic_type1_Right.tmx");		//오른쪽
+	MAKEMAP(2, 3, "tmx/Basic_type3_EmptyR.tmx");	//왼쪽 위쪽 아래쪽
+	MAKEMAP(2, 4, "tmx/Basic_type2_RB.tmx");		//오른쪽 아래쪽
+	MAKEMAP(3, 4, "tmx/Basic_type1_Left.tmx");		//왼쪽
 }
