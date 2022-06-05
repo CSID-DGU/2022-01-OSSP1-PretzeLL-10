@@ -131,6 +131,7 @@ void BaseMonster::onContact(b2Contact* contact) {
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
         auto position = convertToNodeSpace(bullet->getPosition());
+        auto diff = getPosition() - bullet->getPosition();
         
         bullet->retain();
         bullet->removeFromParentAndCleanup(false);
@@ -140,6 +141,8 @@ void BaseMonster::onContact(b2Contact* contact) {
         bullet->release();
         
         damaged(bullet->getDamage());
+        normalize(diff);
+        __body->ApplyForceToCenter(C2B(diff*500.0f), false);
     }
 }
 

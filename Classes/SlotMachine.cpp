@@ -46,18 +46,6 @@ bool SlotMachine::init() {
     auto sprite = cocos2d::Sprite::create("sprite/slotmachineStyle.png");
     IF(!sprite);
     addChild(sprite, 0);
-        
-    /* Init laber */
-#if COCOS2D_DEBUG > 0
-    laber = cocos2d::ui::Button::create("sprite/button_debug.png");
-#else
-    laber = cocos2d::ui::Button::create();
-#endif
-    IF(!laber);
-    laber->addClickEventListener(CC_CALLBACK_1(SlotMachine::spin, this));
-    laber->setScale(0.06f);
-    laber->setAnchorPoint(cocos2d::Vec2(-3.8f, -1.8f));
-    addChild(laber, 2);
     
     /* Init random generator */
     engine = std::mt19937_64(rand_device());
@@ -100,13 +88,17 @@ void SlotMachine::update(float dt) {
             stopSpin(i);
             if (i == LayerSize::value - 1) {
                 unscheduleUpdate();
-                laber->setEnabled(true);
+                react(_hero);
+                _hero->setSpeed(_hero->getSpeed() * 4.0f);
+                _hero->rearm(0);
+                running = false;
             }
         }
     }
 }
 
-void SlotMachine::spin(Ref* pSender) {
+void SlotMachine::spin(Hero* hero) {
+    if (running) return;
     for (int i = 0; i < 3; i++) {
         createLine(i);
         auto pos = cocos2d::Vec2(0.0f, -lineSize[LayerSize::value-1]*200.0f);
@@ -116,7 +108,11 @@ void SlotMachine::spin(Ref* pSender) {
         layers[i]->runAction(speed);
     }
     scheduleUpdate();
-    laber->setEnabled(false);
+    _hero = hero;
+    _hero_speed = hero->getSpeed();
+    _hero->setSpeed(_hero_speed*0.25f);
+    _hero->disarm();
+    running = true;
 }
 
 void SlotMachine::stopSpin(int line) {

@@ -19,9 +19,6 @@
     <Filter Include="src\Object">
       <UniqueIdentifier>{6bb3087e-9c3f-4e36-9010-78ae31ce2d04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Object\Weapon">
-      <UniqueIdentifier>{dc58de0f-8048-4e18-8c3c-17fb19771038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Object\Hero">
       <UniqueIdentifier>{7f9dfd58-5c38-472a-8c26-27622cd9dad9}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="src\Object\Item">
       <UniqueIdentifier>{87e6e7f3-00a8-4ebf-a984-0cca372b853a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Weapon">
+      <UniqueIdentifier>{dc58de0f-8048-4e18-8c3c-17fb19771038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +304,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Zombie.h">
       <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AxeProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KnifeProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MagicStaff.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FireBall.h">
+      <Filter>src\Object\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

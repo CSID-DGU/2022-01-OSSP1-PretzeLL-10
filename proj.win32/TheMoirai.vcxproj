@@ -38,7 +38,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v141_xp</PlatformToolset>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -195,7 +195,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\DuelSword.h" />
     <ClInclude Include="..\Classes\DynamicObject.h" />
     <ClInclude Include="..\Classes\EventHandler.h" />
+    <ClInclude Include="..\Classes\FireBall.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Classes\FlaskBlue.h" />
+    <ClInclude Include="..\Classes\AxeProjectile.h" />
     <ClInclude Include="..\Classes\GameManager.h" />
     <ClInclude Include="..\Classes\GameMap.h" />
     <ClInclude Include="..\Classes\B2DebugDraw\B2DebugDrawLayer.h" />
@@ -216,7 +220,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Item.h" />
     <ClInclude Include="..\Classes\Katana.h" />
     <ClInclude Include="..\Classes\Knife.h" />
+    <ClInclude Include="..\Classes\KnifeProjectile.h" />
     <ClInclude Include="..\Classes\Machete.h" />
+    <ClInclude Include="..\Classes\MagicStaff.h" />
     <ClInclude Include="..\Classes\MaskedOrc.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
