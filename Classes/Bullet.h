@@ -12,5 +12,6 @@
 #include "BigHammerProjectile.h"
 #include "CleaverProjectile.h"
 #include "DuelSwordProjectile.h"
+#include "HammerProjectile.h"
 
 #endif /* __BULLET_H__ */
