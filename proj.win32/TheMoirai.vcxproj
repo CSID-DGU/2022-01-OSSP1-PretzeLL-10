@@ -38,7 +38,7 @@
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '14.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v140_xp</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0'">v141</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '15.0' and exists('$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A')">v141_xp</PlatformToolset>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -188,14 +188,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BaseWeapon.h" />
     <ClInclude Include="..\Classes\BatonWithSpikes.h" />
     <ClInclude Include="..\Classes\BigHammer.h" />
-    <ClInclude Include="..\Classes\BigHammerProjectile.h" />
     <ClInclude Include="..\Classes\Bow.h" />
     <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\Chort.h" />
     <ClInclude Include="..\Classes\Cleaver.h" />
-    <ClInclude Include="..\Classes\CleaverProjectile.h" />
     <ClInclude Include="..\Classes\DuelSword.h" />
-    <ClInclude Include="..\Classes\DuelSwordProjectile.h" />
     <ClInclude Include="..\Classes\DynamicObject.h" />
     <ClInclude Include="..\Classes\EventHandler.h" />
     <ClInclude Include="..\Classes\FireBall.h">
@@ -218,20 +215,15 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GameSummaryScene.h" />
     <ClInclude Include="..\Classes\Goblin.h" />
     <ClInclude Include="..\Classes\Hammer.h" />
-    <ClInclude Include="..\Classes\BatonWithSpikesProjectile.h" />
-    <ClInclude Include="..\Classes\HammerProjectile.h" />
     <ClInclude Include="..\Classes\Hero.h" />
     <ClInclude Include="..\Classes\Imp.h" />
     <ClInclude Include="..\Classes\Item.h" />
     <ClInclude Include="..\Classes\Katana.h" />
-    <ClInclude Include="..\Classes\KatanaProjectile.h" />
     <ClInclude Include="..\Classes\Knife.h" />
     <ClInclude Include="..\Classes\KnifeProjectile.h" />
     <ClInclude Include="..\Classes\Machete.h" />
     <ClInclude Include="..\Classes\MagicStaff.h" />
-    <ClInclude Include="..\Classes\MacheteProjectile.h" />
     <ClInclude Include="..\Classes\MaskedOrc.h" />
-    <ClInclude Include="..\Classes\MagicStaff.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
     <ClInclude Include="..\Classes\MonsterAI.h" />

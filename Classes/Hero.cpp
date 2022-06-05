@@ -297,6 +297,7 @@ void Hero::changeWeapon(int index)
 {
     if (__disarmed)
         return;
+
     int current = __weapon.second;
     if (index - 1 == current)
         return;
@@ -311,18 +312,6 @@ void Hero::changeWeapon(int index)
     {
         __weapon.first[current]->activate();
     }
-    flipWeapon();
-    == == == =
-                 int current = __weapon.second;
-    if (index - 1 == current)
-        return;
-    if (!__weapon.first[index - 1])
-        return;
-
-    __weapon.first[current]->deactivate();
-    current = index - 1;
-    __weapon.second = current;
-    __weapon.first[current]->activate();
     flipWeapon();
 }
 
@@ -339,18 +328,6 @@ void Hero::setWeapon(std::vector<weapon_t *> weapons)
     __weapon.first.clear();
     __weapon.first = weapons;
     __weapon.first.push_back(nullptr);
-    bool changed = false;
-    == == == =
-                 int current = __weapon.second;
-    for (auto iter : __weapon.first)
-    {
-        if (!iter)
-            continue;
-        iter->deactivate();
-        iter->removeFromParent();
-    }
-    __weapon.first.clear();
-    __weapon.first = weapons;
     bool changed = false;
 
     for (auto iter : __weapon.first)
@@ -407,48 +384,6 @@ DIRECTION Hero::getDirection(bool isAbleToMove)
 
 void Hero::onContact(b2Contact *contact)
 {
-    b2Fixture *other = contact->GetFixtureB();
-    if (getCategory(other) == CATEGORY_PLAYER)
-    {
-        other = contact->GetFixtureA();
-    }
-
-    float other_cat = getCategory(other);
-    if (other_cat == CATEGORY_MONSTER)
-    {
-        if (__invincible)
-            return;
-        auto monster = PhysicsObject::getUserData<monster_t *>(other);
-        damaged(monster->getDamage());
-        auto diff = getPosition() - monster->getPosition();
-        normalize(diff);
-        __body->ApplyForceToCenter(C2B(diff * 500.0f), false);
-        makeInvincible(1.0f);
-    }
-    else if (other_cat == CATEGORY_DOOR)
-    {
-        auto pos = getAbsolutePosition();
-        if (pos.x < 300.0f)
-            __map_dir = MAP_LEFT;
-        else if (pos.x > 700.0f)
-            __map_dir = MAP_RIGHT;
-        else if (pos.y > 700.0f)
-            __map_dir = MAP_UP;
-        else if (pos.y < 500.0f)
-            __map_dir = MAP_DOWN;
-    }
-    else if (other_cat == CATEGORY_DOOR)
-    {
-        auto pos = getAbsolutePosition();
-        if (pos.x < 300.0f)
-            __map_dir = MAP_LEFT;
-        else if (pos.x > 700.0f)
-            __map_dir = MAP_RIGHT;
-        else if (pos.y > 700.0f)
-            __map_dir = MAP_UP;
-        else if (pos.y < 500.0f)
-            __map_dir = MAP_DOWN;
-    }
     b2Fixture *other = contact->GetFixtureB();
     if (getCategory(other) == CATEGORY_PLAYER)
     {
