@@ -71,20 +71,38 @@ bool StartingMenu::init()
 
     /////////////////////////////
     // 3.
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24*10);
-    label->setScale(0.1f);
-    if (label == nullptr)
+    auto titleSprite = Sprite::create("frames/MoiraiLabel.png");
+    if (titleSprite == nullptr)
     {
-        problemLoading("'fonts/Marker Felt.ttf'");
+        problemLoading("'MoiraiLabel fault'");
     }
     else
     {
         // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-            origin.y + visibleSize.height - label->getContentSize().height));
+        titleSprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - titleSprite->getContentSize().height));
 
+        titleSprite->setScale(3.0f);
+        titleSprite->getTexture()->setTexParameters(TEX_PARA);
         // add the label as a child to this layer
-        this->addChild(label, 1);
+        this->addChild(titleSprite, 1);
+    }
+
+    auto logoSprite = Sprite::create("frames/MoiraiLogo.png");
+    if (logoSprite == nullptr)
+    {
+        problemLoading("'Moirailogo fault'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        logoSprite->setPosition(Vec2(origin.x + visibleSize.width / 2 + 300,
+            origin.y + visibleSize.height - logoSprite->getContentSize().height));
+
+        logoSprite->setScale(2.0f);
+        logoSprite->getTexture()->setTexParameters(TEX_PARA);
+        // add the label as a child to this layer
+        this->addChild(logoSprite, 1);
     }
 
     // add "HelloWorld" splash screen"
