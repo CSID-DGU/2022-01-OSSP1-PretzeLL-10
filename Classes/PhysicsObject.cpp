@@ -29,7 +29,7 @@ bool PhysicsObject::initDynamic(const b2Vec2& size, const b2Vec2& center, void* 
     b2PolygonShape box;
     float scaleWidth = PHYSICS_BODY_HEIGHT/PTM_RATIO;
     float scaleHeight = PHYSICS_BODY_HEIGHT/PTM_RATIO;
-    auto __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
+    __size = b2Vec2(size.x * scaleWidth, size.y * scaleHeight);
     box.SetAsBox(__size.x, __size.y, b2Vec2(__size.x * center.x, __size.y * center.y), 0.0f);
     
     b2FixtureDef fixture;
@@ -103,12 +103,12 @@ void PhysicsObject::recreate(const b2Vec2& size, const b2Vec2& center) {
     recreate(&shape);
 }
 
-void PhysicsObject::scale(float scaleFactor) {
+void PhysicsObject::scale(float scaleFactor, const b2Vec2& center) {
     __size.x *= scaleFactor;
     __size.y *= scaleFactor;
     b2PolygonShape shape;
-    auto center = __body->GetLocalCenter();
-    shape.SetAsBox(__size.x, __size.y, center, 0.0f);
+    auto new_center = __body->GetLocalCenter() + center;
+    shape.SetAsBox(__size.x, __size.y, new_center, 0.0f);
     recreate(&shape);
 }
 

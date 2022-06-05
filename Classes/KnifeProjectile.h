@@ -6,6 +6,7 @@
 
 class KnifeProjectile : public BaseBullet {
 protected:
+    cocos2d::Node* __hero;
     cocos2d::Vec2 __initial_pos;
     float __desired_distance = 500.0f;
         
@@ -47,6 +48,10 @@ public:
         __initial_pos = getPosition();
     }
     
+    void getHeroPtr() {
+        __hero = getParent()->getChildByTag(TAG_PLAYER);
+    }
+    
     void onContact(b2Contact* contact) final {
         /* For rotation on end */
         auto diff = getPosition() - __initial_pos;
@@ -64,7 +69,8 @@ public:
     }
     
     void followTarget(float dt) {
-        auto len = moveTo(getParent()->getChildByTag(TAG_PLAYER)->getPosition());   // move to hero, returns length(float)
+        if (!__hero) return;
+        auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
         if (len < 20.0f) {
             unschedule(schedule_selector(KnifeProjectile::followTarget));           // if length is close enough, remove this
             removeAfter(0.0f);
