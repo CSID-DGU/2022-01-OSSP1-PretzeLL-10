@@ -24,7 +24,7 @@ public:
 			return;
 		addBullet(axe);
 		axe->setParent(this);
-		axe->setSpeed(25.0f);
+		axe->setSpeed(20.0f);
 		// axe->setRotation(VecToDegree(direction));
 		axe->setVelocity(direction);
 		axe->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
