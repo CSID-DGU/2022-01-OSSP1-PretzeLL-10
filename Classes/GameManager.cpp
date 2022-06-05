@@ -292,6 +292,7 @@ void GameManager::gameOver()
 	auto gameoverSprite = cocos2d::Sprite::create("frames/gameover.png");
 	gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
 	gameoverSprite->setScale(0.3f);
+	gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
 	gameOverLayer->addChild(menu);
 	gameOverLayer->addChild(gameoverSprite);
 	_layer->addChild(gameOverLayer, 50);
