@@ -18,14 +18,15 @@ public:
 		auto fireBall1 = FireBall::create();
 		auto fireBall2 = FireBall::create();
 		auto fireBall3 = FireBall::create();
-
+        cocos2d::Vec2 vec;
 
 		if (!fireBall1) return;
 		addBullet(fireBall1);
 		fireBall1->setParent(this);
 		fireBall1->setSpeed(10.0f);
-		fireBall1->setRotation(VecToDegree(normalize(cocos2d::Vec2(direction.x - 0.5f, direction.y - 0.5f))));
-		fireBall1->setVelocity(C2B(normalize(cocos2d::Vec2(direction.x - 0.5f, direction.y - 0.5f))));
+        vec = cocos2d::Vec2(direction.x - 0.5f, direction.y - 0.5f);
+		fireBall1->setRotation(VecToDegree(normalize(vec)));
+		fireBall1->setVelocity(C2B(normalize(vec)));
 		fireBall1->PhysicsObject::scale(0.5f);
 		fireBall1->move();
 		fireBall1->setInitialPos();
@@ -44,8 +45,9 @@ public:
 		addBullet(fireBall3);
 		fireBall3->setParent(this);
 		fireBall3->setSpeed(10.0f);
-		fireBall3->setRotation(VecToDegree(normalize(cocos2d::Vec2(direction.x + 0.5f, direction.y + 0.5f))));
-		fireBall3->setVelocity(C2B(normalize(cocos2d::Vec2(direction.x + 0.5f, direction.y + 0.5f))));
+        vec = cocos2d::Vec2(direction.x + 0.5f, direction.y + 0.5f);
+		fireBall3->setRotation(VecToDegree(normalize(vec)));
+		fireBall3->setVelocity(C2B(normalize(vec)));
 		fireBall3->PhysicsObject::scale(0.5f);
 		fireBall3->move();
 		fireBall3->setInitialPos();

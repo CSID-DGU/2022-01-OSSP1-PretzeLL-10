@@ -13,13 +13,16 @@ public:
 private:
     std::array<bool, 6>__key;
     cocos2d::Vec2 __mouse;
+    
     DIRECTION __map_dir;
-
     weapon_info __weapon;
+    
     int __hp;
     int __damage;
     float __speed_bak;
-    bool __zonya;
+    
+    bool __invincible;
+    bool __disarmed;
 
 public:
     Hero();
@@ -42,15 +45,21 @@ public:
     void attack();
     void testWeapon(float t);
     void damaged(int damage);
+    void makeInvincible(float time);
     int getHP();
     void setHP(int hp);
     int getDamage();
     void setDamage(int damage);
     
+    void disarm(float time = 0.0f);
+    void rearm(float dt);
     void changeWeapon(int index);
     void setWeapon(std::vector<weapon_t*> weapons);
     DIRECTION getDirection(bool isAbleToMove);
     void onContact(b2Contact* contact) final;
+    
+private:
+    void invincible(float dt);
 };
 
 #endif /* __PLAYER_H___ */

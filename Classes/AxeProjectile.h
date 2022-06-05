@@ -9,18 +9,12 @@ protected:
 	cocos2d::Vec2 __initial_pos;
 	float __desired_distance = 500.0f;
 
-	AxeProjectile() : BaseBullet("weapon_AxeProjectile") {}
+	AxeProjectile() : BaseBullet("weapon_axe") {}
 	virtual ~AxeProjectile() {}
 
 public:
 	CREATE_FUNC(AxeProjectile);
 	cocos2d::Vec2 tmp_velocity;
-
-	bool init() final {
-		if (!BaseBullet::init());
-		__body->SetLinearDamping(0.25f);
-		return true;
-	}
 
 	void update(float dt) final {
 		ProjectileObject::update(dt);

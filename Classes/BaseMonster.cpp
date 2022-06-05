@@ -70,18 +70,7 @@ void BaseMonster::attack() {
 }
 
 void BaseMonster::damaged(int damage) {
-    if ((__hp -= damage) <= 0) {
-        unschedule(schedule_selector(BaseMonster::behavior));
-        setCategory(CATEGORY_MONSTER, MASK_NONE);
-        setVelocity(b2Vec2(0.0f, 0.0f));
-        stopAllActions();
-        removeAfter(1.5f);
-        
-        auto delay = cocos2d::DelayTime::create(0.5f);
-        auto fade = cocos2d::FadeOut::create(1.0f);
-        auto seq = cocos2d::Sequence::createWithTwoActions(delay, fade);
-        runAction(seq);
-    }
+    __hp -= damage;
 }
 
 void BaseMonster::dieing()
@@ -142,6 +131,7 @@ void BaseMonster::onContact(b2Contact* contact) {
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
         auto position = convertToNodeSpace(bullet->getPosition());
+        auto diff = getPosition() - bullet->getPosition();
         
         bullet->retain();
         bullet->removeFromParentAndCleanup(false);
@@ -151,6 +141,8 @@ void BaseMonster::onContact(b2Contact* contact) {
         bullet->release();
         
         damaged(bullet->getDamage());
+        normalize(diff);
+        __body->ApplyForceToCenter(C2B(diff*500.0f), false);
     }
 }
 

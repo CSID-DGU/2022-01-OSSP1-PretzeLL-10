@@ -1,4 +1,4 @@
-#include "GameMapManager.h"
+ï»¿#include "GameMapManager.h"
 
 #define MAKEMAP(x, y, string) maparr[x][y] = new GameMap(string)
 #define MAPNUMBER 3
@@ -27,58 +27,58 @@ void GameMapManager::makeGameMap(GameMap***& maparr)
 
 void GameMapManager::doMakeGameMap0(GameMap***& maparr)
 {
-	MAKEMAP(0, 0, "tmx/Basic_type1_Right.tmx");		//¿À¸¥ÂÊ
-	MAKEMAP(1, 0, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(2, 0, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(3, 0, "tmx/Basic_type2_LT.tmx");		//¿ÞÂÊ À§ÂÊ
-	MAKEMAP(2, 1, "tmx/Basic_type2_TR.tmx");		//¿À¸¥ÂÊ À§ÂÊ
-	MAKEMAP(3, 1, "tmx/Basic_type2_LB.tmx");		//¿ÞÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(4, 1, "tmx/Basic_type1_Top.tmx");		//À§ÂÊ
-	MAKEMAP(1, 2, "tmx/Basic_type2_TR.tmx");		//¿À¸¥ÂÊ À§ÂÊ
-	MAKEMAP(2, 2, "tmx/Basic_type4.tmx");			//¿ÞÂÊ ¿À¸¥ÂÊ À§ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(3, 2, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(4, 2, "tmx/Basic_type2_LB.tmx");		//¿ÞÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(1, 3, "tmx/Basic_type1_Bottom.tmx");	//¾Æ·¡ÂÊ
-	MAKEMAP(2, 3, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(3, 3, "tmx/Basic_type2_LT.tmx");		//¿ÞÂÊ À§ÂÊ
-	MAKEMAP(3, 4, "tmx/Basic_type1_Bottom.tmx");	//¾Æ·¡ÂÊ
+	MAKEMAP(0, 0, "tmx/Basic_type1_Right_c.tmx");	//ì˜¤ë¥¸ìª½
+	MAKEMAP(1, 0, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(2, 0, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(3, 0, "tmx/Basic_type2_LT_c.tmx");		//ì™¼ìª½ ìœ„ìª½
+	MAKEMAP(2, 1, "tmx/Basic_type2_TR_c.tmx");		//ì˜¤ë¥¸ìª½ ìœ„ìª½
+	MAKEMAP(3, 1, "tmx/Basic_type2_LB_c.tmx");		//ì™¼ìª½ ì•„ëž˜ìª½
+	MAKEMAP(4, 1, "tmx/Basic_type1_Top_c.tmx");		//ìœ„ìª½
+	MAKEMAP(1, 2, "tmx/Basic_type2_TR_c.tmx");		//ì˜¤ë¥¸ìª½ ìœ„ìª½
+	MAKEMAP(2, 2, "tmx/Basic_type4_c.tmx");			//ì™¼ìª½ ì˜¤ë¥¸ìª½ ìœ„ìª½ ì•„ëž˜ìª½
+	MAKEMAP(3, 2, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(4, 2, "tmx/Basic_type2_LB_c.tmx");		//ì™¼ìª½ ì•„ëž˜ìª½
+	MAKEMAP(1, 3, "tmx/Basic_type1_Bottom_c.tmx");	//ì•„ëž˜ìª½
+	MAKEMAP(2, 3, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(3, 3, "tmx/Basic_type2_LT_c.tmx");		//ì™¼ìª½ ìœ„ìª½
+	MAKEMAP(3, 4, "tmx/Basic_type1_Bottom_c.tmx");	//ì•„ëž˜ìª½
 }
 
 void GameMapManager::doMakeGameMap1(GameMap***& maparr)
 {
-	MAKEMAP(1, 0, "tmx/Basic_type1_Top.tmx");		//À§ÂÊ
-	MAKEMAP(1, 1, "tmx/Basic_type3_EmptyL.tmx");	//¿À¸¥ÂÊ À§ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(2, 1, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(3, 1, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(4, 1, "tmx/Basic_type1_Left.tmx");		//¿ÞÂÊ
-	MAKEMAP(1, 2, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(2, 2, "tmx/Basic_type2_LT.tmx");		//¿ÞÂÊ À§ÂÊ
-	MAKEMAP(2, 3, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(3, 3, "tmx/Basic_type3_EmptyB.tmx");	//¿ÞÂÊ ¿À¸¥ÂÊ À§ÂÊ
-	MAKEMAP(4, 3, "tmx/Basic_type1_Left.tmx");		//¿ÞÂÊ
-	MAKEMAP(0, 4, "tmx/Basic_type1_Right.tmx");		//¿À¸¥ÂÊ
-	MAKEMAP(1, 4, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(2, 4, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(3, 4, "tmx/Basic_type2_LB.tmx");		//¿ÞÂÊ ¾Æ·¡ÂÊ
+	MAKEMAP(1, 0, "tmx/Basic_type1_Top_c.tmx");		//ìœ„ìª½
+	MAKEMAP(1, 1, "tmx/Basic_type3_EmptyL_c.tmx");	//ì˜¤ë¥¸ìª½ ìœ„ìª½ ì•„ëž˜ìª½
+	MAKEMAP(2, 1, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(3, 1, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(4, 1, "tmx/Basic_type1_Left_c.tmx");	//ì™¼ìª½
+	MAKEMAP(1, 2, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(2, 2, "tmx/Basic_type2_LT_c.tmx");		//ì™¼ìª½ ìœ„ìª½
+	MAKEMAP(2, 3, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(3, 3, "tmx/Basic_type3_EmptyB_c.tmx");	//ì™¼ìª½ ì˜¤ë¥¸ìª½ ìœ„ìª½
+	MAKEMAP(4, 3, "tmx/Basic_type1_Left_c.tmx");	//ì™¼ìª½
+	MAKEMAP(0, 4, "tmx/Basic_type1_Right_c.tmx");	//ì˜¤ë¥¸ìª½
+	MAKEMAP(1, 4, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(2, 4, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(3, 4, "tmx/Basic_type2_LB_c.tmx");		//ì™¼ìª½ ì•„ëž˜ìª½
 }
 
 void GameMapManager::doMakeGameMap2(GameMap***& maparr)
 {
-	MAKEMAP(1, 0, "tmx/Basic_type1_Top.tmx");		//À§ÂÊ
-	MAKEMAP(1, 1, "tmx/Basic_type2_TB.tmx");		//À§ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(3, 1, "tmx/Basic_type1_Right.tmx");		//¿À¸¥ÂÊ
-	MAKEMAP(4, 1, "tmx/Basic_type2_LT.tmx");		//¿ÞÂÊ À§ÂÊ
-	MAKEMAP(0, 2, "tmx/Basic_type1_Top.tmx");		//À§ÂÊ
-	MAKEMAP(1, 2, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(2, 2, "tmx/Basic_type3_EmptyB.tmx");	//¿ÞÂÊ ¿À¸¥ÂÊ À§ÂÊ
-	MAKEMAP(3, 2, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(4, 2, "tmx/Basic_type2_LB.tmx");		//¿ÞÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(0, 3, "tmx/Basic_type2_TB.tmx");		//À§ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(2, 3, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(3, 3, "tmx/Basic_type2_LT.tmx");		//¿ÞÂÊ À§ÂÊ
-	MAKEMAP(0, 4, "tmx/Basic_type2_RB.tmx");		//¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(1, 4, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(2, 4, "tmx/Basic_type2_LR.tmx");		//¿ÞÂÊ ¿À¸¥ÂÊ
-	MAKEMAP(3, 4, "tmx/Basic_type3_EmptyT.tmx");	//¿ÞÂÊ ¿À¸¥ÂÊ ¾Æ·¡ÂÊ
-	MAKEMAP(4, 4, "tmx/Basic_type1_Left.tmx");		//¿ÞÂÊ
+	MAKEMAP(1, 0, "tmx/Basic_type1_Top_c.tmx");		//ìœ„ìª½
+	MAKEMAP(1, 1, "tmx/Basic_type2_TB_c.tmx");		//ìœ„ìª½ ì•„ëž˜ìª½
+	MAKEMAP(3, 1, "tmx/Basic_type1_Right_c.tmx");	//ì˜¤ë¥¸ìª½
+	MAKEMAP(4, 1, "tmx/Basic_type2_LT_c.tmx");		//ì™¼ìª½ ìœ„ìª½
+	MAKEMAP(0, 2, "tmx/Basic_type1_Top_c.tmx");		//ìœ„ìª½
+	MAKEMAP(1, 2, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(2, 2, "tmx/Basic_type3_EmptyB_c.tmx");	//ì™¼ìª½ ì˜¤ë¥¸ìª½ ìœ„ìª½
+	MAKEMAP(3, 2, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(4, 2, "tmx/Basic_type2_LB_c.tmx");		//ì™¼ìª½ ì•„ëž˜ìª½
+	MAKEMAP(0, 3, "tmx/Basic_type2_TB_c.tmx");		//ìœ„ìª½ ì•„ëž˜ìª½
+	MAKEMAP(2, 3, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(3, 3, "tmx/Basic_type2_LT_c.tmx");		//ì™¼ìª½ ìœ„ìª½
+	MAKEMAP(0, 4, "tmx/Basic_type2_RB_c.tmx");		//ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(1, 4, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(2, 4, "tmx/Basic_type2_LR_c.tmx");		//ì™¼ìª½ ì˜¤ë¥¸ìª½
+	MAKEMAP(3, 4, "tmx/Basic_type3_EmptyT_c.tmx");	//ì™¼ìª½ ì˜¤ë¥¸ìª½ ì•„ëž˜ìª½
+	MAKEMAP(4, 4, "tmx/Basic_type1_Left_c.tmx");	//ì™¼ìª½
 }

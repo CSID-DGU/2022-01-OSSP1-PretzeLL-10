@@ -22,7 +22,7 @@
 template <int num> struct Int { enum { value = num }; };
 
 
-static inline void endProgram() {
+inline void endProgram() {
     cocos2d::Director::getInstance()->end();
 }
 
@@ -49,27 +49,27 @@ inline cocos2d::Vec2 normalize(cocos2d::Vec2& vec) {
     return vec;
 }
 
-static inline const cocos2d::Vec2 B2C(const b2Vec2 vec) {
+inline const cocos2d::Vec2 B2C(const b2Vec2 vec) {
     return cocos2d::Vec2(vec.x, vec.y);
 }
 
-static inline b2Vec2 C2B(const cocos2d::Vec2 vec) {
+inline b2Vec2 C2B(const cocos2d::Vec2 vec) {
     return b2Vec2(vec.x, vec.y);
 }
 
-static inline const float B2C(float angle) {
+inline const float B2C(float angle) {
     return -1 * CC_RADIANS_TO_DEGREES(angle);
 }
 
-static inline float C2B(float angle) {
+inline float C2B(float angle) {
     return -1 * CC_DEGREES_TO_RADIANS(angle);
 }
 
-static inline float VecToDegree(const cocos2d::Vec2& vec) {
+inline float VecToDegree(const cocos2d::Vec2& vec) {
     return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
 }
 
-static inline float VecToDegree(const b2Vec2& vec) {
+inline float VecToDegree(const b2Vec2& vec) {
     return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
 }
 

@@ -15,9 +15,11 @@ private:
     std::uniform_int_distribution<int> rand;
     
     std::vector<cocos2d::Sprite*> weapons;
-    cocos2d::ui::Button* laber;
     std::array<cocos2d::Layer*, LayerSize::value> layers;
     std::array<cocos2d::Sprite*, LayerSize::value> result;
+    
+    Hero* _hero;
+    float _hero_speed;
     
     static int counter;
     int lineSize[LayerSize::value] = { 15, 20, 25 };
@@ -31,7 +33,7 @@ public:
     bool init() final;
     void update(float dt) final;
     bool isRunning() const final;
-    void spin(Ref* pSender);
+    void spin(Hero* hero);
     void stopSpin(int line);
     void stopAllSpin();
     
