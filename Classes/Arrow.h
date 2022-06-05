@@ -12,11 +12,10 @@ protected:
 public:
     CREATE_FUNC(Arrow);
     
-    bool init() final {
-        IF(!BaseBullet::init());
-        PhysicsObject::scale(0.5f);
-        return true;
-    }
+//    bool init() final {
+//        IF(!BaseBullet::init());
+//        return true;
+//    }
 };
 
 #endif /* __ARROW_H__ */

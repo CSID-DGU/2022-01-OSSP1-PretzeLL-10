@@ -5,6 +5,8 @@
 #include <utility>
 #include "GameMap.h"
 #include "GameStateLayer.h"
+#include "GameMapManager.h"
+#include "BaseMonster.h"
 #include "EventHandler.h"
 
 class GameManager
@@ -15,6 +17,7 @@ public:
 
     cocos2d::Layer* getLayer() const;
     Hero* getHero() const;      // for test
+    std::vector<BaseMonster*> monsterVec;
 
     void startNewGame();
     
@@ -40,6 +43,7 @@ private:
 
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;
+    GameMapManager mapManager;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 

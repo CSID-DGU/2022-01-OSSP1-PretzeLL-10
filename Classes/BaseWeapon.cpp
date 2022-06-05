@@ -1,12 +1,12 @@
 #include "BaseWeapon.h"
 
 
-BaseWeapon::BaseWeapon(std::string name, int damage, float attackT, float revertT, float chargeT)
+BaseWeapon::BaseWeapon(std::string name, int damage, float attackT, float chargeT)
 : StaticObject("frames", "weapon_" + name) {
     __name = name;
+    __angle = 20.0f;
     __damage = damage;
     __attackTime = attackT;
-    __revertTime = revertT;
     __chargeTime = chargeT;
 }
 
@@ -56,9 +56,19 @@ void BaseWeapon::registerKey(bool* key) {
     __fire_key = key;
 }
 
+
 WEAPON BaseWeapon::getType() {
     if (__chargeTime > 0.0f) return CHARGE;
     return IMMEDIATE;
+}
+
+void BaseWeapon::setAngle(float angle) {
+    __angle = angle;
+    setRotation(angle);
+}
+
+float BaseWeapon::getAngle() {
+    return __angle;
 }
 
 
@@ -67,8 +77,8 @@ void BaseWeapon::attack(bool flipped, const b2Vec2& direction) {
     
     float angle = 60.0f;
     if (flipped) angle *= -1.0f;
-    auto attack = cocos2d::RotateBy::create(__attackTime, angle);
-    auto revoke = cocos2d::RotateTo::create(__revertTime, getRotation());
+    auto attack = cocos2d::RotateBy::create(__attackTime/2, angle);
+    auto revoke = cocos2d::RotateTo::create(__attackTime/2, getRotation());
     auto seq = cocos2d::Sequence::createWithTwoActions(attack, revoke);
     runAction(seq);
 }
@@ -108,7 +118,7 @@ bool BaseWeapon::isCharging() {
 }
 
 float BaseWeapon::getAttackTime() {
-    return __attackTime + __revertTime + 0.02f;
+    return __attackTime;
 }
 
 

@@ -11,7 +11,6 @@ private:
     
 protected:    
     float __attackTime;
-    float __revertTime;
     float __chargeTime;
     
     bool* __fire_key;
@@ -25,7 +24,6 @@ protected:
     BaseWeapon(std::string name,
                int damage = 4,
                float attackTime = 0.2f,
-               float revertTime = 0.0f,
                float chargeTime = 0.0f);
     virtual ~BaseWeapon();
     
@@ -39,10 +37,12 @@ public:
     void activate();
     void deactivate();
     void registerKey(bool* key);
+    
     WEAPON getType();
+    void setAngle(float angle);
+    float getAngle();
     
     void setAttackTime(float time);
-    void setRevertTime(float time);
     void setChargeTime(float time);
     float getAttackTime();
     
