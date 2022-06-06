@@ -6,11 +6,19 @@
 
 class Cleaver : public BaseWeapon {
 protected:
-    Cleaver() : BaseWeapon("cleaver", 1, 0.2f, 0.1f) {}
+    Cleaver() : BaseWeapon("cleaver") {}
     virtual ~Cleaver() {}
     
 public:
     CREATE_FUNC(Cleaver);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.1f);
+        setLevelValue(2, 1, 0.2f, 0.1f);
+        setLevelValue(3, 1, 0.2f, 0.1f);
+        return true;
+    }
     
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;

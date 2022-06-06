@@ -1,13 +1,27 @@
 #include "BaseWeapon.h"
 
 
-BaseWeapon::BaseWeapon(std::string name, int damage, float attackT, float chargeT)
+BaseWeapon::BaseWeapon(std::string name)
 : StaticObject("frames", "weapon_" + name) {
     __name = name;
     __angle = 20.0f;
-    __damage = damage;
-    __attackTime = attackT;
-    __chargeTime = chargeT;
+    __level = 0;
+    __damage.fill(0);
+    __attackTime.fill(0.0f);
+    __chargeTime.fill(0.0f);
+}
+
+BaseWeapon::BaseWeapon(std::string name, int damage[MAX_LEVEL::value], float attackTime[MAX_LEVEL::value], float chargeTime[MAX_LEVEL::value])
+: StaticObject("frames", "weapon_" + name) {
+    __name = name;
+    __angle = 20.0f;
+    __level = 0;
+    
+    for (int i = 0; i < MAX_LEVEL::value; i++) {
+        __damage[i] = damage[i];
+        __attackTime[i] = attackTime[i];
+        __chargeTime[i] = chargeTime[i];
+    }
 }
 
 BaseWeapon::~BaseWeapon() {}
@@ -63,7 +77,7 @@ void BaseWeapon::registerKey(bool* key) {
 
 
 WEAPON BaseWeapon::getType() {
-    if (__chargeTime > 0.0f) return CHARGE;
+    if (__chargeTime[__level] > 0.0f) return CHARGE;
     return IMMEDIATE;
 }
 
@@ -82,18 +96,24 @@ void BaseWeapon::attack(bool flipped, const b2Vec2& direction) {
     
     float angle = 60.0f;
     if (flipped) angle *= -1.0f;
-    auto attack = cocos2d::RotateBy::create(__attackTime/2, angle);
-    auto revoke = cocos2d::RotateTo::create(__attackTime/2, getRotation());
+    auto attack = cocos2d::RotateBy::create(__attackTime[__level]/2, angle);
+    auto revoke = cocos2d::RotateTo::create(__attackTime[__level]/2, getRotation());
     auto seq = cocos2d::Sequence::createWithTwoActions(attack, revoke);
     runAction(seq);
 }
 
-void BaseWeapon::setDamage(int damage) {
-    __damage = damage;
+void BaseWeapon::setLevel(int level) {
+    __level = level;
+}
+
+void BaseWeapon::setLevelValue(int level, int damage, float attackTime, float chargeTime) {
+    __damage[level-1] = damage;
+    __attackTime[level-1] = attackTime;
+    __chargeTime[level-1] = chargeTime;
 }
 
 int BaseWeapon::getDamage() {
-    return __damage;
+    return __damage[__level];
 }
 
 bool BaseWeapon::isAttacking() {
@@ -103,7 +123,7 @@ bool BaseWeapon::isAttacking() {
 bool BaseWeapon::isAttackAble() {
     if (getType() == CHARGE) {
         if (*__fire_key) {
-            __chargeTimer.set(__chargeTime);
+            __chargeTimer.set(__chargeTime[__level]);
             return false;
         }
         if (!__chargeTimer.isEnd()) return false;
@@ -123,7 +143,7 @@ bool BaseWeapon::isCharging() {
 }
 
 float BaseWeapon::getAttackTime() {
-    return __attackTime;
+    return __attackTime[__level];
 }
 
 

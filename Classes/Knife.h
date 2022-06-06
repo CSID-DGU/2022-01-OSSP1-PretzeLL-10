@@ -7,11 +7,19 @@
 
 class Knife : public BaseWeapon {
 protected:
-    Knife() : BaseWeapon("regular_sword", 1, 0.2f, 0.1f) {}
+    Knife() : BaseWeapon("regular_sword") {}
     virtual ~Knife() {}
     
 public:
     CREATE_FUNC(Knife);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.1f);
+        setLevelValue(2, 1, 0.2f, 0.1f);
+        setLevelValue(3, 1, 0.2f, 0.1f);
+        return true;
+    }
     
     void attack(bool flipped, const b2Vec2& direction) final {
         if (!isAttackAble()) return;

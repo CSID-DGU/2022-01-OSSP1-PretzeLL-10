@@ -5,14 +5,21 @@
 #include "Arrow.h"
 
 
-class Bow : public BaseWeapon {
+class Bow : public BaseWeapon {    
 protected:
-//    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f, 0.5f) {}
-    Bow() : BaseWeapon("bow", 1, 0.1f, 0.0f) {}               // testing
+    Bow() : BaseWeapon("bow") {}
     virtual ~Bow() {}
     
 public:
     CREATE_FUNC(Bow);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.0f);
+        setLevelValue(2, 2, 0.2f, 0.0f);
+        setLevelValue(3, 10, 0.2f, 1.0f);
+        return true;
+    }
     
     void attack(bool flipped, const b2Vec2& direction) final {
         if (!isAttackAble()) return;

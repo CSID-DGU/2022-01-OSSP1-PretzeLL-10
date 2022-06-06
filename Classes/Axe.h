@@ -7,11 +7,17 @@
 class Axe : public BaseWeapon
 {
 protected:
-	Axe() : BaseWeapon("axe", 1, 0.2f, 0.0f) {}
+	Axe() : BaseWeapon("axe") {}
 	virtual ~Axe() {}
 
 public:
 	CREATE_FUNC(Axe);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.0f);
+        return true;
+    }
 
 	void attack(bool flipped, const b2Vec2 &direction) final
 	{

@@ -7,11 +7,19 @@
 class MagicStaff : public BaseWeapon
 {
 protected:
-	MagicStaff() : BaseWeapon("red_magic_staff", 1, 0.1f, 0.0f) {}
+	MagicStaff() : BaseWeapon("red_magic_staff") {}
 	virtual ~MagicStaff() {}
 
 public:
 	CREATE_FUNC(MagicStaff);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.1f, 0.0f);
+        setLevelValue(2, 1, 0.2f, 0.0f);
+        setLevelValue(3, 1, 0.2f, 0.0f);
+        return true;
+    }
 
 	void attack(bool flipped, const b2Vec2 &direction) final
 	{

@@ -10,50 +10,51 @@ private:
     typedef std::function<BaseWeapon*(void)> create_func_t;
     static std::map<int, create_func_t> __create_func;
     
-protected:    
-    float __attackTime;
-    float __chargeTime;
+    typedef Int<3> MAX_LEVEL;
+    typedef std::array<float, MAX_LEVEL::value> level_array;
+    
+protected:
+    level_array __attackTime;
+    level_array __chargeTime;
+    level_array __damage;
+    int __level;
     
     bool* __fire_key;
     float __angle;
-    int __damage;
     
     Timer __attackTimer;
     Timer __chargeTimer;
     
 protected:
+    BaseWeapon(std::string name);
     BaseWeapon(std::string name,
-               int damage = 4,
-               float attackTime = 0.2f,
-               float chargeTime = 0.0f);
+               int damage[MAX_LEVEL::value],
+               float attactTime[MAX_LEVEL::value],
+               float chargeTime[MAX_LEVEL::value]);
     virtual ~BaseWeapon();
     
 public:
 //    CREATE_FUNC(BaseWeapon);
     
-    bool init() final;
+    bool init() override;
     void update(float dt) final;
     void addBullet(cocos2d::Node* bullet, const b2Vec2& pos = b2Vec2(0.0f, 0.0f));
     
     void activate();
     void deactivate();
     void registerKey(bool* key);
-    
     WEAPON getType();
     void setAngle(float angle);
     float getAngle();
     
-    void setAttackTime(float time);
-    void setChargeTime(float time);
+    virtual void attack(bool flipped, const b2Vec2& direction);
+    void setLevel(int level);
+    void setLevelValue(int level, int damage, float attactTime, float chargeTime);
     float getAttackTime();
-    
+    int getDamage();
     bool isAttacking();
     bool isAttackAble();
     bool isCharging();
-    
-    virtual void attack(bool flipped, const b2Vec2& direction);
-    void setDamage(int damage);
-    int getDamage();
     
     static void insertCreateFunc(int tag, create_func_t func);
     static BaseWeapon* getByTag(int tag);

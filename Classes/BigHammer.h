@@ -6,11 +6,17 @@
 
 class BigHammer : public BaseWeapon {
 protected:
-    BigHammer() : BaseWeapon("big_hammer", 1, 0.2f, 0.1f) {}
+    BigHammer() : BaseWeapon("big_hammer") {}
     virtual ~BigHammer() {}
     
 public:
     CREATE_FUNC(BigHammer);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.1f);
+        return true;
+    }
     
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
