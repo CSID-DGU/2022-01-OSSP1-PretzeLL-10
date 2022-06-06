@@ -18,7 +18,7 @@ public:
 		auto Katana = KatanaProjectile::create();
 
 		if (!Katana) return;
-		addBullet(Katana);
+		addBullet(Katana, direction);
 		Katana->setParent(this);
 		Katana->setSpeed(20.0f);
 		Katana->setVelocity(direction);

@@ -18,7 +18,7 @@ public:
 		auto Cleaver = CleaverProjectile::create();
 
 		if (!Cleaver) return;
-		addBullet(Cleaver);
+		addBullet(Cleaver, direction);
 		Cleaver->setParent(this);
 		Cleaver->setSpeed(20.0f);
 		Cleaver->setVelocity(direction);

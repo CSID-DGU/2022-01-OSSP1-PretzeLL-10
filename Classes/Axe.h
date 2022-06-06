@@ -22,7 +22,7 @@ public:
 
 		if (!axe)
 			return;
-		addBullet(axe);
+		addBullet(axe, direction);
 		axe->setParent(this);
 		axe->setSpeed(20.0f);
 		// axe->setRotation(VecToDegree(direction));

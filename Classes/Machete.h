@@ -18,7 +18,7 @@ public:
 		auto Machete = MacheteProjectile::create();
 
 		if (!Machete) return;
-		addBullet(Machete);
+		addBullet(Machete, direction);
 		Machete->setParent(this);
 		Machete->setSpeed(20.0f);
 		Machete->setVelocity(direction);

@@ -2,6 +2,7 @@
 #define __BASE_WEAPON_H__
 
 #include "StaticObject.h"
+#include "DynamicObject.h"
 
 
 class BaseWeapon : public StaticObject {
@@ -32,7 +33,7 @@ public:
     
     bool init() final;
     void update(float dt) final;
-    void addBullet(cocos2d::Node* bullet);
+    void addBullet(cocos2d::Node* bullet, const b2Vec2& pos = b2Vec2(0.0f, 0.0f));
     
     void activate();
     void deactivate();

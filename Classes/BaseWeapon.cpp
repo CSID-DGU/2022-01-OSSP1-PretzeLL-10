@@ -28,13 +28,18 @@ void BaseWeapon::update(float dt) {
     __chargeTimer.update(dt);
 }
 
-void BaseWeapon::addBullet(cocos2d::Node* bullet) {
-    auto hero = getParent();
+void BaseWeapon::addBullet(cocos2d::Node* bullet, const b2Vec2& pos) {
+    auto hero = (DynamicObject*)getParent();
     if (hero) {
         auto world = hero->getParent();
         if (world) {
             world->addChild(bullet);
-            auto position = hero->getPosition() + getPosition();
+            auto center_pos = B2C(pos);
+            auto size = hero->getContentSize()/2;
+            center_pos.x *= size.width;
+            center_pos.y *= size.height;
+            center_pos.y -= size.height/2;
+            auto position = hero->getPosition() + center_pos;
             bullet->setPosition(position);
         }
     }

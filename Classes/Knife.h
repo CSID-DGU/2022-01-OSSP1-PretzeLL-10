@@ -18,7 +18,7 @@ public:
         
         auto knife = KnifeProjectile::create();
         if (!knife) return;
-        addBullet(knife);
+        addBullet(knife, direction);
         knife->setParent(this);
         knife->setSpeed(30.0f);
         knife->setVelocity(direction);                                              // Now rotation is automatically set (in move func)

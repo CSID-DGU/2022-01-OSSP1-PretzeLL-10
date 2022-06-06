@@ -19,7 +19,7 @@ public:
         
         auto arrow = Arrow::create();
         if(!arrow) return;
-        addBullet(arrow);
+        addBullet(arrow, direction);
         arrow->setParent(this);
         arrow->setSpeed(25.0f);
         arrow->setRotation(VecToDegree(direction));

@@ -18,7 +18,7 @@ public:
 		auto Hammer = HammerProjectile::create();
 
 		if (!Hammer) return;
-		addBullet(Hammer);
+		addBullet(Hammer, direction);
 		Hammer->setParent(this);
 		Hammer->setSpeed(20.0f);
 		Hammer->setVelocity(direction);

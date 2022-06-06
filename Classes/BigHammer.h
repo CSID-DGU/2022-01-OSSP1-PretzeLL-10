@@ -18,7 +18,7 @@ public:
 		auto BigHammer = BigHammerProjectile::create();
 
 		if (!BigHammer) return;
-		addBullet(BigHammer);
+		addBullet(BigHammer, direction);
 		BigHammer->setParent(this);
 		BigHammer->setSpeed(20.0f);
 		BigHammer->setVelocity(direction);

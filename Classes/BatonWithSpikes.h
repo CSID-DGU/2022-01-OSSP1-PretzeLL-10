@@ -18,7 +18,7 @@ public:
 		auto BatonWithSpikes = BatonWithSpikesProjectile::create();
 
 		if (!BatonWithSpikes) return;
-		addBullet(BatonWithSpikes);
+		addBullet(BatonWithSpikes, direction);
 		BatonWithSpikes->setParent(this);
 		BatonWithSpikes->setSpeed(20.0f);
 		BatonWithSpikes->setVelocity(direction);

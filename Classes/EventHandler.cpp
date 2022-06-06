@@ -95,6 +95,7 @@ void EventHandler::onMouseMove(cocos2d::EventMouse *event) {
 
 
 void EventHandler::BeginContact(b2Contact* contact) {
+    if (!contact->IsTouching()) return;
     auto fixtureA = contact->GetFixtureA();
     auto fixtureB = contact->GetFixtureB();
     int categoryA = PhysicsObject::getCategory(fixtureA);

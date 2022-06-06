@@ -18,7 +18,7 @@ public:
 		auto DuelSword = DuelSwordProjectile::create();
 
 		if (!DuelSword) return;
-		addBullet(DuelSword);
+		addBullet(DuelSword, direction);
 		DuelSword->setParent(this);
 		DuelSword->setSpeed(20.0f);
 		DuelSword->setVelocity(direction);
