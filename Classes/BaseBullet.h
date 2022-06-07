@@ -21,6 +21,7 @@ public:
     
     virtual void onContact(b2Contact* contact) override;
     int getDamage();
+    virtual float getWeight();
 };
 
 typedef BaseBullet bullet_t;

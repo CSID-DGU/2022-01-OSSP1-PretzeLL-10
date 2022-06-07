@@ -163,6 +163,7 @@ void ProjectileObject::removeAfter(float delay) {
         delay = frame_time;
     }
     stop(delay);
+    if (isScheduled(schedule_selector(ProjectileObject::removal))) return;
     scheduleOnce(schedule_selector(ProjectileObject::removal), delay);
 }
 

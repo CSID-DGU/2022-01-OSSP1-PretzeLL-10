@@ -5,9 +5,10 @@
 #include "Monster.h"
 #include "Weapon.h"
 
+
 class Hero : public DynamicObject
 {
-public:
+private:
     typedef std::pair<std::vector<weapon_t *>, int> weapon_info;
 
 private:
@@ -19,7 +20,6 @@ private:
 
     int __hp;
     int __damage;
-    float __speed_bak;
 
     bool __invincible;
     bool __disarmed;
@@ -44,7 +44,9 @@ public:
 
     void attack();
     void testWeapon(float t);
-    void damaged(int damage);
+    void damaged(int damage,
+                 const cocos2d::Vec2& direction = cocos2d::Vec2::ZERO,
+                 float weight = 1.0f);
     void makeInvincible(float time);
     int getHP();
     void setHP(int hp);

@@ -6,7 +6,7 @@
 
 
 class BaseWeapon : public StaticObject {
-private:
+protected:
     typedef std::function<BaseWeapon*(void)> create_func_t;
     static std::map<int, create_func_t> __create_func;
     
@@ -36,8 +36,8 @@ protected:
 public:
 //    CREATE_FUNC(BaseWeapon);
     
-    bool init() override;
-    void update(float dt) final;
+    virtual bool init() override;
+    virtual void update(float dt) override;
     void addBullet(cocos2d::Node* bullet, const b2Vec2& pos = b2Vec2(0.0f, 0.0f));
     
     void activate();

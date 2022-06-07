@@ -3,7 +3,10 @@
 
 SpriteObject::SpriteObject(std::string path, std::string name)
 : __path(path)
-, __name(name) {}
+, __name(name)
+, __sprite(nullptr)
+, __inf_anim(InfAnimation(0))
+, __anim(AnimationMap()) {}
 
 SpriteObject::~SpriteObject() {
     for (auto i : __inf_anim) i->release();
@@ -12,6 +15,7 @@ SpriteObject::~SpriteObject() {
 
 
 bool SpriteObject::init(std::string path, std::string name) {
+    if (path.empty()) return true;
     IF_RF(name.empty(), "name should not be blank");
     __name = name;
     __path = path;
@@ -70,6 +74,7 @@ cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, 
 }
 
 cocos2d::Animate* SpriteObject::getAnimation(std::string key) {
+    if (__path.empty()) return nullptr;
     IF_RN(__anim.empty(), "animation map is empty");
     AnimationMap::iterator __i = __anim.find(key);
     IF_RN(__i == __anim.end(), "No such animation named: " + key);
@@ -77,6 +82,7 @@ cocos2d::Animate* SpriteObject::getAnimation(std::string key) {
 }
 
 cocos2d::Sprite* SpriteObject::cloneSprite() {
+    if (__path.empty()) return nullptr;
     auto sprite = cocos2d::Sprite::createWithTexture(__sprite->getTexture());
     IF_RN(!sprite, "Failed to create sprite");
     sprite->setScale(__sprite->getScale());
@@ -85,6 +91,7 @@ cocos2d::Sprite* SpriteObject::cloneSprite() {
 
 
 void SpriteObject::addAnimation(std::string state, int count, float delay) {
+    if (__path.empty()) return;
     auto __a = createAnimation(state, count, delay);
     IF_RV(__a, "Failed to create animation");
     auto __a_ = cocos2d::Animate::create(__a);
@@ -93,6 +100,7 @@ void SpriteObject::addAnimation(std::string state, int count, float delay) {
 }
 
 int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
+    if (__path.empty()) return -1;
     auto __a = createAnimation(state, count, delay);
     IF_RF(!__a, "Failed to create animation");
     auto __a_ = cocos2d::Animate::create(__a);
@@ -103,21 +111,25 @@ int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
 }
 
 bool SpriteObject::isAnimationRunning() {
+    if (__path.empty()) return false;
     return __sprite->isRunning();
 }
 
 void SpriteObject::runActionByKey(std::string key) {
+    if (__path.empty()) return;
     auto __i = __anim.find(key);
     IF_RV(__i == __anim.end(), "No animation named : " + key);
     __sprite->runAction(__anim[key]);
 }
 
 void SpriteObject::runActionByKey(ACTION action) {
+    if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
     __sprite->runAction(__inf_anim[action]);
 }
 
 void SpriteObject::stopActionByKey(ACTION action) {
+    if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
     __sprite->stopAction(__inf_anim[action]);
 }

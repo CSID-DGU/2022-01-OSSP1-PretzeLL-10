@@ -102,6 +102,7 @@ void EventHandler::BeginContact(b2Contact* contact) {
     int categoryB = PhysicsObject::getCategory(fixtureB);
   
     INVOKE_CONTACT(CATEGORY_BULLET, bullet_t);
+    INVOKE_CONTACT(CATEGORY_HBULLET, bullet_t);
     INVOKE_CONTACT(CATEGORY_PLAYER, Hero);
     INVOKE_CONTACT(CATEGORY_MONSTER, monster_t);
 }

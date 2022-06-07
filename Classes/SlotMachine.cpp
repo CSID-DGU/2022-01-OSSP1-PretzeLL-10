@@ -18,18 +18,18 @@ bool SlotMachine::init() {
     IF(!Node::init());
     
     /* Init weapons */
-//    IF(!createWeapon<AnimeSword>("anime_sword"));
+    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Bow>("bow"));
-//    IF(!createWeapon<Axe>("axe"));
-//    IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
-//    IF(!createWeapon<BigHammer>("big_hammer"))
-//    IF(!createWeapon<Cleaver>("cleaver"));
-//    IF(!createWeapon<DuelSword>("duel_sword"));
-//    IF(!createWeapon<Katana>("katana"));
-//    IF(!createWeapon<Hammer>("hammer"));
-//    IF(!createWeapon<Knife>("knife"));
-//    IF(!createWeapon<Machete>("machete"));
-//    IF(!createWeapon<MagicStaff>("red_magic_staff"));
+    IF(!createWeapon<Axe>("axe"));
+    IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
+    IF(!createWeapon<BigHammer>("big_hammer"))
+    IF(!createWeapon<Cleaver>("cleaver"));
+    IF(!createWeapon<DuelSword>("duel_sword"));
+    IF(!createWeapon<Katana>("katana"));
+    IF(!createWeapon<Hammer>("hammer"));
+    IF(!createWeapon<Knife>("knife"));
+    IF(!createWeapon<Machete>("machete"));
+    IF(!createWeapon<MagicStaff>("red_magic_staff"));
     
     /* Deprecated */
     // IF(!createWeapon("frames/weapon_arrow.png"));
@@ -91,7 +91,7 @@ void SlotMachine::update(float dt) {
             if (i == LayerSize::value - 1) {
                 unscheduleUpdate();
                 react(_hero);
-                _hero->setSpeed(_hero->getSpeed() * 4.0f);
+                _hero->restoreSpeed();
                 _hero->rearm(0);
                 running = false;
             }

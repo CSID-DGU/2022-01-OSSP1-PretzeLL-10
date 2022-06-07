@@ -33,6 +33,13 @@ int BaseBullet::getDamage() {
     return __weapon->getDamage();
 }
 
+float BaseBullet::getWeight() {
+//    b2MassData mass;
+//    __body->GetFixtureList()->GetMassData(&mass);
+//    return mass.mass;
+    return 1.5f;
+}
+
 
 void BaseBullet::onContact(b2Contact* contact) {
     setCategory(CATEGORY_BULLET, MASK_NONE);
