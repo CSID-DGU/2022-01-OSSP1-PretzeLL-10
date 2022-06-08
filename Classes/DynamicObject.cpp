@@ -111,6 +111,7 @@ void DynamicObject::setPosition(const float x, const float y) {
 }
 
 void DynamicObject::syncToPhysics() {
+    if (!__body) return;
     auto position = B2C(__body->GetPosition()) * PTM_RATIO;
     Node::setPosition(position.x, position.y);
 }

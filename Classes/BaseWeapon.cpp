@@ -1,4 +1,5 @@
 #include "BaseWeapon.h"
+#include "BaseMonster.h"
 
 
 BaseWeapon::BaseWeapon(std::string name)
@@ -148,6 +149,24 @@ float BaseWeapon::getAttackTime() {
 
 float BaseWeapon::getChargeTime() {
     return __chargeTime[__level];
+}
+
+cocos2d::Node* BaseWeapon::chooseTarget() {
+    float len = std::numeric_limits<float>::max();
+    auto hero_pos = getParent()->getPosition();
+    cocos2d:Node* closest_target = nullptr;
+    auto candidate = getParent()->getParent()->getChildren();
+    
+    for (auto iter : candidate) {
+        if (iter->getTag() != TAG_MONSTER) continue;
+        float cal_len = length(iter->getPosition() - hero_pos);
+        if (len > cal_len) {
+            len = cal_len;
+            closest_target = iter;
+        }
+    }
+    
+    return closest_target;
 }
 
 

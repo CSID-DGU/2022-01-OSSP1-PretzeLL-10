@@ -40,6 +40,7 @@ bool BaseMonster::init() {
     size.y *= 1.4f;
     IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -0.3f), this));
     setCategory(CATEGORY_MONSTER, MASK_MONSTER);
+    setTag(TAG_MONSTER);
     schedule(schedule_selector(BaseMonster::behavior));
     runActionByKey(IDLE);
     
@@ -112,6 +113,7 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
 void BaseMonster::dieing()
 {
     setCategory(CATEGORY_MONSTER, MASK_NONE);
+    setTag(-1);
     stopAllActions();
     removeAfter(1.5f);
     setVelocity(b2Vec2(0.0f, 0.0f));

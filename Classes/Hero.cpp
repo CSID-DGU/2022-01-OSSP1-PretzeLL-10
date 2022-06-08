@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "GameManager.h"
 
 
 Hero::Hero()

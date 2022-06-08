@@ -43,6 +43,7 @@ public:
     static bool createBlock(b2Body* body, cocos2d::Size size, cocos2d::Vec2 pos, int type);
     static void remove(b2Fixture* fixture);
     static void remove(b2Body* body);
+    static void removeAllMask();
 };
 
 

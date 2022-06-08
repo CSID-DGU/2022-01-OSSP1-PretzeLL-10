@@ -48,6 +48,7 @@ public:
     float getAngle();
     
     virtual void attack(bool flipped, const b2Vec2& direction);
+    cocos2d::Node* chooseTarget();
     void setLevel(int level);
     void setLevelValue(int level, int damage, float attactTime, float chargeTime);
     float getAttackTime();
