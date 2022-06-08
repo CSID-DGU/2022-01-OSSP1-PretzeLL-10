@@ -54,18 +54,6 @@ bool Hero::init() {
     setRunSpeed(2.0f);
     setTag(TAG_PLAYER);
     
-    /* For test */
-    /* ============================================= */
-    __weapon.first[0] = LightningStaff::create();
-    addChild(__weapon.first[0]);
-    __weapon.first[0]->activate();
-    __weapon.first[0]->registerKey(&__key[ATTACK]);
-    __weapon.first[0]->setRotation(__weapon.first[0]->getAngle());
-    float y = getContentSize().width/-2.0f;
-    __weapon.first[0]->setPosition(0.0f, y);
-    __weapon.first[0]->setScale(0.8f);
-    /* ============================================= */
-    
     return true;
 }
 
