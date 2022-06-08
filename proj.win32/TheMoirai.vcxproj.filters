@@ -123,6 +123,12 @@
     <ClCompile Include="..\Classes\Timer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\MonsterManager.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MonsterMakingFunction.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -340,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\KatanaProjectile.h">
       <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MonsterManager.h">
+      <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MonsterMakingFunction.h">
+      <Filter>src\Object\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

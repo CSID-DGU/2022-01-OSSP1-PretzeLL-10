@@ -170,6 +170,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameSummaryScene.cpp" />
     <ClCompile Include="..\Classes\MenuSettingScene.cpp" />
     <ClCompile Include="..\Classes\MonsterAI.cpp" />
+    <ClCompile Include="..\Classes\MonsterMakingFunction.cpp" />
+    <ClCompile Include="..\Classes\MonsterManager.cpp" />
     <ClCompile Include="..\Classes\PhysicsObject.cpp" />
     <ClCompile Include="..\Classes\ProjectileObject.cpp" />
     <ClCompile Include="..\Classes\SlotMachine.cpp" />
@@ -234,6 +236,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
     <ClInclude Include="..\Classes\MonsterAI.h" />
+    <ClInclude Include="..\Classes\MonsterMakingFunction.h" />
+    <ClInclude Include="..\Classes\MonsterManager.h" />
     <ClInclude Include="..\Classes\Muddy.h" />
     <ClInclude Include="..\Classes\Necromancer.h" />
     <ClInclude Include="..\Classes\Object.h" />
