@@ -60,6 +60,8 @@ private:
     GameStateLayer* _state_layer;
     GameMapManager mapManager;
     MonsterManager monsterManager;
+    int numberMonster;
+
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 
