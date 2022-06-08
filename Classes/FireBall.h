@@ -16,16 +16,16 @@ protected:
 public:
     CREATE_FUNC(FireBall);
 
-    void update(float dt) final {
-        ProjectileObject::update(dt);
+    //void update(float dt) final {
+    //    ProjectileObject::update(dt);
 
-        if (!__desired_distance) return;
-        float len = length(getPosition() - __initial_pos);
-        if (len > __desired_distance) {
-            removeAfter(0.0);
-            unscheduleUpdate();
-        }
-    }
+    //    if (!__desired_distance) return;
+    //    float len = length(getPosition() - __initial_pos);
+    //    if (len > __desired_distance) {
+    //        removeAfter(0.0);
+    //        unscheduleUpdate();
+    //    }
+    //}
 
     void setInitialPos() {
         __initial_pos = getPosition();

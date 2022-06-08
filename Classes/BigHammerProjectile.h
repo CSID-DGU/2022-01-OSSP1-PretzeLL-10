@@ -7,7 +7,7 @@ class BigHammerProjectile : public BaseBullet {
 protected:
 	cocos2d::Node* __hero;
 	cocos2d::Vec2 __initial_pos;
-	float __desired_distance = 500.0f;
+	float __desired_distance = 200.0f;
 
 	BigHammerProjectile() : BaseBullet("weapon_big_hammer") {}
 	virtual ~BigHammerProjectile() {}

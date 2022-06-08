@@ -24,8 +24,8 @@ public:
         float len = length(getPosition() - __initial_pos);
         if (len > __desired_distance) {
             /* Remove Example */
-//            removeAfter(0.0);
-//            unscheduleUpdate();
+            removeAfter(0.0);
+            unscheduleUpdate();
             /* ================ */
             
             /* Revert Example */
@@ -38,8 +38,8 @@ public:
             /* ================ */
             
             /* Follow Hero */
-            __desired_distance = 0.0f;                                          // move desired distance
-            schedule(schedule_selector(KnifeProjectile::followTarget));         // schedule follow function
+//            __desired_distance = 0.0f;                                          // move desired distance
+//            schedule(schedule_selector(KnifeProjectile::followTarget));         // schedule follow function
             /* ================ */
         }
     }

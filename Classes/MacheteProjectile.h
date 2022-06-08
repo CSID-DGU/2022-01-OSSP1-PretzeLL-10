@@ -7,7 +7,7 @@ class MacheteProjectile : public BaseBullet {
 protected:
 	cocos2d::Node* __hero;
 	cocos2d::Vec2 __initial_pos;
-	float __desired_distance = 500.0f;
+	float __desired_distance = 250.0f;
 
 	MacheteProjectile() : BaseBullet("weapon_machete") {}
 	virtual ~MacheteProjectile() {}
@@ -22,6 +22,12 @@ public:
 		if (!__desired_distance) return;
 
 		float len = length(getPosition() - __initial_pos);
+
+		auto v = getVelocity();                                             // revert direction
+		v.y -= 0.066f;
+		setVelocity(v);                                                     // apply reverted direction
+
+		moveGently();
 
 		if (len > __desired_distance) {
 			/* Remove Example */
@@ -39,7 +45,7 @@ public:
 			/* ================ */
 
 			/* Follow Hero */
-			__desired_distance = 0.0f;                                          // move desired distance
+			__desired_distance = 0.0f;											  // move desired distance   
 			schedule(schedule_selector(MacheteProjectile::followTarget));         // schedule follow function
 		}
 	}
@@ -65,7 +71,8 @@ public:
 
 	void followTarget(float dt) {
 		if (!__hero) return;
-		auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
+		
+		auto len = moveToGently(__hero->getPosition());                                   // move to hero, returns length(float)
 		if (len < 20.0f) {
 			unschedule(schedule_selector(MacheteProjectile::followTarget));           // if length is close enough, remove this
 			removeAfter(0.0f);

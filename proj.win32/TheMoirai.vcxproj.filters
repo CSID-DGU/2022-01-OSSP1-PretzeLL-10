@@ -323,6 +323,27 @@
     <ClInclude Include="..\Classes\Timer.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\BatonWithSpikesProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BigHammerProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CleaverProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DuelSwordProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HammerProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KatanaProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MacheteProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
