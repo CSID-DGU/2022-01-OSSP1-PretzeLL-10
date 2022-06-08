@@ -137,6 +137,11 @@ void GameManager::updateMapClear()
 
 void GameManager::goNextStage()
 {
+	if (gameStage >= 3)
+	{
+		// game All clear
+	}
+
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
 	if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
