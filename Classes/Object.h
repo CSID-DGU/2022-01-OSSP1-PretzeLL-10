@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "Weapon.h"
 #include "Bullet.h"
+#include "Coin.h"
 
 #include "SlotMachine.h"
 

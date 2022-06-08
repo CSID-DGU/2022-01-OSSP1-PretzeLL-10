@@ -18,8 +18,8 @@ bool SlotMachine::init() {
     IF(!Node::init());
     
     /* Init weapons */
-    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Bow>("bow"));
+    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Axe>("axe"));
     IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
     IF(!createWeapon<BigHammer>("big_hammer"))
@@ -101,6 +101,7 @@ void SlotMachine::update(float dt) {
 
 void SlotMachine::spin(Hero* hero) {
     if (running) return;
+    if (!hero->useCoin(1)) return;
     for (int i = 0; i < 3; i++) {
         createLine(i);
         auto pos = cocos2d::Vec2(0.0f, -lineSize[LayerSize::value-1]*200.0f);

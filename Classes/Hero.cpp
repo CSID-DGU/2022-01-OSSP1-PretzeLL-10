@@ -6,7 +6,10 @@ Hero::Hero()
 , __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
 , __map_dir(MAP_NONE)
 , __invincible(false)
-, __disarmed(false) {
+, __disarmed(false)
+, __hp(0)
+, __damage(0)
+, __coin(0) {
     BaseMonster::addTarget(this);
     __key.fill(false);
 }
@@ -19,15 +22,34 @@ Hero::~Hero() {
 bool Hero::init() {
     IF(!DynamicObject::init());
     
+    __charge_bar = cocos2d::Sprite::create("sprite/bar_white.png");
+    IF(!__charge_bar);
+    __charge_bar->setScale(1.0f, 0.7f);
+    __charge_bar->setPosition(0.0f, 20.0f);
+    __charge_bar->getTexture()->setTexParameters(TEX_PARA);
+    __charge_bar->setLocalZOrder(98);
+    addChild(__charge_bar);
+    
+    auto gauge = cocos2d::Sprite::create("sprite/gauge_white.png");
+    IF(!gauge);
+    gauge->setScale(0.7f, 0.5f);
+    gauge->setPosition(0.0f, 50.0f);
+    gauge->getTexture()->setTexParameters(TEX_PARA);
+    gauge->setLocalZOrder(99);
+    __charge_bar->addChild(gauge);
+    __charge_bar->setVisible(false);
+    
     auto size = C2B(getContentSize());
     size.x *= 0.7f;
     size.y *= 0.5f;
     IF(!PhysicsObject::initDynamic(size, b2Vec2(0.0f, -1.0f), this));
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     
+    addAnimation("hit", 1, 0.3f);
     runActionByKey(IDLE);
-    setHP(99);
+    setHP(6);
     setSpeed(5.0f, true);
+    addCoin(5);
     setRunSpeed(2.0f);
     setTag(TAG_PLAYER);
     
@@ -140,52 +162,73 @@ void Hero::attack() {
     weapon->attack(isFlipped(), direction);
     
     int type = weapon->getType();
-    if (type == IMMEDIATE) {
-        schedule(schedule_selector(Hero::testWeapon));
-    }
-    else if (type == CHARGE) {
+    if (type == CHARGE) {
         if (__key[ATTACK]) {
             setSpeed(getSpeed()*0.25f);
+            __charge_bar->setVisible(true);
+            auto gauge = *(__charge_bar->getChildren().begin());
+            gauge->setPositionX(0.0f);
+            if (!isScheduled(schedule_selector(Hero::chargeWeapon))) {
+                schedule(schedule_selector(Hero::chargeWeapon));
+            }
         }
         else {
             restoreSpeed();
+            __charge_bar->setVisible(false);
+            unschedule(schedule_selector(Hero::chargeWeapon));
         }
+    }
+}
+
+void Hero::chargeWeapon(float dt) {
+    auto weapon = __weapon.first[__weapon.second];
+    auto gauge = *(__charge_bar->getChildren().begin());
+    
+    if (!gauge) return;
+    float ratio = dt / weapon->getChargeTime() * 51.0f;
+    gauge->setPositionX(gauge->getPositionX() + ratio);
+    if (gauge->getPositionX() > 50.0f) {
+        gauge->setPositionX(51.0f);
     }
 }
 
 void Hero::testWeapon(float t) {
-    auto weapon = __weapon.first[__weapon.second];
-    if (!weapon || !weapon->isAttacking()) {
-        unschedule(schedule_selector(Hero::testWeapon));
-        return;
-    }
-    
-    auto contact = weapon->getContact();
-    for (; contact; contact = contact->next) {
-        if (!contact->contact->IsTouching()) continue;
-        auto other = contact->other;
-        float other_cat = getCategory(other);
-        
-        if (other_cat == CATEGORY_MONSTER) {
-            auto monster = PhysicsObject::getUserData<monster_t*>(other);
-            monster->damaged(weapon->getDamage());
-            unschedule(schedule_selector(Hero::testWeapon));
-            return;
-        }
-    }
+//    auto weapon = __weapon.first[__weapon.second];
+//    if (!weapon || !weapon->isAttacking()) {
+//        unschedule(schedule_selector(Hero::testWeapon));
+//        return;
+//    }
+//
+//    auto contact = weapon->getContact();
+//    for (; contact; contact = contact->next) {
+//        if (!contact->contact->IsTouching()) continue;
+//        auto other = contact->other;
+//        float other_cat = getCategory(other);
+//
+//        if (other_cat == CATEGORY_MONSTER) {
+//            auto monster = PhysicsObject::getUserData<monster_t*>(other);
+//            monster->damaged(weapon->getDamage());
+//            unschedule(schedule_selector(Hero::testWeapon));
+//            return;
+//        }
+//    }
 }
 
 void Hero::makeInvincible(float time) {
     __invincible = true;
+    stopAllActions();
     cocos2d::ActionInterval* action;
     action = cocos2d::Blink::create(1, 3);
     runAction(cocos2d::Repeat::create(action, (unsigned int)time));
     setCategory(CATEGORY_PLAYER, CATEGORY_WALL | CATEGORY_DOOR);
     scheduleOnce(schedule_selector(Hero::invincible), time);
+    runActionByKey("hit");
 }
 
 void Hero::invincible(float dt) {
     __invincible = false;
+    stopAllActions();
+    runActionByKey(__current);
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
 }
 
@@ -214,6 +257,20 @@ int Hero::getDamage() {
 
 void Hero::setDamage(int damage) {
     __damage = damage;
+}
+
+void Hero::addCoin(int coin) {
+    __coin += coin;
+}
+
+bool Hero::useCoin(int coin) {
+    if (__coin < coin) return false;
+    __coin -= coin;
+    return true;
+}
+
+int Hero::getCoin() {
+    return __coin;
 }
 
 

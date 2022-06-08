@@ -34,33 +34,37 @@ bool SpriteObject::initWithAnimation(std::string name, float run_speed, int coun
     __name = name;
     
     addInfAnimation("idle", count, 0.1f);
-    auto __a = createAnimation("run", count, 0.1f);
-    IF(!__a);
-    auto __a_ = cocos2d::Animate::create(__a);
-    IF(!__a_);
-    auto __r = cocos2d::RepeatForever::create(__a_);
-    IF(!__r);
-    __r->retain();
-    __inf_anim.push_back(__r);
-    
-    auto __a_r = __a->clone();
-    IF(!__a_r);
-    __a_r->setDelayPerUnit(0.1f/run_speed);
-    auto __a_r_ = cocos2d::Animate::create(__a_r);
-    IF(!__a_r_);
-    auto __r_r = cocos2d::RepeatForever::create(__a_r_);
-    IF(!__r_r);
-    __r_r->retain();
-    __inf_anim.push_back(__r_r);
+    addInfAnimation("run", count, 0.1f);
     
     return true;
+//    auto __a = createAnimation("run", count, 0.1f);
+//    IF(!__a);
+//    auto __a_ = cocos2d::Animate::create(__a);
+//    IF(!__a_);
+//    auto __r = cocos2d::RepeatForever::create(__a_);
+//    IF(!__r);
+//    __r->retain();
+//    __inf_anim.push_back(__r);
+//
+//    auto __a_r = __a->clone();
+//    IF(!__a_r);
+//    __a_r->setDelayPerUnit(0.1f/run_speed);
+//    auto __a_r_ = cocos2d::Animate::create(__a_r);
+//    IF(!__a_r_);
+//    auto __r_r = cocos2d::RepeatForever::create(__a_r_);
+//    IF(!__r_r);
+//    __r_r->retain();
+//    __inf_anim.push_back(__r_r);
 }
 
 
 cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, float delay) {
     auto __a = cocos2d::Animation::create();
     for (char i = '0'; i < static_cast<char>(count+48); i++) {
-        std::string __n = __path+"/"+__name+"_"+state+"_anim_f"+i+".png";
+        std::string __n = __path+"/"+__name;
+        if (state.empty()) __n = __n+"_anim_f"+i+".png";
+        else __n = __n+"_"+state+"_anim_f"+i+".png";
+        
         auto __t = cocos2d::Director::getInstance()->getTextureCache()->addImage(__n);
         IF_RN(!__t, "Unable to load image: " + __n);
         auto __r = cocos2d::Rect::ZERO;
@@ -93,7 +97,7 @@ cocos2d::Sprite* SpriteObject::cloneSprite() {
 void SpriteObject::addAnimation(std::string state, int count, float delay) {
     if (__path.empty()) return;
     auto __a = createAnimation(state, count, delay);
-    IF_RV(__a, "Failed to create animation");
+    IF_RV(!__a, "Failed to create animation");
     auto __a_ = cocos2d::Animate::create(__a);
     __a_->retain();
     __anim.insert(std::make_pair(state, __a_));
@@ -108,6 +112,10 @@ int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
     __r->retain();
     __inf_anim.push_back(__r);
     return __inf_anim.size()-1;
+}
+
+void SpriteObject::setName(std::string name) {
+    __name = name;
 }
 
 bool SpriteObject::isAnimationRunning() {
@@ -125,11 +133,13 @@ void SpriteObject::runActionByKey(std::string key) {
 void SpriteObject::runActionByKey(ACTION action) {
     if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
+    if (action == RUN) action = MOVE;
     __sprite->runAction(__inf_anim[action]);
 }
 
 void SpriteObject::stopActionByKey(ACTION action) {
     if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
+    if (action == RUN) action = MOVE;
     __sprite->stopAction(__inf_anim[action]);
 }

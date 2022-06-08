@@ -35,6 +35,7 @@ public:
     int addInfAnimation(std::string state, int count = 4, float delay = 0.1f);      // Add Infinite animation, return key
     
     /* Util */
+    void setName(std::string name);
     bool isAnimationRunning();
     
     /* Action */

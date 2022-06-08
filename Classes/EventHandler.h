@@ -8,6 +8,10 @@
 if      (categoryA == bit) PhysicsObject::getUserData<type*>(fixtureA)->onContact(contact); \
 else if (categoryB == bit) PhysicsObject::getUserData<type*>(fixtureB)->onContact(contact);
 
+#define INVOKE_CONTACTEND(bit, type) \
+if      (categoryA == bit) PhysicsObject::getUserData<type*>(fixtureA)->onContactEnd(contact); \
+else if (categoryB == bit) PhysicsObject::getUserData<type*>(fixtureB)->onContactEnd(contact);
+
 #define PASS_CONTACT(bit) \
 if (categoryA | categoryB || bit) return;
 
@@ -19,6 +23,7 @@ private:
     cocos2d::EventListenerMouse* _mouse_listener;
     
     SlotMachine* _slot;
+    Hero* _hero;
     
 public:
     EventHandler();
@@ -37,6 +42,7 @@ public:
     void BeginContact(b2Contact* contact) final;
     void EndContact(b2Contact* contact) final;
     
+    void getHero();
     void test();
 };
 

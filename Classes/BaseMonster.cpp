@@ -15,6 +15,20 @@ std::list<DynamicObject*> BaseMonster::__target = std::list<DynamicObject*>();
 bool BaseMonster::init() {
     IF(!DynamicObject::init());
     
+    __health = cocos2d::Sprite::create("sprite/bar_red.png");
+    IF(!__health);
+    __health->getTexture()->setTexParameters(TEX_PARA);
+    __health->setScale(1.0f, 0.7f);
+    __health->setPosition(0.0f, __sprite->getContentSize().height/4.0f);
+    addChild(__health, 99);
+    
+    auto health_background = cocos2d::Sprite::create("sprite/bar_black.png");
+    IF(!health_background);
+    health_background->getTexture()->setTexParameters(TEX_PARA);
+    health_background->setScale(1.0f, 0.7f);
+    health_background->setPosition(0.0f, __sprite->getContentSize().height/4.0f);
+    addChild(health_background, 98);
+    
     AI = MonsterAI::create();
     __weapon = VoidWeapon::create();
     __weapon->setDamage(1);
@@ -80,8 +94,19 @@ void BaseMonster::attack() {
     std::cout << "Attack" << std::endl;
 }
 
-void BaseMonster::damaged(int damage) {
+void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     __hp -= damage;
+    if (__hp < 0) return;
+    if (direction == cocos2d::Vec2::ZERO) return;
+    auto diff = getPosition() - direction;
+    normalize(diff);
+    __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
+    pause(0.3f);
+    
+    float ratio = (float)__hp / (float)__full_hp;
+    float adj = __health->getContentSize().width/(__full_hp*2.0f);
+    __health->setScale(ratio, 0.7f);
+    __health->setPositionX(__health->getPositionX() - adj);
 }
 
 void BaseMonster::dieing()
@@ -106,6 +131,7 @@ int BaseMonster::getHP() {
 
 void BaseMonster::setHP(int hp) {
     __hp = hp;
+    __full_hp = hp;
 }
 
 int BaseMonster::getDamage() {
@@ -148,7 +174,8 @@ void BaseMonster::onContact(b2Contact* contact) {
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
         auto position = convertToNodeSpace(bullet->getPosition());
-        auto diff = getPosition() - bullet->getPosition();
+        damaged(bullet->getDamage(), position, bullet->getWeight());
+        if (bullet->getTag() == TAG_PENETRATE) return;
         
         bullet->retain();
         bullet->removeFromParentAndCleanup(false);
@@ -156,11 +183,6 @@ void BaseMonster::onContact(b2Contact* contact) {
         bullet->setScale(bullet->getScale() / getScale());
         bullet->Node::setPosition(position.x, position.y);
         bullet->release();
-        
-        damaged(bullet->getDamage());
-        
-        normalize(diff);
-        __body->ApplyForceToCenter(C2B(diff*500.0f), false);
     }
 }
 

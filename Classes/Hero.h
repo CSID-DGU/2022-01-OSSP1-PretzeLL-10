@@ -17,10 +17,11 @@ private:
 
     DIRECTION __map_dir;
     weapon_info __weapon;
+    cocos2d::Sprite* __charge_bar;
 
     int __hp;
     int __damage;
-
+    int __coin;
     bool __invincible;
     bool __disarmed;
 
@@ -44,14 +45,15 @@ public:
 
     void attack();
     void testWeapon(float t);
-    void damaged(int damage,
-                 const cocos2d::Vec2& direction = cocos2d::Vec2::ZERO,
-                 float weight = 1.0f);
+    void damaged(int damage, const cocos2d::Vec2& direction, float weight);
     void makeInvincible(float time);
     int getHP();
     void setHP(int hp);
     int getDamage();
     void setDamage(int damage);
+    void addCoin(int coin);
+    bool useCoin(int coin);
+    int getCoin();
 
     void disarm(float time = 0.0f);
     void rearm(float dt);
@@ -62,6 +64,7 @@ public:
 
 private:
     void invincible(float dt);
+    void chargeWeapon(float dt);
 };
 
 #endif /* __PLAYER_H___ */

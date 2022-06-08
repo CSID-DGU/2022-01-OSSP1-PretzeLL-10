@@ -51,6 +51,7 @@ public:
     void setLevel(int level);
     void setLevelValue(int level, int damage, float attactTime, float chargeTime);
     float getAttackTime();
+    float getChargeTime();
     int getDamage();
     bool isAttacking();
     bool isAttackAble();

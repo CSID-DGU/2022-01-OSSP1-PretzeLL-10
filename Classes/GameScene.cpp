@@ -74,5 +74,5 @@ void GameScene::startNewGame()
 
 void GameScene::heroDamage(Ref* pSender)
 {
-    GameManager::getInstance()->getHero()->damaged(1);
+//    GameManager::getInstance()->getHero()->damaged(1);
 }

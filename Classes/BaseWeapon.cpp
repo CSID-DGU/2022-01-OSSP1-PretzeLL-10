@@ -146,6 +146,10 @@ float BaseWeapon::getAttackTime() {
     return __attackTime[__level];
 }
 
+float BaseWeapon::getChargeTime() {
+    return __chargeTime[__level];
+}
+
 
 void BaseWeapon::insertCreateFunc(int tag, std::function<BaseWeapon*(void)> func) {
     __create_func.insert(std::make_pair(tag, func));

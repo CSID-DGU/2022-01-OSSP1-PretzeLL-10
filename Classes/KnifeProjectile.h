@@ -23,20 +23,6 @@ public:
         if (!__desired_distance) return;
         float len = length(getPosition() - __initial_pos);
         if (len > __desired_distance) {
-            /* Remove Example */
-//            removeAfter(0.0);
-//            unscheduleUpdate();
-            /* ================ */
-            
-            /* Revert Example */
-//            __desired_distance = 0.0f;
-//            auto v = getVelocity();                                             // revert direction
-//            v.x *= -1;
-//            v.y *= -1;
-//            setVelocity(v);                                                     // apply reverted direction
-//            move();                                                             // move to apply force
-            /* ================ */
-            
             /* Follow Hero */
             __desired_distance = 0.0f;                                          // move desired distance
             schedule(schedule_selector(KnifeProjectile::followTarget));         // schedule follow function
@@ -46,6 +32,7 @@ public:
     
     void setInitialPos() {
         __initial_pos = getPosition();
+        setTag(TAG_PENETRATE);
     }
     
     void getHeroPtr() {
@@ -53,24 +40,27 @@ public:
     }
     
     void onContact(b2Contact* contact) final {
-        /* For rotation on end */
-        auto diff = getPosition() - __initial_pos;
-        Node::setRotation(VecToDegree(diff));                                       // set rotation on contact
-        /* =================== */
+//        /* For rotation on end */
+//        auto diff = getPosition() - __initial_pos;
+//        Node::setRotation(VecToDegree(diff));                                       // set rotation on contact
+//        /* =================== */
+//
+//        __desired_distance = 0.0f;
+//        removeAfter(3.0);                                                           // remove after 3 seconds
+//
+//        auto delay = cocos2d::DelayTime::create(2.0f);
+//        auto fadeOut = cocos2d::FadeOut::create(1.0f);
+//        auto sequence = cocos2d::Sequence::createWithTwoActions(delay, fadeOut);
+//        runAction(sequence);                                                        // run fade out
         
-        __desired_distance = 0.0f;
-        setCategory(CATEGORY_BULLET, MASK_NONE);                                    // collide nothing after contact
-        removeAfter(3.0);                                                           // remove after 3 seconds
-
-        auto delay = cocos2d::DelayTime::create(2.0f);
-        auto fadeOut = cocos2d::FadeOut::create(1.0f);
-        auto sequence = cocos2d::Sequence::createWithTwoActions(delay, fadeOut);
-        runAction(sequence);                                                        // run fade out
+        __desired_distance = 0.0f;                                                  // move desired distance
+        schedule(schedule_selector(KnifeProjectile::followTarget));                 // schedule follow function
     }
     
     void followTarget(float dt) {
         if (!__hero) return;
         auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
+        __body->SetAngularVelocity(__angular_velocity*10.0f);
         if (len < 20.0f) {
             unschedule(schedule_selector(KnifeProjectile::followTarget));           // if length is close enough, remove this
             removeAfter(0.0f);
