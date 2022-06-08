@@ -23,6 +23,7 @@ private:
     cocos2d::EventListenerMouse* _mouse_listener;
     
     SlotMachine* _slot;
+    Hero* _hero;
     
 public:
     EventHandler();
@@ -41,6 +42,7 @@ public:
     void BeginContact(b2Contact* contact) final;
     void EndContact(b2Contact* contact) final;
     
+    void getHero();
     void test();
 };
 

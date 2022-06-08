@@ -11,6 +11,7 @@ EventHandler::~EventHandler() {
 
 void EventHandler::setup(cocos2d::Layer* layer) {
     _slot = layer->getChildByName<cocos2d::Layer*>("state_layer")->getChildByName<SlotMachine*>("slot_machine");
+    _hero = layer->getChildByTag<Hero*>(TAG_PLAYER);
     
     _event_dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
     _keyboard_event = cocos2d::EventListenerKeyboard::create();
@@ -30,8 +31,7 @@ void EventHandler::setup(cocos2d::Layer* layer) {
 
 
 void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
+    if (!_hero) { getHero(); return; }
     switch (key) {
         case KEY_GROUP_UP           : _hero->move(UP); break;
         case KEY_GROUP_LEFT         : _hero->move(LEFT); break;
@@ -52,8 +52,7 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
 }
 
 void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
+    if (!_hero) { getHero(); return; }
     switch (key) {
         case KEY_GROUP_UP           : _hero->stop(UP); break;
         case KEY_GROUP_DOWN         : _hero->stop(DOWN); break;
@@ -67,8 +66,7 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
 }
 
 void EventHandler::onMouseUp(cocos2d::EventMouse *event) {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
+    if (!_hero) { getHero(); return; }
     switch (event->getMouseButton()) {
         case mouseButton_t::BUTTON_LEFT : _hero->updateKey(ATTACK, false); _hero->attack(); break;
         default: break;
@@ -76,8 +74,7 @@ void EventHandler::onMouseUp(cocos2d::EventMouse *event) {
 }
 
 void EventHandler::onMouseDown(cocos2d::EventMouse *event) {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
+    if (!_hero) { getHero(); return; }
     switch (event->getMouseButton()) {
         case mouseButton_t::BUTTON_LEFT : _hero->updateKey(ATTACK, true); _hero->attack(); break;
         default: break;
@@ -85,8 +82,7 @@ void EventHandler::onMouseDown(cocos2d::EventMouse *event) {
 }
 
 void EventHandler::onMouseMove(cocos2d::EventMouse *event) {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
+    if (!_hero) { getHero(); return; }
     cocos2d::Vec2 pos;
     pos.x = event->getCursorX();
     pos.y = event->getCursorY();
@@ -111,6 +107,10 @@ void EventHandler::EndContact(b2Contact *contact) {
 //    auto fixtureB = contact->GetFixtureB();
 //    int categoryA = PhysicsObject::getCategory(fixtureA);
 //    int categoryB = PhysicsObject::getCategory(fixtureB);
+}
+
+void EventHandler::getHero() {
+    _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
 }
 
 

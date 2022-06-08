@@ -25,6 +25,11 @@ bool GameStateLayer::init()
     _heroHP.first->setOpacity(0.0f);
 	addChild(_heroHP.first);
 	scheduleUpdate();
+    
+    auto coin = Coin::create();
+    coin->setPosition(750.0f, 200.0f);
+    addChild(coin);
+    
 	return true;
 }
 

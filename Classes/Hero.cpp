@@ -6,7 +6,10 @@ Hero::Hero()
 , __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
 , __map_dir(MAP_NONE)
 , __invincible(false)
-, __disarmed(false) {
+, __disarmed(false)
+, __hp(0)
+, __damage(0)
+, __coin(0) {
     BaseMonster::addTarget(this);
     __key.fill(false);
 }
@@ -46,6 +49,7 @@ bool Hero::init() {
     runActionByKey(IDLE);
     setHP(6);
     setSpeed(5.0f, true);
+    addCoin(5);
     setRunSpeed(2.0f);
     setTag(TAG_PLAYER);
     
@@ -253,6 +257,20 @@ int Hero::getDamage() {
 
 void Hero::setDamage(int damage) {
     __damage = damage;
+}
+
+void Hero::addCoin(int coin) {
+    __coin += coin;
+}
+
+bool Hero::useCoin(int coin) {
+    if (__coin < coin) return false;
+    __coin -= coin;
+    return true;
+}
+
+int Hero::getCoin() {
+    return __coin;
 }
 
 

@@ -21,6 +21,7 @@ private:
 
     int __hp;
     int __damage;
+    int __coin;
     bool __invincible;
     bool __disarmed;
 
@@ -50,6 +51,9 @@ public:
     void setHP(int hp);
     int getDamage();
     void setDamage(int damage);
+    void addCoin(int coin);
+    bool useCoin(int coin);
+    int getCoin();
 
     void disarm(float time = 0.0f);
     void rearm(float dt);

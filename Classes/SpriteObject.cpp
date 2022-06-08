@@ -61,7 +61,10 @@ bool SpriteObject::initWithAnimation(std::string name, float run_speed, int coun
 cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, float delay) {
     auto __a = cocos2d::Animation::create();
     for (char i = '0'; i < static_cast<char>(count+48); i++) {
-        std::string __n = __path+"/"+__name+"_"+state+"_anim_f"+i+".png";
+        std::string __n = __path+"/"+__name;
+        if (state.empty()) __n = __n+"_anim_f"+i+".png";
+        else __n = __n+"_"+state+"_anim_f"+i+".png";
+        
         auto __t = cocos2d::Director::getInstance()->getTextureCache()->addImage(__n);
         IF_RN(!__t, "Unable to load image: " + __n);
         auto __r = cocos2d::Rect::ZERO;
@@ -111,6 +114,10 @@ int SpriteObject::addInfAnimation(std::string state, int count, float delay) {
     return __inf_anim.size()-1;
 }
 
+void SpriteObject::setName(std::string name) {
+    __name = name;
+}
+
 bool SpriteObject::isAnimationRunning() {
     if (__path.empty()) return false;
     return __sprite->isRunning();
@@ -126,11 +133,13 @@ void SpriteObject::runActionByKey(std::string key) {
 void SpriteObject::runActionByKey(ACTION action) {
     if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
+    if (action == RUN) action = MOVE;
     __sprite->runAction(__inf_anim[action]);
 }
 
 void SpriteObject::stopActionByKey(ACTION action) {
     if (__path.empty()) return;
     IF_RV(action == ELSE, "key should not be ELSE");
+    if (action == RUN) action = MOVE;
     __sprite->stopAction(__inf_anim[action]);
 }
