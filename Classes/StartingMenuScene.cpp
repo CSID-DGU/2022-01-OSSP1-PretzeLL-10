@@ -88,7 +88,7 @@ bool StartingMenu::init()
 		this->addChild(titleSprite, 2);
 	}
 
-	auto logoSprite = Sprite::create("frames/MoiraiLogo.png");
+	auto logoSprite = Sprite::create("frames/HourGlass.png");
 	if (logoSprite == nullptr)
 	{
 		problemLoading("'Moirailogo fault'");
@@ -96,20 +96,39 @@ bool StartingMenu::init()
 	else
 	{
 		// position the label on the center of the screen
-		logoSprite->setPosition(Vec2(origin.x + visibleSize.width / 2 + 350,
-			origin.y + visibleSize.height - logoSprite->getContentSize().height - 75));
+		logoSprite->setPosition(Vec2(origin.x + visibleSize.width / 2 + 420,
+			origin.y + visibleSize.height - logoSprite->getContentSize().height - 125));
 
 		logoSprite->setScale(1.5f);
 		logoSprite->getTexture()->setTexParameters(TEX_PARA);
 		// add the label as a child to this layer
 		this->addChild(logoSprite, 1);
 	}
+	// 여기 추가 
+	auto logoSprite2 = Sprite::create("frames/MoiraiLogo.png");
+	if (logoSprite2 == nullptr)
+	{
+		problemLoading("'Moirailogo fault'");
+	}
+	else
+	{
+		// position the label on the center of the screen
+		logoSprite2->setPosition(Vec2(origin.x + visibleSize.width / 2 -400,
+			origin.y + visibleSize.height - logoSprite->getContentSize().height - 125));
+
+		logoSprite2->setScale(1.5f);
+		logoSprite2->getTexture()->setTexParameters(TEX_PARA);
+		// add the label as a child to this layer
+		this->addChild(logoSprite2, 1);
+	}
+	// 여기 추가 
+
 
 	// add "HelloWorld" splash screen"
-	auto sprite = Sprite::create("sprite/backgroundMenu.png");
+	auto sprite = Sprite::create("sprite/MoiraiBackground2.png");
 	if (sprite == nullptr)
 	{
-		problemLoading("'sprite/backgroundMenu.png'");
+		problemLoading("'sprite/MoiraiBackground2.png'");
 	}
 	else
 	{
