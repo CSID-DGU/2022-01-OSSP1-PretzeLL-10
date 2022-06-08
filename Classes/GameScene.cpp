@@ -37,14 +37,9 @@ bool GameScene::init()
     //============================================================================================
     //                          buttons for test
     //============================================================================================
-    auto goRight = MenuItemFont::create("Right", CC_CALLBACK_1(GameScene::mapTravelRight, this));
-    auto goLeft = MenuItemFont::create("Left", CC_CALLBACK_1(GameScene::mapTravelLeft, this));
-    auto goUp = MenuItemFont::create("Up", CC_CALLBACK_1(GameScene::mapTravelUp, this));
-    auto goDown = MenuItemFont::create("Down", CC_CALLBACK_1(GameScene::mapTravelDown, this));
     auto damage = MenuItemFont::create("Damage", CC_CALLBACK_1(GameScene::heroDamage, this));
-    auto levelup = MenuItemFont::create("Stage Up", CC_CALLBACK_1(GameScene::levelup, this));
     //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
-    auto mapMenu = Menu::create(goUp, goDown, goRight, goLeft, damage, levelup, NULL);
+    auto mapMenu = Menu::create(damage, NULL);
     mapMenu->alignItemsVertically();
     mapMenu->setPosition(Vec2(100, 200));
     this->addChild(mapMenu, 1);
@@ -76,36 +71,6 @@ void GameScene::startNewGame()
 }
 
 //=============================================================== callback for test
-
-void GameScene::mapTravelUp(Ref* pSender)
-{
-    GameManager::getInstance()->loadUpMap();
-}
-
-void GameScene::mapTravelDown(Ref* pSender)
-{
-    GameManager::getInstance()->loadDownMap();
-}
-
-void GameScene::mapTravelRight(Ref* pSender)
-{
-    GameManager::getInstance()->loadRightMap();
-}
-
-void GameScene::mapTravelLeft(Ref* pSender)
-{
-    GameManager::getInstance()->loadLeftMap();
-}
-
-void GameScene::goNextLevel(Ref* pSender)
-{
-
-}
-
-void GameScene::levelup(Ref* pSender)
-{
-    GameManager::getInstance()->goNextStage();
-}
 
 void GameScene::heroDamage(Ref* pSender)
 {
