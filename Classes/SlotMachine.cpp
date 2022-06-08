@@ -18,8 +18,8 @@ bool SlotMachine::init() {
     IF(!Node::init());
     
     /* Init weapons */
-    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Bow>("bow"));
+    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Axe>("axe"));
     IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
     IF(!createWeapon<BigHammer>("big_hammer"))

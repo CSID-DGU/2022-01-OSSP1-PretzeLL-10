@@ -12,6 +12,7 @@ protected:
     typedef DynamicObject target_t;
 
     static std::list<target_t*> __target;
+    int __full_hp;
     int __hp;
     int __damage;
 
@@ -20,6 +21,7 @@ protected:
 
     MonsterAI* AI;
     VoidWeapon* __weapon;
+    cocos2d::Sprite* __health;
     
 protected:
     BaseMonster(std::string name);                      // Constructor, initialize variables
@@ -33,7 +35,7 @@ public:
     virtual void behavior(float dt);
     virtual void roaming();
     virtual void attack();                              // Need update!
-    virtual void damaged(int damage);
+    void damaged(int damage, const cocos2d::Vec2& position, float weight);
     void dieing();
     virtual void followTarget();
     void doNothing();

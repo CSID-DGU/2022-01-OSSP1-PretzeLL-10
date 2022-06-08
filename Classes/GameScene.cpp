@@ -109,5 +109,5 @@ void GameScene::levelup(Ref* pSender)
 
 void GameScene::heroDamage(Ref* pSender)
 {
-    GameManager::getInstance()->getHero()->damaged(1);
+//    GameManager::getInstance()->getHero()->damaged(1);
 }

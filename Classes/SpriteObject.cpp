@@ -34,26 +34,27 @@ bool SpriteObject::initWithAnimation(std::string name, float run_speed, int coun
     __name = name;
     
     addInfAnimation("idle", count, 0.1f);
-    auto __a = createAnimation("run", count, 0.1f);
-    IF(!__a);
-    auto __a_ = cocos2d::Animate::create(__a);
-    IF(!__a_);
-    auto __r = cocos2d::RepeatForever::create(__a_);
-    IF(!__r);
-    __r->retain();
-    __inf_anim.push_back(__r);
-    
-    auto __a_r = __a->clone();
-    IF(!__a_r);
-    __a_r->setDelayPerUnit(0.1f/run_speed);
-    auto __a_r_ = cocos2d::Animate::create(__a_r);
-    IF(!__a_r_);
-    auto __r_r = cocos2d::RepeatForever::create(__a_r_);
-    IF(!__r_r);
-    __r_r->retain();
-    __inf_anim.push_back(__r_r);
+    addInfAnimation("run", count, 0.1f);
     
     return true;
+//    auto __a = createAnimation("run", count, 0.1f);
+//    IF(!__a);
+//    auto __a_ = cocos2d::Animate::create(__a);
+//    IF(!__a_);
+//    auto __r = cocos2d::RepeatForever::create(__a_);
+//    IF(!__r);
+//    __r->retain();
+//    __inf_anim.push_back(__r);
+//
+//    auto __a_r = __a->clone();
+//    IF(!__a_r);
+//    __a_r->setDelayPerUnit(0.1f/run_speed);
+//    auto __a_r_ = cocos2d::Animate::create(__a_r);
+//    IF(!__a_r_);
+//    auto __r_r = cocos2d::RepeatForever::create(__a_r_);
+//    IF(!__r_r);
+//    __r_r->retain();
+//    __inf_anim.push_back(__r_r);
 }
 
 
@@ -93,7 +94,7 @@ cocos2d::Sprite* SpriteObject::cloneSprite() {
 void SpriteObject::addAnimation(std::string state, int count, float delay) {
     if (__path.empty()) return;
     auto __a = createAnimation(state, count, delay);
-    IF_RV(__a, "Failed to create animation");
+    IF_RV(!__a, "Failed to create animation");
     auto __a_ = cocos2d::Animate::create(__a);
     __a_->retain();
     __anim.insert(std::make_pair(state, __a_));

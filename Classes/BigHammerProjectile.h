@@ -15,6 +15,7 @@ protected:
 public:
 	CREATE_FUNC(BigHammerProjectile);
 	cocos2d::Vec2 tmp_velocity;
+    
 
 	void update(float dt) final {
 		ProjectileObject::update(dt);
@@ -24,22 +25,8 @@ public:
 		float len = length(getPosition() - __initial_pos);
 
 		if (len > __desired_distance) {
-			/* Remove Example */
-//            removeAfter(0.0);
-//            unscheduleUpdate();
-			/* ================ */
-
-			/* Revert Example */
-//            __desired_distance = 0.0f;
-//            auto v = getVelocity();                                             // revert direction
-//            v.x *= -1;
-//            v.y *= -1;
-//            setVelocity(v);                                                     // apply reverted direction
-//            move();                                                             // move to apply force
-			/* ================ */
-
 			/* Follow Hero */
-			__desired_distance = 0.0f;                                          // move desired distance
+			__desired_distance = 0.0f;                                              // move desired distance
 			schedule(schedule_selector(BigHammerProjectile::followTarget));         // schedule follow function
 		}
 	}
@@ -67,7 +54,7 @@ public:
 		if (!__hero) return;
 		auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
 		if (len < 20.0f) {
-			unschedule(schedule_selector(BigHammerProjectile::followTarget));           // if length is close enough, remove this
+			unschedule(schedule_selector(BigHammerProjectile::followTarget));       // if length is close enough, remove this
 			removeAfter(0.0f);
 		}
 	}

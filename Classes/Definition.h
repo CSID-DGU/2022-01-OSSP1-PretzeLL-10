@@ -15,6 +15,7 @@
 #define CATEGORY_WEAPON                 0x0020
 #define CATEGORY_BULLET                 0x0040
 #define CATEGORY_HBULLET                0x0080
+#define CATEGORY_PBULLET                0x0100
 
 #define MASK_NONE                       0x0000
 #define MASK_ALL                        0xFFFF
@@ -41,6 +42,7 @@
 #define KEY_GROUP_M                     keyCode_t::KEY_M: case keyCode_t::KEY_CAPITAL_M
 
 #define TAG_PLAYER                      0x1000
+#define TAG_PENETRATE                   0x2100
 
 
 #ifndef __KEYCODE_T__
