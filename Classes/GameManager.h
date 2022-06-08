@@ -5,9 +5,10 @@
 #include <utility>
 #include "GameMap.h"
 #include "GameStateLayer.h"
-#include "GameMapManager.h"
 #include "BaseMonster.h"
 #include "EventHandler.h"
+#include "GameMapManager.h"
+#include "MonsterManager.h"
 
 class GameManager
 {
@@ -34,6 +35,8 @@ public:
 
     void update(float dt);
 
+    void addMonsters2(BaseMonster* monster);
+
     void goNextStage(); // must move to private
 private:
     GameManager();
@@ -41,7 +44,7 @@ private:
     static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);
 
-    void createMonsters();
+    
  
     void allocateGameMap();
     void makeGameMap();
@@ -54,6 +57,7 @@ private:
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;
     GameMapManager mapManager;
+    MonsterManager monsterManager;
     GameMap*** _gameMap;  // Must make data structure form;
     std::pair<int, int> currentPosition;
 

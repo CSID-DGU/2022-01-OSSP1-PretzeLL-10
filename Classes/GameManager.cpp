@@ -106,14 +106,10 @@ void GameManager::startNewGame()
 	loadGameMap(currentPosition.first, currentPosition.second);
 }
 
-void GameManager::createMonsters()
+void GameManager::addMonsters2(BaseMonster* monster)
 {
-  	auto _big_demon = BigDemon::create();
-	monsterVec.push_back(_big_demon);
-	_big_demon->setAbsolutePosition(300, 700);
-	_big_demon->setScale(2.0f);
-	_big_demon->setLocalZOrder(2);
-	_layer->addChild(_big_demon);
+	monsterVec.push_back(monster);
+	_layer->addChild(monster);
 }
 
 void GameManager::deleteMonster(BaseMonster* dM)
@@ -132,7 +128,11 @@ void GameManager::deleteMonster(BaseMonster* dM)
 void GameManager::updateMapClear()
 {
 	if (monsterVec.empty())
+	{
 		_gameMap[currentPosition.first][currentPosition.second]->setClear();
+		if (_gameMap[currentPosition.first][currentPosition.second]->getIsBossRoom())
+			goNextStage();
+	}
 }
 
 void GameManager::goNextStage()
@@ -147,6 +147,8 @@ void GameManager::goNextStage()
 
 	mapManager.makeGameMap(_gameMap);
 	loadGameMap(currentPosition.first, currentPosition.second);
+
+	_hero->setAbsolutePosition(500, 600);
 }
 
 void GameManager::clearLayer()
@@ -165,7 +167,7 @@ cocos2d::Layer* GameManager::getLayer() const {
 void GameManager::loadGameMap(int w, int h)
 {
 	if (!_gameMap[w][h]->getIsClear())
-		createMonsters();
+		monsterManager.createMonster(gameStage, _gameMap[w][h]->getIsBossRoom());
 
 	TMXTiledMap* temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 130);
