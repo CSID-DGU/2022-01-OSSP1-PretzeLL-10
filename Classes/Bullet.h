@@ -15,5 +15,7 @@
 #include "HammerProjectile.h"
 #include "KatanaProjectile.h"
 #include "MacheteProjectile.h"
+#include "ThunderBolt.h"
+
 
 #endif /* __BULLET_H__ */

@@ -314,7 +314,7 @@
     <ClInclude Include="..\Classes\KnifeProjectile.h">
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MagicStaff.h">
+    <ClInclude Include="..\Classes\FireStaff.h">
       <Filter>src\Object\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\FireBall.h">
@@ -342,6 +342,12 @@
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\MacheteProjectile.h">
+      <Filter>src\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LightningStaff.h">
+      <Filter>src\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ThunderBolt.h">
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
   </ItemGroup>

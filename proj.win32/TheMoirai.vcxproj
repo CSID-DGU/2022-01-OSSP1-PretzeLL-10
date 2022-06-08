@@ -228,9 +228,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\KatanaProjectile.h" />
     <ClInclude Include="..\Classes\Knife.h" />
     <ClInclude Include="..\Classes\KnifeProjectile.h" />
+    <ClInclude Include="..\Classes\LightningStaff.h" />
     <ClInclude Include="..\Classes\Machete.h" />
     <ClInclude Include="..\Classes\MacheteProjectile.h" />
-    <ClInclude Include="..\Classes\MagicStaff.h" />
+    <ClInclude Include="..\Classes\FireStaff.h" />
     <ClInclude Include="..\Classes\MaskedOrc.h" />
     <ClInclude Include="..\Classes\MenuSettingScene.h" />
     <ClInclude Include="..\Classes\Monster.h" />
@@ -248,6 +249,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\SpriteObject.h" />
     <ClInclude Include="..\Classes\StartingMenuScene.h" />
     <ClInclude Include="..\Classes\StaticObject.h" />
+    <ClInclude Include="..\Classes\ThunderBolt.h" />
     <ClInclude Include="..\Classes\Timer.h" />
     <ClInclude Include="..\Classes\TinyZombie.h" />
     <ClInclude Include="..\Classes\Utility.h" />
