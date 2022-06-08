@@ -320,9 +320,6 @@
     <ClInclude Include="..\Classes\KnifeProjectile.h">
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MagicStaff.h">
-      <Filter>src\Object\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\FireBall.h">
       <Filter>src\Object\Bullet</Filter>
     </ClInclude>
@@ -358,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ThunderBolt.h">
       <Filter>src\Object\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FireStaff.h">
+      <Filter>src\Object\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
