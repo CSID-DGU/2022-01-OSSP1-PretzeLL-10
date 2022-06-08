@@ -207,8 +207,8 @@ void Hero::makeInvincible(float time) {
     __invincible = true;
     stopAllActions();
     cocos2d::ActionInterval* action;
-    action = cocos2d::Blink::create(1, 3);
-    runAction(cocos2d::Repeat::create(action, (unsigned int)time));
+    action = cocos2d::Sequence::create(cocos2d::FadeTo::create(0.3, 80), cocos2d::FadeTo::create(0.3, 255), nullptr);
+    runAction(cocos2d::Repeat::create(action, 3));
     setCategory(CATEGORY_PLAYER, CATEGORY_WALL | CATEGORY_DOOR);
     scheduleOnce(schedule_selector(Hero::invincible), time);
     runActionByKey("hit");
@@ -228,7 +228,7 @@ void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
-    makeInvincible(1.0f);
+    makeInvincible(2.0f);
     pause(0.3f);
 }
 
