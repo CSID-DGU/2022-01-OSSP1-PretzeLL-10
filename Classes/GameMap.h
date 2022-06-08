@@ -10,6 +10,8 @@ class GameMap
 {
 public:
     GameMap(const std::string& tmxMapFileName);
+    GameMap(const std::string& tmxMapFileName, bool boss);
+    GameMap(const std::string& tmxMapFileName, bool start, bool boss);
     GameMap();      // for test
     virtual ~GameMap() = default;
 
@@ -19,6 +21,8 @@ public:
 
     void setClear();
     bool getIsClear();
+
+    bool getIsBossRoom();
     
     b2Body* _wall = nullptr;
 
@@ -31,12 +35,8 @@ private:
     TMXTiledMap* _tmxTiledMap;
     std::string _tmxTiledMapFileName;
 
-    //std::unordered_set<std::shared_ptr<DynamicActor>> _dynamicActors;
-    //std::vector<std::unique_ptr<GameMap::Trigger>> _triggers;
-    //std::vector<std::unique_ptr<GameMap::Portal>> _portals;
-
     bool isClear;
-    friend class GameManager;
+    bool isBoss;
 };
 
 #endif
