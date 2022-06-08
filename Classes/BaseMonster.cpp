@@ -16,6 +16,9 @@ bool BaseMonster::init() {
     IF(!DynamicObject::init());
     
     AI = MonsterAI::create();
+    __weapon = VoidWeapon::create();
+    __weapon->setDamage(1);
+    addChild(__weapon->asNode());
 
     addChild(AI);
     auto size = C2B(getContentSize());
@@ -27,6 +30,14 @@ bool BaseMonster::init() {
     runActionByKey(IDLE);
     
     return true;
+}
+
+void BaseMonster::addBullet(ProjectileObject *bullet, const b2Vec2& pos) {
+    __weapon->addBullet(bullet, pos);
+}
+
+weapon_t* BaseMonster::getWeapon() {
+    return static_cast<weapon_t*>(__weapon->asNode());
 }
 
 
@@ -120,6 +131,12 @@ void BaseMonster::setDamage(int damage) {
     __damage = damage;
 }
 
+float BaseMonster::getWeight() {
+    b2MassData mass;
+    __body->GetFixtureList()->GetMassData(&mass);
+    return mass.mass;
+}
+
 
 void BaseMonster::onContact(b2Contact* contact) {
     b2Fixture* other = contact->GetFixtureB();
@@ -141,6 +158,7 @@ void BaseMonster::onContact(b2Contact* contact) {
         bullet->release();
         
         damaged(bullet->getDamage());
+        
         normalize(diff);
         __body->ApplyForceToCenter(C2B(diff*500.0f), false);
     }

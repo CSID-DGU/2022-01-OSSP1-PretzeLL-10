@@ -2,9 +2,10 @@
 #define __BASE_MONSTER_H__
 
 #include "DynamicObject.h"
-#include "BaseBullet.h"
-#include "BaseWeapon.h"
+#include "Bullet.h"
+#include "VoidWeapon.h"
 #include "MonsterAI.h"
+
 
 class BaseMonster : public DynamicObject {
 protected:
@@ -18,6 +19,8 @@ protected:
     float detectRange;
 
     MonsterAI* AI;
+    VoidWeapon* __weapon;
+    
 protected:
     BaseMonster(std::string name);                      // Constructor, initialize variables
     virtual ~BaseMonster();                             // Destructor
@@ -39,6 +42,9 @@ public:
     void setHP(int hp);
     int getDamage();
     void setDamage(int damage);
+    void addBullet(ProjectileObject* bullet, const b2Vec2& pos = b2Vec2(0.0f, 0.0f));
+    weapon_t* getWeapon();
+    virtual float getWeight();
     std::list<target_t*> getTarget();
 
     virtual void onContact(b2Contact* contact) override;

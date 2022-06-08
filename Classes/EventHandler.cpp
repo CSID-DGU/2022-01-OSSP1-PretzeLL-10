@@ -95,12 +95,14 @@ void EventHandler::onMouseMove(cocos2d::EventMouse *event) {
 
 
 void EventHandler::BeginContact(b2Contact* contact) {
+    if (!contact->IsTouching()) return;
     auto fixtureA = contact->GetFixtureA();
     auto fixtureB = contact->GetFixtureB();
     int categoryA = PhysicsObject::getCategory(fixtureA);
     int categoryB = PhysicsObject::getCategory(fixtureB);
   
     INVOKE_CONTACT(CATEGORY_BULLET, bullet_t);
+    INVOKE_CONTACT(CATEGORY_HBULLET, bullet_t);
     INVOKE_CONTACT(CATEGORY_PLAYER, Hero);
     INVOKE_CONTACT(CATEGORY_MONSTER, monster_t);
 }

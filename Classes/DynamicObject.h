@@ -9,6 +9,7 @@
 class DynamicObject : public cocos2d::Node, public SpriteObject, public PhysicsObject  {
 protected:
     float __speed;                                                      // Speed Velocity
+    float __speed_bak;
     float __run_speed;                                                  // Run velocity
     b2Vec2 __velocity;
     
@@ -45,7 +46,8 @@ public:
     
     /* Movement */
     virtual void move();
-    void setSpeed(float speed);                                         // Set speed velocity
+    void setSpeed(float speed, bool backUp = false);                    // Set speed velocity
+    void restoreSpeed();
     void setRunSpeed(float runSpeed);
     float getSpeed();
     float getRunSpeed();

@@ -7,11 +7,19 @@
 class MagicStaff : public BaseWeapon
 {
 protected:
-	MagicStaff() : BaseWeapon("red_magic_staff", 1, 0.1f, 0.0f) {}
+	MagicStaff() : BaseWeapon("red_magic_staff") {}
 	virtual ~MagicStaff() {}
 
 public:
 	CREATE_FUNC(MagicStaff);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.1f, 0.0f);
+        setLevelValue(2, 1, 0.2f, 0.0f);
+        setLevelValue(3, 1, 0.2f, 0.0f);
+        return true;
+    }
 
 	void attack(bool flipped, const b2Vec2 &direction) final
 	{
@@ -25,7 +33,7 @@ public:
 
 		if (!fireBall1)
 			return;
-		addBullet(fireBall1);
+		addBullet(fireBall1, direction);
 		fireBall1->setParent(this);
 		fireBall1->setSpeed(10.0f);
 		vec = cocos2d::Vec2(direction.x - 0.5f, direction.y - 0.5f);
@@ -37,7 +45,7 @@ public:
 
 		if (!fireBall2)
 			return;
-		addBullet(fireBall2);
+		addBullet(fireBall2, direction);
 		fireBall2->setParent(this);
 		fireBall2->setSpeed(10.0f);
 		fireBall2->setRotation(VecToDegree(direction));
@@ -48,7 +56,7 @@ public:
 
 		if (!fireBall3)
 			return;
-		addBullet(fireBall3);
+		addBullet(fireBall3, direction);
 		fireBall3->setParent(this);
 		fireBall3->setSpeed(10.0f);
 		vec = cocos2d::Vec2(direction.x + 0.5f, direction.y + 0.5f);

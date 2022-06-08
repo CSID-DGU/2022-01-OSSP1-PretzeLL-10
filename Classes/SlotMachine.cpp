@@ -29,18 +29,20 @@ bool SlotMachine::init() {
     IF(!createWeapon<Hammer>("hammer"));
     IF(!createWeapon<Knife>("knife"));
     IF(!createWeapon<Machete>("machete"));
-//    IF(!createWeapon("frames/weapon_arrow.png"));
-//    IF(!createWeapon("frames/weapon_golden_sword.png"));
-//    IF(!createWeapon("frames/weapon_green_magic_staff.png"));
-//    IF(!createWeapon("frames/weapon_knight_sword.png"));
-//    IF(!createWeapon("frames/weapon_lavish_sword.png"));
-//    IF(!createWeapon("frames/weapon_mace.png"));
-//    IF(!createWeapon("frames/weapon_red_gem_sword.png"));
-//    IF(!createWeapon("frames/weapon_red_magic_staff.png"));
-//    IF(!createWeapon("frames/weapon_regular_sword.png"));
-//    IF(!createWeapon("frames/weapon_rusty_sword.png"));
-//    IF(!createWeapon("frames/weapon_saw_sword.png"));
-//    IF(!createWeapon("frames/weapon_spear.png"));
+    IF(!createWeapon<MagicStaff>("red_magic_staff"));
+    
+    /* Deprecated */
+    // IF(!createWeapon("frames/weapon_arrow.png"));
+    // IF(!createWeapon("frames/weapon_golden_sword.png"));
+    // IF(!createWeapon("frames/weapon_green_magic_staff.png"));
+    // IF(!createWeapon("frames/weapon_knight_sword.png"));
+    // IF(!createWeapon("frames/weapon_lavish_sword.png"));
+    // IF(!createWeapon("frames/weapon_mace.png"));
+    // IF(!createWeapon("frames/weapon_red_gem_sword.png"));
+    // IF(!createWeapon("frames/weapon_regular_sword.png"));
+    // IF(!createWeapon("frames/weapon_rusty_sword.png"));
+    // IF(!createWeapon("frames/weapon_saw_sword.png"));
+    // IF(!createWeapon("frames/weapon_spear.png"));
     
     /* Init background */
     auto sprite = cocos2d::Sprite::create("sprite/slotmachineStyle.png");
@@ -89,7 +91,7 @@ void SlotMachine::update(float dt) {
             if (i == LayerSize::value - 1) {
                 unscheduleUpdate();
                 react(_hero);
-                _hero->setSpeed(_hero->getSpeed() * 4.0f);
+                _hero->restoreSpeed();
                 _hero->rearm(0);
                 running = false;
             }
@@ -222,13 +224,34 @@ void SlotMachine::react(Hero* hero) {
 
 std::vector<weapon_t*> SlotMachine::getResult() {
     std::vector<weapon_t*> ret(LayerSize::value);
+    int tag[LayerSize::value];
+    
     for (int i = 0; i < LayerSize::value; i++) {
         if (!result[i]) {
             ret[i] = nullptr;
             continue;
         }
-        ret[i] = BaseWeapon::getByTag(result[i]->getTag());
+        tag[i] = result[i]->getTag();
+        ret[i] = BaseWeapon::getByTag(tag[i]);
         ret[i]->deactivate();
+    }
+    
+    if (tag[0] == tag[1] == tag[2]) {
+        ret[0]->setLevel(2);
+        ret[1]->setLevel(2);
+        ret[2]->setLevel(2);
+    }
+    else if (tag[0] == tag[1]) {
+        ret[0]->setLevel(1);
+        ret[1]->setLevel(1);
+    }
+    else if (tag[0] == tag[2]) {
+        ret[0]->setLevel(1);
+        ret[2]->setLevel(1);
+    }
+    else if (tag[1] == tag[2]) {
+        ret[1]->setLevel(1);
+        ret[2]->setLevel(1);
     }
     return ret;
 }

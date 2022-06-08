@@ -26,8 +26,8 @@ bool Hero::init() {
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     
     runActionByKey(IDLE);
-    setHP(6);
-    setSpeed(5.0f);
+    setHP(99);
+    setSpeed(5.0f, true);
     setRunSpeed(2.0f);
     setTag(TAG_PLAYER);
     
@@ -133,8 +133,7 @@ void Hero::stopRun() {
 
 void Hero::attack() {
     auto weapon = __weapon.first[__weapon.second];
-    if (!weapon) return;
-    if (weapon->isAttacking()) return;
+    if (!weapon || !isMoveAble() || weapon->isAttacking()) return;
     
     auto direction = C2B(__mouse - getPosition());
     normalize(direction);
@@ -146,11 +145,10 @@ void Hero::attack() {
     }
     else if (type == CHARGE) {
         if (__key[ATTACK]) {
-            __speed_bak = getSpeed();
             setSpeed(getSpeed()*0.25f);
         }
         else {
-            setSpeed(__speed_bak);
+            restoreSpeed();
         }
     }
 }
@@ -179,6 +177,9 @@ void Hero::testWeapon(float t) {
 
 void Hero::makeInvincible(float time) {
     __invincible = true;
+    cocos2d::ActionInterval* action;
+    action = cocos2d::Blink::create(1, 3);
+    runAction(cocos2d::Repeat::create(action, (unsigned int)time));
     setCategory(CATEGORY_PLAYER, CATEGORY_WALL | CATEGORY_DOOR);
     scheduleOnce(schedule_selector(Hero::invincible), time);
 }
@@ -188,8 +189,15 @@ void Hero::invincible(float dt) {
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
 }
 
-void Hero::damaged(int damage) {
+void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     __hp -= damage;
+    if (__hp < 0) return;
+    if (direction == cocos2d::Vec2::ZERO) return;
+    auto diff = getPosition() - direction;
+    normalize(diff);
+    __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
+    makeInvincible(1.0f);
+    pause(0.3f);
 }
 
 int Hero::getHP() {
@@ -293,11 +301,12 @@ void Hero::onContact(b2Contact* contact) {
     if (other_cat == CATEGORY_MONSTER) {
         if (__invincible) return;
         auto monster = PhysicsObject::getUserData<monster_t*>(other);
-        damaged(monster->getDamage());
-        auto diff = getPosition() - monster->getPosition();
-        normalize(diff);
-        __body->ApplyForceToCenter(C2B(diff*500.0f), false);
-        makeInvincible(1.0f);
+        damaged(monster->getDamage(), monster->getPosition(), monster->getWeight());
+    }
+    else if (other_cat == CATEGORY_HBULLET) {
+        if (__invincible) return;
+        auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
+        damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight());
     }
     else if (other_cat == CATEGORY_DOOR) {
         auto pos = getAbsolutePosition();

@@ -289,13 +289,14 @@ void GameManager::gameOver()
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
 	menu->setPosition(cocos2d::Vec2::ZERO);
-	auto gameoverSprite = cocos2d::Sprite::create("frames/gameover.png");
+	auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
 	gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
 	gameoverSprite->setScale(0.3f);
 	gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
 	gameOverLayer->addChild(menu);
 	gameOverLayer->addChild(gameoverSprite);
 	_layer->addChild(gameOverLayer, 50);
+    _hero->pause(std::numeric_limits<float>::max());
 	isGameOver = true;
 }
 

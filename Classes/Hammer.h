@@ -12,13 +12,21 @@ protected:
 public:
     CREATE_FUNC(Hammer);
     
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.0f);
+        setLevelValue(2, 1, 0.2f, 0.0f);
+        setLevelValue(3, 1, 0.2f, 0.0f);
+        return true;
+    }
+    
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
 
 		auto Hammer = HammerProjectile::create();
 
 		if (!Hammer) return;
-		addBullet(Hammer);
+		addBullet(Hammer, direction);
 		Hammer->setParent(this);
 		Hammer->setSpeed(20.0f);
 		Hammer->setVelocity(direction);

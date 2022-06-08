@@ -6,11 +6,17 @@
 
 class BatonWithSpikes : public BaseWeapon {
 protected:
-    BatonWithSpikes() : BaseWeapon("baton_with_spikes", 1, 0.2f, 0.1f) {}
+    BatonWithSpikes() : BaseWeapon("baton_with_spikes") {}
     virtual ~BatonWithSpikes() {}
     
 public:
     CREATE_FUNC(BatonWithSpikes);
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 1, 0.2f, 0.1);
+        return true;
+    }
     
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
@@ -18,7 +24,7 @@ public:
 		auto BatonWithSpikes = BatonWithSpikesProjectile::create();
 
 		if (!BatonWithSpikes) return;
-		addBullet(BatonWithSpikes);
+		addBullet(BatonWithSpikes, direction);
 		BatonWithSpikes->setParent(this);
 		BatonWithSpikes->setSpeed(20.0f);
 		BatonWithSpikes->setVelocity(direction);

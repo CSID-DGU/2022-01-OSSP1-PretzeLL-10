@@ -11,6 +11,10 @@ protected:
     
 public:
     CREATE_FUNC(Stone);
+    
+    void onContact(b2Contact* contact) {
+        removeAfter(0.0f);
+    }
 };
 
 #endif /* __STONE_H__ */

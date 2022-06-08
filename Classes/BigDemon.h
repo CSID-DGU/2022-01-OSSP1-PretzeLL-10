@@ -51,16 +51,17 @@ public:
     virtual void attack() override
     {
         auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
-        auto diff = hero->getPosition() - getPosition();
+        auto diff = C2B(hero->getPosition() - getPosition());
         auto stone = Stone::create();
-        getParent()->addChild(stone, 10);
-        stone->setCategory(CATEGORY_ITEM, MASK_ITEM);
+        
+        normalize(diff);
+        addBullet(stone, diff);
+        stone->setParent(getWeapon());
         stone->setPosition(getPosition());
-        stone->setSpeed(100.0f);
-        stone->setRotation(VecToDegree(diff));
-        stone->setVelocity(C2B(normalize(diff)));
+        stone->setSpeed(50.0f);
+        stone->setVelocity(diff);
         stone->Node::setScale(2.0f);
-//        stone->PhysicsObject::scale(0.5f);
+        stone->PhysicsObject::scale(0.7f);
         stone->move();
         
         AI->setState(State::WAIT, 1);

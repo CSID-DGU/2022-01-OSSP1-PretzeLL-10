@@ -8,6 +8,7 @@
 DynamicObject::DynamicObject(std::string name)
 : SpriteObject("", name)
 , __speed(0.0f)
+, __speed_bak(0.0f)
 , __run_speed(1.0f)
 , __velocity(b2Vec2(0.0f, 0.0f))
 , __current(IDLE)
@@ -141,8 +142,13 @@ b2Vec2 DynamicObject::getVelocity() {
     return __velocity;
 }
 
-void DynamicObject::setSpeed(float speed) {
+void DynamicObject::setSpeed(float speed, bool backUp) {
     __speed = speed/powf(scaleFactor, 3.0f);
+    if (backUp) __speed_bak = __speed;
+}
+
+void DynamicObject::restoreSpeed() {
+    __speed = __speed_bak;
 }
 
 void DynamicObject::setRunSpeed(float runSpeed) {
@@ -158,6 +164,7 @@ float DynamicObject::getRunSpeed() {
 }
 
 void DynamicObject::pause(float time) {
+    __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
     __time.set(time);
 }
 
@@ -190,6 +197,7 @@ void DynamicObject::updateAction() {
 
 
 void DynamicObject::removeAfter(float delay) {
+    if (isScheduled(schedule_selector(DynamicObject::removal))) return;
     scheduleOnce(CC_SCHEDULE_SELECTOR(DynamicObject::removal), delay);
 }
 
