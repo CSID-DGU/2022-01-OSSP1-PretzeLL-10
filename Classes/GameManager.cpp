@@ -276,9 +276,13 @@ void GameManager::gameOver()
 	gameOverLayer->setOpacity(150);
 
 	// add a "close" icon to exit the progress. it's an autorelease object
-	auto closeItem = cocos2d::MenuItemImage::create(
-		"frames/OkButtonNonClick.png",
-		"frames/OkButtonOnClick.png",
+    cocos2d::Sprite* item[2];
+    item[0] = cocos2d::Sprite::create("frames/OkButtonNonClick.png");
+    item[1] = cocos2d::Sprite::create("frames/OkButtonOnClick.png");
+    item[0]->getTexture()->setTexParameters(TEX_PARA);
+    item[1]->getTexture()->setTexParameters(TEX_PARA);
+    
+    auto closeItem = cocos2d::MenuItemSprite::create(item[0], item[1],
 		CC_CALLBACK_1(GameManager::menuGotoSummarySceneCallback, this));
 
 	if (closeItem == nullptr ||
@@ -292,7 +296,6 @@ void GameManager::gameOver()
 		float y = visibleSize.height / 2 - 100;
 		closeItem->setPosition(cocos2d::Vec2(x, y));
 		closeItem->setScale(2.5f);
-		//ÇÈ¼¿±úÁöÁö ¾Ê°Ô Á¶Á¤ÇÏ±â - closeItem->getTexture()->setTexParameters(TEX_PARA);
 	}
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
@@ -304,15 +307,19 @@ void GameManager::gameOver()
 	gameOverLayer->addChild(menu);
 	gameOverLayer->addChild(gameoverSprite);
 	_layer->addChild(gameOverLayer, 50);
-    _hero->pause(std::numeric_limits<float>::max());
+    _hero->pause(std::numeric_limits<float>::max());	
+	for (auto iter : monsterVec) {
+		iter->pause(std::numeric_limits<float>::max());
+	}
+	PhysicsObject::removeAllMask();
 	isGameOver = true;
 }
 
 void GameManager::menuGotoSummarySceneCallback(cocos2d::Ref* pSender)
 {
+	clearLayer();
 	const auto scene = GameSummary::create();
 	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionCrossFade::create(0.5, scene));
-	clearLayer();
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;

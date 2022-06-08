@@ -117,6 +117,7 @@ void PhysicsObject::setType(b2BodyType type) {
 }
 
 void PhysicsObject::setCategory(const int category, const int mask) {
+    if (!__body) return;
     for (auto __f = __body->GetFixtureList(); __f; __f = __f->GetNext()) {
         auto __d = __f->GetFilterData();
         __d.categoryBits = category;
@@ -237,3 +238,19 @@ void PhysicsObject::remove(b2Body* body) {
     __world->DestroyBody(body);
 }
 
+void PhysicsObject::removeAllMask() {
+    b2Body* body = __world->GetBodyList();
+    for (int i = 0; i < __world->GetBodyCount(); i++) {
+        //auto next = body->GetNext();
+        //__world->DestroyBody(body);
+        //body = next;
+
+        for (auto __f = body->GetFixtureList(); __f; __f = __f->GetNext()) {
+            auto __d = __f->GetFilterData();
+            __d.categoryBits = 0;
+            __d.maskBits = MASK_NONE;
+            __f->SetFilterData(__d);
+        }
+        body = body->GetNext();
+    }
+}

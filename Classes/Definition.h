@@ -41,8 +41,10 @@
 #define KEY_GROUP_SHIFT                 keyCode_t::KEY_SHIFT: case keyCode_t::KEY_RIGHT_SHIFT
 #define KEY_GROUP_M                     keyCode_t::KEY_M: case keyCode_t::KEY_CAPITAL_M
 
-#define TAG_PLAYER                      0x1000
-#define TAG_PENETRATE                   0x2100
+#define TAG_PLAYER                      0x1100
+#define TAG_MONSTER                     0x1200
+#define TAG_TRACKABLE                   0x2100
+#define TAG_PENETRATE                   0x2200
 
 
 #ifndef __KEYCODE_T__

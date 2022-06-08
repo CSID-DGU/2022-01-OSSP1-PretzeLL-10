@@ -59,14 +59,29 @@ bool StartingMenu::init()
 
 	/////////////////////////////
 	// 2. add menu Item
-	auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
-	auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
-	auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
+    cocos2d::Sprite* menu_sprite[3][2];
+    menu_sprite[0][0] = cocos2d::Sprite::create("frames/PlayNonClick.png");
+    menu_sprite[0][1] = cocos2d::Sprite::create("frames/PlayOnClick.png");
+    menu_sprite[1][0] = cocos2d::Sprite::create("frames/SettingNonClick.png");
+    menu_sprite[1][1] = cocos2d::Sprite::create("frames/SettingOnClick.png");
+    menu_sprite[2][0] = cocos2d::Sprite::create("frames/ExitNonClick.png");
+    menu_sprite[2][1] = cocos2d::Sprite::create("frames/ExitOnClick.png");
+    
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 2; j++) {
+            menu_sprite[i][j]->setScale(0.75f);
+            menu_sprite[i][j]->getTexture()->setTexParameters(TEX_PARA);
+        }
+    }
+    
+    auto playItem = MenuItemSprite::create(menu_sprite[0][0], menu_sprite[0][1], CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
+    auto settingItem = MenuItemSprite::create(menu_sprite[1][0], menu_sprite[1][1], CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
+    auto closeItem = MenuItemSprite::create(menu_sprite[2][0], menu_sprite[2][1], CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
 
 	// create menu, it's an autorelease object
 	auto menu = Menu::create(playItem, settingItem, closeItem, NULL);
-	menu->alignItemsVertically();
-	menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
+    menu->alignItemsVerticallyWithPadding(-20.0f);
+	menu->setPosition(Vec2(visibleSize.width / 2 + 50.0f, visibleSize.height / 2 - 200));
 	this->addChild(menu, 1);
 
 	/////////////////////////////

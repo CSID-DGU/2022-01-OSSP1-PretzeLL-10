@@ -19,7 +19,6 @@ bool SlotMachine::init() {
     
     /* Init weapons */
     IF(!createWeapon<Bow>("bow"));
-    IF(!createWeapon<AnimeSword>("anime_sword"));
     IF(!createWeapon<Axe>("axe"));
     IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
     IF(!createWeapon<BigHammer>("big_hammer"))
@@ -32,6 +31,7 @@ bool SlotMachine::init() {
     IF(!createWeapon<MagicStaff>("red_magic_staff"));
     
     /* Deprecated */
+    // IF(!createWeapon<AnimeSword>("anime_sword"));
     // IF(!createWeapon("frames/weapon_arrow.png"));
     // IF(!createWeapon("frames/weapon_golden_sword.png"));
     // IF(!createWeapon("frames/weapon_green_magic_staff.png"));
@@ -91,9 +91,9 @@ void SlotMachine::update(float dt) {
             if (i == LayerSize::value - 1) {
                 unscheduleUpdate();
                 react(_hero);
-                _hero->restoreSpeed();
                 _hero->rearm(0);
                 running = false;
+//                _hero->restoreSpeed();
             }
         }
     }
@@ -112,10 +112,10 @@ void SlotMachine::spin(Hero* hero) {
     }
     scheduleUpdate();
     _hero = hero;
-    _hero_speed = hero->getSpeed();
-    _hero->setSpeed(_hero_speed*0.25f);
     _hero->disarm();
     running = true;
+//    _hero_speed = hero->getSpeed();
+//    _hero->setSpeed(_hero_speed*0.25f);
 }
 
 void SlotMachine::stopSpin(int line) {

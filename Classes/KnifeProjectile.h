@@ -6,7 +6,7 @@
 
 class KnifeProjectile : public BaseBullet {
 protected:
-    cocos2d::Node* __hero;
+    cocos2d::Node* __target;
     cocos2d::Vec2 __initial_pos;
     float __desired_distance = 500.0f;
         
@@ -17,54 +17,40 @@ protected:
 public:
     CREATE_FUNC(KnifeProjectile);
     
-    void update(float dt) final {
-        ProjectileObject::update(dt);
-        
-        if (!__desired_distance) return;
-        float len = length(getPosition() - __initial_pos);
-        if (len > __desired_distance) {
-            /* Follow Hero */
-            __desired_distance = 0.0f;                                          // move desired distance
-            schedule(schedule_selector(KnifeProjectile::followTarget));         // schedule follow function
-            /* ================ */
-        }
-    }
-    
-    void setInitialPos() {
-        __initial_pos = getPosition();
-        setTag(TAG_PENETRATE);
-    }
-    
-    void getHeroPtr() {
-        __hero = getParent()->getChildByTag(TAG_PLAYER);
+    void setTarget(cocos2d::Node* target) {
+        __target = target;
+        schedule(schedule_selector(KnifeProjectile::followTarget));
     }
     
     void onContact(b2Contact* contact) final {
-//        /* For rotation on end */
-//        auto diff = getPosition() - __initial_pos;
-//        Node::setRotation(VecToDegree(diff));                                       // set rotation on contact
-//        /* =================== */
-//
-//        __desired_distance = 0.0f;
-//        removeAfter(3.0);                                                           // remove after 3 seconds
-//
-//        auto delay = cocos2d::DelayTime::create(2.0f);
-//        auto fadeOut = cocos2d::FadeOut::create(1.0f);
-//        auto sequence = cocos2d::Sequence::createWithTwoActions(delay, fadeOut);
-//        runAction(sequence);                                                        // run fade out
-        
-        __desired_distance = 0.0f;                                                  // move desired distance
-        schedule(schedule_selector(KnifeProjectile::followTarget));                 // schedule follow function
+        setCategory(CATEGORY_BULLET, MASK_NONE);
+        unschedule(schedule_selector(KnifeProjectile::followTarget));
+        stop(std::numeric_limits<float>::max());
+        auto delay = cocos2d::DelayTime::create(1.0f);
+        auto fadeOut = cocos2d::FadeOut::create(0.5f);
+        auto sequence = cocos2d::Sequence::createWithTwoActions(delay, fadeOut);
+        runAction(sequence);
     }
     
-    void followTarget(float dt) {
-        if (!__hero) return;
-        auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
-        __body->SetAngularVelocity(__angular_velocity*10.0f);
-        if (len < 20.0f) {
-            unschedule(schedule_selector(KnifeProjectile::followTarget));           // if length is close enough, remove this
-            removeAfter(0.0f);
+    void followTarget(float dt) {\
+        if (!__target) {
+            removeAfter(3.0f);
+            unschedule(schedule_selector(KnifeProjectile::followTarget));
+            auto delay = cocos2d::DelayTime::create(1.0f);
+            auto fadeOut = cocos2d::FadeOut::create(0.5f);
+            auto sequence = cocos2d::Sequence::createWithTwoActions(delay, fadeOut);
+            runAction(sequence);
+            return;
         }
+        if (__target->getTag() != TAG_MONSTER) {
+            __target = nullptr;
+            return;
+        }
+        
+        auto target_pos = __target->getPosition();
+        moveTo(target_pos);
+        setRotation(VecToDegree(target_pos - getPosition()));
+        __body->SetAngularVelocity(__angular_velocity*10.0f);
     }
 };
 

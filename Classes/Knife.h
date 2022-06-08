@@ -18,6 +18,7 @@ public:
         setLevelValue(1, 1, 0.2f, 0.1f);
         setLevelValue(2, 1, 0.2f, 0.1f);
         setLevelValue(3, 1, 0.2f, 0.1f);
+        setTag(TAG_TRACKABLE);
         return true;
     }
     
@@ -30,11 +31,8 @@ public:
         knife->setParent(this);
         knife->setSpeed(30.0f);
         knife->setVelocity(direction);                                              // Now rotation is automatically set (in move func)
-        knife->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));                 // set angular velocity to rotate, rotates degree per second
         knife->PhysicsObject::scale(0.5, b2Vec2(0.0f, 0.0f));
-        knife->move();
-        knife->setInitialPos();
-        knife->getHeroPtr();
+        knife->setTarget(chooseTarget());
         
         float angle = -30.0f;
         if (flipped) angle *= -1;

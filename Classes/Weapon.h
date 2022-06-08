@@ -1,7 +1,6 @@
 #ifndef __WEAPON_H__
 #define __WEAPON_H__
 
-#include "AnimeSword.h"
 #include "Bow.h"
 #include "Axe.h"
 #include "BatonWithSpikes.h"
