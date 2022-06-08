@@ -270,8 +270,8 @@ void GameManager::gameOver()
 
 	// add a "close" icon to exit the progress. it's an autorelease object
 	auto closeItem = cocos2d::MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
+		"frames/OkButtonNonClick.png",
+		"frames/OkButtonOnClick.png",
 		CC_CALLBACK_1(GameManager::menuGotoSummarySceneCallback, this));
 
 	if (closeItem == nullptr ||
@@ -284,8 +284,9 @@ void GameManager::gameOver()
 		float x = visibleSize.width / 2;
 		float y = visibleSize.height / 2 - 100;
 		closeItem->setPosition(cocos2d::Vec2(x, y));
+		closeItem->setScale(2.5f);
+		//픽셀깨지지 않게 조정하기 - closeItem->getTexture()->setTexParameters(TEX_PARA);
 	}
-
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
 	menu->setPosition(cocos2d::Vec2::ZERO);
