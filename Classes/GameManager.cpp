@@ -67,14 +67,13 @@ void GameManager::removeAllGameMap()
 }
 
 GameManager::GameManager()
-	: _layer(cocos2d::Layer::create()), gameStage(0), mapWidth(0), mapHeight(0), isGameOver(true), numberMonster(0)
+	: _layer(cocos2d::Layer::create()), gameStage(0), mapWidth(0), mapHeight(0), isGameOver(true)
 {
 	_layer->retain();
 }
 
 void GameManager::startNewGame()
 {
-	numberMonster = 0;
 	gameStage = 1;
 	mapWidth = 5;
 	mapHeight = 5;
@@ -101,7 +100,7 @@ void GameManager::startNewGame()
 	//------------------------------------------------- addChild GameStateLayer
 	_state_layer = GameStateLayer::create();
 	_state_layer->startNewGame(_hero);
-	_layer->addChild(_state_layer);
+	_layer->addChild(_state_layer, 5);
 
 	auto timer = _Timer::create();
 	_layer->addChild(timer);
@@ -139,8 +138,6 @@ void GameManager::updateMapClear()
 		_gameMap[currentPosition.first][currentPosition.second]->setClear();
 		if (_gameMap[currentPosition.first][currentPosition.second]->getIsBossRoom())
 			goNextStage();
-		_hero->addCoin(numberMonster);
-		numberMonster = 0;
 	}
 }
 
@@ -181,21 +178,17 @@ cocos2d::Layer* GameManager::getLayer() const {
 void GameManager::loadGameMap(int w, int h)
 {
 	if (!_gameMap[w][h]->getIsClear())
-	{
 		monsterManager.createMonster(gameStage, _gameMap[w][h]->getIsBossRoom());
-		numberMonster = monsterVec.size();
-	}
 
 	TMXTiledMap* temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 130);
-	_layer->addChild(temp);
+	_layer->addChild(temp, 0);
     
     auto wall = PhysicsObject::createWall(temp);
     if (wall) {
         _gameMap[w][h]->_wall = wall;
         wall->SetTransform(wall->GetPosition() + b2Vec2(0, 130/PTM_RATIO), 0.0f);
     }
-	_hero->disarm(0.0f);
 }
 
 TMXTiledMap* GameManager::doLoadGameMap(int w, int h)

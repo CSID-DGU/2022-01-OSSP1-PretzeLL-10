@@ -20,17 +20,19 @@ bool SlotMachine::init() {
     /* Init weapons */
     IF(!createWeapon<Bow>("bow"));
     IF(!createWeapon<Axe>("axe"));
-    IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"))
-    IF(!createWeapon<BigHammer>("big_hammer"))
-    IF(!createWeapon<Cleaver>("cleaver"));
-    IF(!createWeapon<DuelSword>("duel_sword"));
-    IF(!createWeapon<Katana>("katana"));
-    IF(!createWeapon<Hammer>("hammer"));
+    IF(!createWeapon<FireStaff>("red_magic_staff"));
+    IF(!createWeapon<LightningStaff>("green_magic_staff"));
     IF(!createWeapon<Knife>("knife"));
     IF(!createWeapon<Machete>("machete"));
-    IF(!createWeapon<FireStaff>("red_magic_staff"));
+    IF(!createWeapon<BigHammer>("big_hammer"));
     
     /* Deprecated */
+    // IF(!createWeapon<BatonWithSpikes>("baton_with_spikes"));
+    // IF(!createWeapon<Cleaver>("cleaver"));
+    // IF(!createWeapon<DuelSword>("duel_sword"));
+    // IF(!createWeapon<Katana>("katana"));
+    // IF(!createWeapon<Hammer>("hammer"));
+    // IF(!createWeapon<FireStaff>("red_magic_staff"));
     // IF(!createWeapon<AnimeSword>("anime_sword"));
     // IF(!createWeapon("frames/weapon_arrow.png"));
     // IF(!createWeapon("frames/weapon_golden_sword.png"));

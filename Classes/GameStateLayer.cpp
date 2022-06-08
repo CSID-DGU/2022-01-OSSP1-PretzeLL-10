@@ -26,9 +26,10 @@ bool GameStateLayer::init()
 	addChild(_heroHP.first);
 	scheduleUpdate();
     
-    auto coin = Coin::create();
-    coin->setPosition(750.0f, 200.0f);
-    addChild(coin);
+    _coin.first = Coin::create();
+    _coin.first->setPosition(750.0f, 200.0f);
+    _coin.second = 0;
+    addChild(_coin.first);
     
 	return true;
 }
@@ -44,13 +45,15 @@ void GameStateLayer::update(float delta)
 
 void GameStateLayer::updateHeroHP()
 {
-	if (_heroHP.second == _player->getHP())
-		return;
-	else
+	if (_heroHP.second != _player->getHP())
 	{
 		_heroHP.second = _player->getHP();
 		showHeroHP();
 	}
+    if (_coin.second != _player->getCoin()) {
+        _coin.second = _player->getCoin();
+        _coin.first->updateLabel(_player->getCoin());
+    }
 }
 
 void GameStateLayer::showHeroHP()
@@ -62,13 +65,13 @@ void GameStateLayer::showHeroHP()
 	for (i = 0; i < full; i++)
 	{
 		auto heart = cocos2d::Sprite::create("frames/ui_heart_full.png");
-		heart->setPosition(50*i + 30, 25);
+		heart->setPosition(50*i + 110, 25);
 		_heroHP.first->addChild(heart);
 	}
 	if (half == 1)
 	{
 		auto heart = cocos2d::Sprite::create("frames/ui_heart_half.png");
-		heart->setPosition(50 * i + 30, 25);
+		heart->setPosition(50 * i + 110, 25);
 		_heroHP.first->addChild(heart);
 	}
 }

@@ -8,6 +8,7 @@ class GameStateLayer : public cocos2d::Layer
 {
 private:
 	Hero* _player;
+    std::pair<Coin*, int> _coin;
 	std::pair<cocos2d::Sprite*, int> _heroHP;
     
 public:
