@@ -10,7 +10,7 @@ protected:
     float __desired_distance = 500.0f;
 
 protected:
-    ThunderBolt() : BaseBullet("weapon_green_magic_staff") {}
+    ThunderBolt() : BaseBullet("flame") {}
     virtual ~ThunderBolt() {}
 
 public:
@@ -43,8 +43,9 @@ public:
         }
     }
 
-    void setInitialPos() {
-        __initial_pos = getPosition();
+    void setInitialPos(cocos2d::Vec2 pos) {
+        __initial_pos = pos;
+        setPosition(__initial_pos);
     }
 
     void getHeroPtr() {

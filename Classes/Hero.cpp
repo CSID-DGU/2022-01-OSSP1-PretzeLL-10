@@ -46,9 +46,9 @@ bool Hero::init() {
     return true;
 }
 
-cocos2d::Vec2 Hero::getMousePos() {
-    return __mouse;
-}
+//cocos2d::Vec2 Hero::getMousePos() {
+//    return __mouse;
+//}
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;
