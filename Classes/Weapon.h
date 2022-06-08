@@ -11,6 +11,7 @@
 #include "Hammer.h"
 #include "Knife.h"
 #include "Machete.h"
-#include "MagicStaff.h"
+#include "FireStaff.h"
+#include "LightningStaff.h"
 
 #endif /* __WEAPON_H__ */

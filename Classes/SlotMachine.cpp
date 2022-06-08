@@ -28,7 +28,7 @@ bool SlotMachine::init() {
     IF(!createWeapon<Hammer>("hammer"));
     IF(!createWeapon<Knife>("knife"));
     IF(!createWeapon<Machete>("machete"));
-    IF(!createWeapon<MagicStaff>("red_magic_staff"));
+    IF(!createWeapon<FireStaff>("red_magic_staff"));
     
     /* Deprecated */
     // IF(!createWeapon<AnimeSword>("anime_sword"));

@@ -1,27 +1,27 @@
-#ifndef __MAGICSTAFF_H__
-#define __MAGICSTAFF_H__
+#ifndef __FIRESTAFF_H__
+#define __FIRESTAFF_H__
 
 #include "BaseWeapon.h"
 #include "FireBall.h"
 
-class MagicStaff : public BaseWeapon
+class FireStaff : public BaseWeapon
 {
 protected:
-	MagicStaff() : BaseWeapon("red_magic_staff") {}
-	virtual ~MagicStaff() {}
+	FireStaff() : BaseWeapon("red_magic_staff") {}
+	virtual ~FireStaff() {}
 
 public:
-	CREATE_FUNC(MagicStaff);
-    
-    bool init() final {
-        IF(!BaseWeapon::init());
-        setLevelValue(1, 1, 0.1f, 0.0f);
-        setLevelValue(2, 1, 0.2f, 0.0f);
-        setLevelValue(3, 1, 0.2f, 0.0f);
-        return true;
-    }
+	CREATE_FUNC(FireStaff);
 
-	void attack(bool flipped, const b2Vec2 &direction) final
+	bool init() final {
+		IF(!BaseWeapon::init());
+		setLevelValue(1, 1, 0.1f, 0.5f);
+		setLevelValue(2, 1, 0.2f, 0.3f);
+		setLevelValue(3, 1, 0.2f, 0.3f);
+		return true;
+	}
+
+	void attack(bool flipped, const b2Vec2& direction) final
 	{
 		if (!isAttackAble())
 			return;
@@ -36,7 +36,7 @@ public:
 		addBullet(fireBall1, direction);
 		fireBall1->setParent(this);
 		fireBall1->setSpeed(10.0f);
-		vec = cocos2d::Vec2(direction.x - 0.5f, direction.y - 0.5f);
+		vec = cocos2d::Vec2(direction.x, direction.y - 0.25f);
 		fireBall1->setRotation(VecToDegree(normalize(vec)));
 		fireBall1->setVelocity(C2B(normalize(vec)));
 		fireBall1->PhysicsObject::scale(0.5f);
@@ -59,7 +59,7 @@ public:
 		addBullet(fireBall3, direction);
 		fireBall3->setParent(this);
 		fireBall3->setSpeed(10.0f);
-		vec = cocos2d::Vec2(direction.x + 0.5f, direction.y + 0.5f);
+		vec = cocos2d::Vec2(direction.x, direction.y + 0.25f);
 		fireBall3->setRotation(VecToDegree(normalize(vec)));
 		fireBall3->setVelocity(C2B(normalize(vec)));
 		fireBall3->PhysicsObject::scale(0.5f);
@@ -77,4 +77,4 @@ public:
 	}
 };
 
-#endif /* __MAGICSTAFF_H__ */
+#endif /* __FIRESTAFF_H__ */

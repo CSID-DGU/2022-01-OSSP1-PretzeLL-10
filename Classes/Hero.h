@@ -32,6 +32,7 @@ public:
     CREATE_FUNC(Hero); // Cocos create function
 
     virtual bool init() override; // Initialize
+    //static cocos2d::Vec2 getMousePos();
     void updateMouse(cocos2d::Vec2 pos);
     void updateKey(KEY key, bool state);
 

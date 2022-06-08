@@ -29,7 +29,7 @@ public:
         if (!knife) return;
         addBullet(knife, direction);
         knife->setParent(this);
-        knife->setSpeed(30.0f);
+        knife->setSpeed(50.0f);
         knife->setVelocity(direction);                                              // Now rotation is automatically set (in move func)
         knife->PhysicsObject::scale(0.5, b2Vec2(0.0f, 0.0f));
         knife->setTarget(chooseTarget());

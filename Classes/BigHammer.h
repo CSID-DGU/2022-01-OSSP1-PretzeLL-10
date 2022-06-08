@@ -26,9 +26,9 @@ public:
 		if (!BigHammer) return;
 		addBullet(BigHammer, direction);
 		BigHammer->setParent(this);
-		BigHammer->setSpeed(20.0f);
+		BigHammer->setSpeed(50.0f);
 		BigHammer->setVelocity(direction);
-		BigHammer->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
+		//BigHammer->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
 		BigHammer->PhysicsObject::scale(0.5f);
 		BigHammer->move();
 		BigHammer->setInitialPos();

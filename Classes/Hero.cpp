@@ -56,7 +56,7 @@ bool Hero::init() {
     
     /* For test */
     /* ============================================= */
-    __weapon.first[0] = Knife::create();
+    __weapon.first[0] = LightningStaff::create();
     addChild(__weapon.first[0]);
     __weapon.first[0]->activate();
     __weapon.first[0]->registerKey(&__key[ATTACK]);
@@ -68,6 +68,10 @@ bool Hero::init() {
     
     return true;
 }
+
+//cocos2d::Vec2 Hero::getMousePos() {
+//    return __mouse;
+//}
 
 void Hero::updateMouse(cocos2d::Vec2 pos) {
     __mouse = pos;

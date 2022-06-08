@@ -6,33 +6,35 @@
 
 class Machete : public BaseWeapon {
 protected:
-    Machete() : BaseWeapon("machete") {}
-    virtual ~Machete() {}
-    
+	Machete() : BaseWeapon("machete") {}
+	virtual ~Machete() {}
+
 public:
-    CREATE_FUNC(Machete);
-    
-    bool init() final {
-        IF(!BaseWeapon::init());
-        setLevelValue(1, 1, 0.2f, 0.0f);
-        setLevelValue(2, 1, 0.2f, 0.0f);
-        setLevelValue(3, 1, 0.2f, 0.0f);
-        return true;
-    }
-    
+	CREATE_FUNC(Machete);
+
+	bool init() final {
+		IF(!BaseWeapon::init());
+		setLevelValue(1, 1, 0.2f, 0.0f);
+		setLevelValue(2, 1, 0.2f, 0.0f);
+		setLevelValue(3, 1, 0.2f, 0.0f);
+		return true;
+	}
+
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
 
 		auto Machete = MacheteProjectile::create();
+		cocos2d::Vec2 vec;
 
 		if (!Machete) return;
 		addBullet(Machete, direction);
 		Machete->setParent(this);
-		Machete->setSpeed(20.0f);
-		Machete->setVelocity(direction);
+		Machete->setSpeed(3.0f);
+		vec = cocos2d::Vec2(direction.x + 0.66f, direction.y + 0.66f);
+		Machete->setVelocity(C2B(vec));
 		Machete->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
 		Machete->PhysicsObject::scale(0.5f);
-		Machete->move();
+		Machete->moveGently();
 		Machete->setInitialPos();
 		Machete->getHeroPtr();
 
