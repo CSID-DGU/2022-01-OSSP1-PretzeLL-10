@@ -4,19 +4,6 @@
 #include <cocos2d.h>
 #include "MonsterMakingFunction.h"
 
-//BaseMonster* level2Monster(int stage)
-//{
-//	switch (stage)
-//	{
-//	case 1:
-//	case 2:
-//	case 3:
-//	case 4:
-//	default:
-//		break;
-//	}
-//}
-
 class MonsterManager
 {
 private:
@@ -33,6 +20,10 @@ public:
 	void create3MT_1(int stage);
 	void create4MT_0(int stage);
 	void create4MT_1(int stage);
+	void create5MT_0(int stage);
+	void create5MT_1(int stage);
+	void create6MT_0(int stage);
+	void create6MT_1(int stage);
 
 	// create Boss Monster
 };
