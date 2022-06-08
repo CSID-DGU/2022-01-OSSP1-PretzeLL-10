@@ -1,6 +1,26 @@
 #include "MonsterManager.h"
 #include "GameManager.h"
 
+std::function<void(MonsterManager&, int)> create3MT_PT[] = { 
+	&MonsterManager::create3MT_0,
+	&MonsterManager::create3MT_1
+};
+
+std::function<void(MonsterManager&, int)> create4MT_PT[] = {
+	&MonsterManager::create4MT_0,
+	&MonsterManager::create4MT_1
+};
+
+std::function<void(MonsterManager&, int)> create5MT_PT[] = {
+	&MonsterManager::create5MT_0,
+	&MonsterManager::create5MT_1
+};
+
+std::function<void(MonsterManager&, int)> create6MT_PT[] = {
+	&MonsterManager::create6MT_0,
+	&MonsterManager::create6MT_1
+};
+
 void MonsterManager::createMonster(int stage, bool boss)
 {
 	if (boss)
@@ -8,35 +28,49 @@ void MonsterManager::createMonster(int stage, bool boss)
 		createBossMonster(stage);
 		return;
 	}
-	//int numberMT = 0;
-	//int typeOfPattern = 0, MAXTYPE;
-	//engine = std::mt19937_64(rand_device());
-	//const std::uniform_int_distribution<int> numberRand(2, 6);
-	//numberMT = numberRand(engine);
-	//switch (numberMT)
-	//{
-	//case 2:
-	//	MAXTYPE = 2;
-	//	break;
-	//case 3:
-	//	MAXTYPE = 2;
-	//	break;
-	//case 4:
-	//	MAXTYPE = 2;
-	//	break;
-	//case 5:
-	//	MAXTYPE = 2;
-	//	break;
-	//case 6:
-	//	MAXTYPE = 2;
-	//	break;
-	//default:
-	//	exit(1);
-	//	break;
-	//}
-	//const std::uniform_int_distribution<int> typeRand(0, MAXTYPE);
-	//typeOfPattern = typeRand(engine);
-	create6MT_1(stage);
+	int numberMT = 0;
+	int typeOfPattern = 0, MAXTYPE;
+	engine = std::mt19937_64(rand_device());
+	const std::uniform_int_distribution<int> numberRand(3, 6);
+	numberMT = numberRand(engine);
+	switch (numberMT)
+	{
+	case 3:
+		MAXTYPE = 2;
+		break;
+	case 4:
+		MAXTYPE = 2;
+		break;
+	case 5:
+		MAXTYPE = 2;
+		break;
+	case 6:
+		MAXTYPE = 2;
+		break;
+	default:
+		exit(1);
+		break;
+	}
+	const std::uniform_int_distribution<int> typeRand(0, MAXTYPE - 1);
+	typeOfPattern = typeRand(engine);
+	switch (numberMT)
+	{
+	case 3:
+		create3MT_PT[typeOfPattern](*this, stage);
+		break;
+	case 4:
+		create4MT_PT[typeOfPattern](*this, stage);
+		break;
+	case 5:
+		create5MT_PT[typeOfPattern](*this, stage);
+		break;
+	case 6:
+		create6MT_PT[typeOfPattern](*this, stage);
+		break;
+	default:
+		exit(1);
+		break;
+	}
 }
 
 void MonsterManager::create3MT_0(int stage)

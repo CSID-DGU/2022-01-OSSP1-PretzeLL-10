@@ -288,8 +288,9 @@ void GameManager::gameOver()
 
 	auto gameOverLayer = cocos2d::LayerColor::create();
 	gameOverLayer->setContentSize(visibleSize);
-	gameOverLayer->setColor(cocos2d::Color3B(30, 15, 10));
+	gameOverLayer->setColor(cocos2d::Color3B(20, 15, 10));
 	gameOverLayer->setOpacity(150);
+	gameOverLayer->runAction(cocos2d::FadeTo::create(2.0f, 200));
 
 	// add a "close" icon to exit the progress. it's an autorelease object
 	auto closeItem = cocos2d::MenuItemImage::create(
