@@ -20,6 +20,8 @@ public:
     Hero* getHero() const;      // for test
     std::vector<BaseMonster*> monsterVec;
 
+    std::string string_format(const std::string& format, int a, int b);
+
     void startNewGame();
 
     void deleteMonster(BaseMonster* dM);

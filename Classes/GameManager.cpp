@@ -1,5 +1,8 @@
 #include "GameManager.h"
 #include "GameSummaryScene.h"
+#include "Timer.h"
+#include <iostream>
+#include <format>
 
 GameManager* GameManager::sharedGameMapManager = nullptr;
 
@@ -98,6 +101,9 @@ void GameManager::startNewGame()
 	_state_layer = GameStateLayer::create();
 	_state_layer->startNewGame(_hero);
 	_layer->addChild(_state_layer);
+
+	auto timer = _Timer::create();
+	_layer->addChild(timer);
     
     auto event = EventHandler::create();
     event->setup(_layer);
@@ -263,6 +269,16 @@ void GameManager::loadLeftMap()
 	}
 }
 
+std::string GameManager::string_format(const std::string& format, int a, int b)
+{
+	int size_s = std::snprintf(nullptr, 0, format.c_str(), a, b) + 1; // Extra space for '\0'
+	if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
+	auto size = static_cast<size_t>(size_s);
+	std::unique_ptr<char[]> buf(new char[size]);
+	std::snprintf(buf.get(), size, format.c_str(), a, b);
+	return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+}
+
 void GameManager::gameOver()
 {
 	if (isGameOver)
@@ -296,6 +312,14 @@ void GameManager::gameOver()
 	}
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
+
+	std::string str = string_format("%02d : %02d", int(_Timer::getTime() / 60), int(_Timer::getTime()) % 60);
+
+	auto label = Label::createWithTTF(str, "fonts/Marker Felt.ttf", 60);
+	label->setPosition(Vec2(origin.x + visibleSize.width / 2,origin.y + visibleSize.height - label->getContentSize().height));
+	
+	gameOverLayer->addChild(label,2);
+
 	menu->setPosition(cocos2d::Vec2::ZERO);
 	auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
 	gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));

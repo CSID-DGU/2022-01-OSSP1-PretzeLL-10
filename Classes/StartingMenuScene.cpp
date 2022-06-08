@@ -29,6 +29,7 @@
 
 #include "Utility.h"
 #include "SlotMachine.h"
+#include "Timer.h"
 
 USING_NS_CC;
 
@@ -122,7 +123,6 @@ bool StartingMenu::init()
 		this->addChild(logoSprite2, 1);
 	}
 	// 여기 추가 
-
 
 	// add "HelloWorld" splash screen"
 	auto sprite = Sprite::create("sprite/MoiraiBackground2.png");

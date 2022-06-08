@@ -1,6 +1,11 @@
 #include "GameSummaryScene.h"
-#include "StartingMenuScene.h"
+#include "GameScene.h"
+#include "MenuSettingScene.h"
 #include "SimpleAudioEngine.h"
+
+#include "Utility.h"
+#include "SlotMachine.h"
+#include "Timer.h"
 
 USING_NS_CC;
 
@@ -53,13 +58,18 @@ bool GameSummary::init()
     }
 
     // create menu, it's an autorelease object
+    /*auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
+    auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
+    auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
+
     auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    menu->alignItemsVertically();
+    menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
+    this->addChild(menu, 1);*/
 
     /////////////////////////////
     // 3. add your codes below...
-    auto label = Label::createWithTTF("Game Over", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF(std::to_string(_Timer::getTime()), "fonts/Marker Felt.ttf", 60);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -68,11 +78,16 @@ bool GameSummary::init()
     {
         // position the label on the center of the screen
         label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-            origin.y + visibleSize.height - label->getContentSize().height));
+            origin.y + visibleSize.height - label->getContentSize().height) );
 
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return true;
 }

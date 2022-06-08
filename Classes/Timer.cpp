@@ -2,6 +2,14 @@
 
 USING_NS_CC;
 
+_Timer::_Timer() {
+	save_time = 0;
+}
+
+_Timer::~_Timer() {
+	save_time = 0;
+}
+
 static void problemLoading(const char* filename) {
 	printf("Error while loading: %s\n", filename);
 	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
@@ -41,4 +49,8 @@ void _Timer::TimerMethod(float dt) {
 	__String* timeToDisplay = __String::createWithFormat("%02d : %02d", int(save_time / 60), int(save_time) % 60);
 
 	label->setString(timeToDisplay->getCString());
+}
+
+float _Timer::getTime() {
+	return save_time;
 }

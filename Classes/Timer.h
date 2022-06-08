@@ -8,14 +8,17 @@ USING_NS_CC;
 static float save_time = 0;
 
 class _Timer : public cocos2d::Node{
+private:
+	_Timer();
+	~_Timer();
+
 public:
-	static cocos2d::Scene* createScene();
 	virtual bool init();
-	void menuCloseCallback(cocos2d::Ref* pSender);
 
 	CREATE_FUNC(_Timer);
 
 	void TimerMethod(float dt);
+	static float getTime();
 
 	cocos2d::Label* label;
 	float time;	
