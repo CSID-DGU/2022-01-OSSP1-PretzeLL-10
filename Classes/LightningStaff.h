@@ -37,7 +37,7 @@ public:
 		ThunderBolt->setVelocity(b2Vec2(0.0f, -1.0f));                                              // Now rotation is automatically set (in move func)                // set angular velocity to rotate, rotates degree per second
 		ThunderBolt->PhysicsObject::scale(0.5, b2Vec2(0.0f, 0.0f));
 		ThunderBolt->move();
-		ThunderBolt->setInitialPos(vec);
+//		ThunderBolt->setInitialPos(vec);
 
 		float angle = 30.0f;
 		if (flipped) angle *= -1;

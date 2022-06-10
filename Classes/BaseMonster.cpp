@@ -115,7 +115,7 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
 void BaseMonster::dieing()
 {
     setCategory(CATEGORY_MONSTER, MASK_NONE);
-    setTag(-1);
+    setTag(TAG_MONSTER_DEAD);
     stopAllActions();
     removeAfter(1.5f);
     setVelocity(b2Vec2(0.0f, 0.0f));

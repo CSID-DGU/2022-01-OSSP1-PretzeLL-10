@@ -43,6 +43,8 @@
 
 #define TAG_PLAYER                      0x1100
 #define TAG_MONSTER                     0x1200
+#define TAG_MONSTER_DEAD                0x12FF
+#define TAG_BULLET                      0x2000
 #define TAG_TRACKABLE                   0x2100
 #define TAG_PENETRATE                   0x2200
 

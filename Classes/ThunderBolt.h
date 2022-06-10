@@ -72,7 +72,7 @@ public:
         if (!__hero) return;
         auto len = moveTo(__hero->getPosition());                                   // move to hero, returns length(float)
         if (len < 20.0f) {
-            unschedule(schedule_selector(KnifeProjectile::followTarget));           // if length is close enough, remove this
+//            unschedule(schedule_selector(KnifeProjectile::followTarget));           // if length is close enough, remove this
             removeAfter(0.0f);
         }
     }
