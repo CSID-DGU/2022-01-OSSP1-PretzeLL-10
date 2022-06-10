@@ -29,6 +29,8 @@ public:
 
 	virtual void update(float delta) override;
 
+	void updateAliveState();
+
 	State getState() const;
 	void setState(State st, int count);
 

@@ -31,6 +31,16 @@ void MonsterAI::update(float delta)
 {
 	setPosition(getParent()->getPosition());
 	getDistanceDiff();
+	updateAliveState();
+}
+
+void MonsterAI::updateAliveState()
+{
+	if (((BaseMonster*)getParent())->getHP() <= 0)
+	{
+		state = State::DIE;
+		return;
+	}
 }
 
 void MonsterAI::updateState(float delta)
