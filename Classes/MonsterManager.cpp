@@ -31,7 +31,7 @@ void MonsterManager::createMonster(int stage, bool boss)
 	int numberMT = 0;
 	int typeOfPattern = 0, MAXTYPE;
 	engine = std::mt19937_64(rand_device());
-    const std::uniform_int_distribution<int> numberRand(3, 6);
+    std::uniform_int_distribution<int> numberRand(3, 6);
 	numberMT = numberRand(engine);
 	switch (numberMT)
 	{
@@ -51,7 +51,7 @@ void MonsterManager::createMonster(int stage, bool boss)
 		exit(1);
 		break;
 	}
-    const std::uniform_int_distribution<int> typeRand(0, MAXTYPE - 1);
+    std::uniform_int_distribution<int> typeRand(0, MAXTYPE - 1);
 	typeOfPattern = typeRand(engine);
 	switch (numberMT)
 	{

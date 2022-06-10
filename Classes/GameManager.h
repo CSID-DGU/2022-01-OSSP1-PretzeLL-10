@@ -52,6 +52,9 @@ public:
     void addMonsters2(BaseMonster* monster);
 
     void goNextStage(); // must move to private
+    
+    void pauseGame();
+    bool isPausedByUser;
 private:
     GameManager();
     
@@ -67,6 +70,7 @@ private:
 
     void gameOver();
     void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
+    void menuResumeGameCallback(cocos2d::Ref* pSender);
 
     cocos2d::Layer* _layer;
     GameStateLayer* _state_layer;

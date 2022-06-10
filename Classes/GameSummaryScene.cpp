@@ -69,7 +69,8 @@ bool GameSummary::init()
 
     /////////////////////////////
     // 3. add your codes below...
-    auto label = Label::createWithTTF(std::to_string(_Timer::getTime()), "fonts/Marker Felt.ttf", 60);
+    auto label = Label::createWithTTF(std::to_string(_Timer::getTime()), "fonts/Marker Felt.ttf", 600);
+    label->setScale(0.1f);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");

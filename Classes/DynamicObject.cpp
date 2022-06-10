@@ -165,6 +165,7 @@ float DynamicObject::getRunSpeed() {
 }
 
 void DynamicObject::pause(float time) {
+    
     __body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
     __time.set(time);
 }

@@ -1,4 +1,5 @@
 #include "EventHandler.h"
+#include "GameManager.h"
 
 
 EventHandler::EventHandler() {}
@@ -41,12 +42,10 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
         case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
         case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
-                
         case keyCode_t::KEY_SPACE   : _slot->spin(_hero); break;
-            
-        case keyCode_t::KEY_ESCAPE  : endProgram(); break;
-        case keyCode_t::KEY_N       : test(); break;
-        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, true); _hero->attack(); break;
+        case keyCode_t::KEY_ESCAPE  : GameManager::getInstance()->pauseGame(); break;
+//        case keyCode_t::KEY_N       : test(); break;
+//        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, true); _hero->attack(); break;
         default: break;
     }
 }
@@ -59,8 +58,7 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
         case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
         case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
         case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
-            
-        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, false); _hero->attack(); break;
+//        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, false); _hero->attack(); break;
         default: break;
     }
 }
