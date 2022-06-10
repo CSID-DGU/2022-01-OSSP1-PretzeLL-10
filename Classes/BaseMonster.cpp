@@ -4,7 +4,8 @@
 BaseMonster::BaseMonster(std::string name)
 : DynamicObject(name)
 , __hp(0)
-, __damage(0) {}
+, __damage(0)
+, __delay(1.0f) {}
 
 BaseMonster::~BaseMonster()
 {}
@@ -153,6 +154,16 @@ float BaseMonster::getAttackRange()
 float BaseMonster::getDetectRange()
 {
     return detectRange;
+}
+
+float BaseMonster::getDelay()
+{
+    return __delay;
+}
+
+void BaseMonster::setDelay(float delay)
+{
+    __delay = delay;
 }
 
 void BaseMonster::setDamage(int damage) {

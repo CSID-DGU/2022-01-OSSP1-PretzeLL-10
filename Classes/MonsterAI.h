@@ -22,6 +22,7 @@ public:
 	float distance;
 	float detectRange;
 	float attackRange;
+	float delay;
 	cocos2d::Vec2 diffVec;
 	cocos2d::Vec2 roamVec;
 

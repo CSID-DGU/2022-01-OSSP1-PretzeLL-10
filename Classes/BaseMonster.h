@@ -15,6 +15,7 @@ protected:
     int __full_hp;
     int __hp;
     int __damage;
+    float __delay;
 
     float attackRange;
     float detectRange;
@@ -56,6 +57,8 @@ public:
 
     float getAttackRange();
     float getDetectRange();
+    float getDelay();
+    void setDelay(float delay);
 };
 
 typedef BaseMonster monster_t;
