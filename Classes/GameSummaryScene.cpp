@@ -63,21 +63,95 @@ bool GameSummary::init()
     this->addChild(menu, 1);
 
     std::string time_str = _Timer::getTimeStringFormat("%02d : %02d", int(GameManager::getInstance()->runningInfo.run_time / 60), int(GameManager::getInstance()->runningInfo.run_time) % 60);
+    std::string damage_str = std::to_string(GameManager::getInstance()->runningInfo.damage);
+    std::string gold_str = std::to_string(GameManager::getInstance()->runningInfo.gold_earn);
+    std::string slot_str = std::to_string(GameManager::getInstance()->runningInfo.slot_run);
+    std::string stage_str = std::to_string(GameManager::getInstance()->runningInfo.stage);
   
-    auto label = Label::createWithTTF(time_str, "fonts/Marker Felt.ttf", 600);
-    label->setScale(0.1f);
-    if (label == nullptr)
+    auto time_label = Label::createWithTTF(time_str, "fonts/Marker Felt.ttf", 600);
+    auto damage_label = Label::createWithTTF(damage_str, "fonts/Marker Felt.ttf", 600);
+    auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 600);
+    auto slot_label = Label::createWithTTF(slot_str, "fonts/Marker Felt.ttf", 600);
+    auto stage_label = Label::createWithTTF(stage_str, "fonts/Marker Felt.ttf", 600);
+
+    // add child time_label
+    time_label->setScale(0.1f);
+    if (time_label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
     }
     else
     {
         // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-            origin.y + visibleSize.height - label->getContentSize().height) );
+        time_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - time_label->getContentSize().height * time_label->getScale()));
 
         // add the label as a child to this layer
-        this->addChild(label, 1);
+        this->addChild(time_label, 1);
+    }
+
+    // add child damage_label
+    damage_label->setScale(0.1f);
+    if (damage_label == nullptr)
+    {
+        problemLoading("'fonts/Marker Felt.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        damage_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - damage_label->getContentSize().height * time_label->getScale() - 100));
+
+        // add the label as a child to this layer
+        this->addChild(damage_label, 1);
+    }
+
+    // add child gold_label
+    gold_label->setScale(0.1f);
+    if (gold_label == nullptr)
+    {
+        problemLoading("'fonts/Marker Felt.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        gold_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - gold_label->getContentSize().height * time_label->getScale() - 200));
+
+        // add the label as a child to this layer
+        this->addChild(gold_label, 1);
+    }
+
+    // add child slot_label
+    slot_label->setScale(0.1f);
+    if (slot_label == nullptr)
+    {
+        problemLoading("'fonts/Marker Felt.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        slot_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - slot_label->getContentSize().height * time_label->getScale() - 300));
+
+        // add the label as a child to this layer
+        this->addChild(slot_label, 1);
+    }
+
+    // add child slot_label
+    stage_label->setScale(0.1f);
+    if (stage_label == nullptr)
+    {
+        problemLoading("'fonts/Marker Felt.ttf'");
+    }
+    else
+    {
+        // position the label on the center of the screen
+        stage_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+            origin.y + visibleSize.height - stage_label->getContentSize().height * time_label->getScale() - 400));
+
+        // add the label as a child to this layer
+        this->addChild(stage_label, 1);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////

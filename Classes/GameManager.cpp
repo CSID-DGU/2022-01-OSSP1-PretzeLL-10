@@ -10,7 +10,12 @@ GameOverInfo::GameOverInfo()
 
 void GameOverInfo::clear()
 {
-
+	run_time = 0.0f;
+	damage = 0;
+	all_clear = false;
+	stage = 1;
+	slot_run = 0;
+	gold_earn = 0;
 }
 
 GameManager* GameManager::sharedGameMapManager = nullptr;
@@ -169,6 +174,7 @@ void GameManager::goNextStage()
 	allocateGameMap();
 	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
 	gameStage++;
+	runningInfo.stage = gameStage;
 
 	mapManager.makeGameMap(_gameMap);
 	loadGameMap(currentPosition.first, currentPosition.second);
@@ -420,6 +426,7 @@ void GameManager::menuResumeGameCallback(cocos2d::Ref *pSender) {
 
 void GameManager::update(float dt)
 {
+	std::cout << runningInfo.damage << std::endl;
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 	bool isClear = false;
 	if (!isGameOver)
