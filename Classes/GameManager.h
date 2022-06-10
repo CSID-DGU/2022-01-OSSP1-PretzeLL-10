@@ -10,6 +10,18 @@
 #include "GameMapManager.h"
 #include "MonsterManager.h"
 
+struct GameOverInfo
+{
+    float run_time;
+    bool all_clear;
+    int stage;
+    int slot_run;
+    int gold_earn;
+    int damanging;
+
+    GameOverInfo();
+};
+
 class GameManager
 {
 public:
