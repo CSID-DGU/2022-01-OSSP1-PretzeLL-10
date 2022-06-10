@@ -64,6 +64,11 @@ public:
 	void onContact(b2Contact *contact) final
 	{
 		__desired_distance = 0.0f;
+        auto diff = getPosition() - __initial_pos;
+        Node::setRotation(VecToDegree(diff));
+        if (diff.x < 0.0f) {
+            __sprite->setScaleX(__sprite->getScaleX()*-1.0f);
+        }
 		setCategory(CATEGORY_BULLET, MASK_NONE);
 		removeAfter(3.0);
 
