@@ -15,7 +15,7 @@ public:
         IF(!BaseMonster::init());
         setHP(20);
         setDamage(1);
-        setSpeed(1.5f);
+        setSpeed(1.25f);
         attackRange = 300.0f;
         detectRange = 400.0f;
 
