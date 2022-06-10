@@ -12,6 +12,7 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "audio/include/SimpleAudioEngine.h"
 
 #include "Debug.h"
 #include "Definition.h"

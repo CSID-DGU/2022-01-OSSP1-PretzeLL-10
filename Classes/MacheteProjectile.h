@@ -7,6 +7,7 @@ class MacheteProjectile : public BaseBullet {
 protected:
 	cocos2d::Node* __hero;
 	cocos2d::Vec2 __initial_pos;
+    float __degree;
 	float __desired_distance = 250.0f;
 
 	MacheteProjectile() : BaseBullet("weapon_machete") {}
@@ -22,12 +23,9 @@ public:
 		if (!__desired_distance) return;
 
 		float len = length(getPosition() - __initial_pos);
-
-		auto v = getVelocity();                                             // revert direction
-		v.y -= 0.066f;
-		setVelocity(v);                                                     // apply reverted direction
-
-		moveGently();
+        __degree -= 0.1f;
+		setVelocity(b2Vec2(sinf(C2B(__degree)), cosf(C2B(__degree))));                    // apply reverted direction
+        moveGently();
 
 		if (len > __desired_distance) {
 			/* Remove Example */
@@ -57,6 +55,10 @@ public:
 	void getHeroPtr() {
 		__hero = getParent()->getChildByTag(TAG_PLAYER);
 	}
+    
+    void setDegree(float degree) {
+        __degree = degree + 30.0f;
+    }
 
 	void onContact(b2Contact* contact) final {
 		__desired_distance = 0.0f;

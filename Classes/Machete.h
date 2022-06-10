@@ -30,11 +30,9 @@ public:
 		addBullet(Machete, direction);
 		Machete->setParent(this);
 		Machete->setSpeed(3.0f);
-		vec = cocos2d::Vec2(direction.x + 0.66f, direction.y + 0.66f);
-		Machete->setVelocity(C2B(vec));
+        Machete->setDegree(VecToDegree(direction));
 		Machete->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
 		Machete->PhysicsObject::scale(0.5f);
-		Machete->moveGently();
 		Machete->setInitialPos();
 		Machete->getHeroPtr();
 
