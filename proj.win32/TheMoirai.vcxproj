@@ -168,12 +168,15 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameStateLayer.cpp" />
     <ClCompile Include="..\Classes\Hero.cpp" />
     <ClCompile Include="..\Classes\GameSummaryScene.cpp" />
+    <ClCompile Include="..\Classes\MaskedOrc.cpp" />
     <ClCompile Include="..\Classes\MenuSettingScene.cpp" />
     <ClCompile Include="..\Classes\MonsterAI.cpp" />
     <ClCompile Include="..\Classes\MonsterMakingFunction.cpp" />
     <ClCompile Include="..\Classes\MonsterManager.cpp" />
+    <ClCompile Include="..\Classes\Necromancer.cpp" />
     <ClCompile Include="..\Classes\PhysicsObject.cpp" />
     <ClCompile Include="..\Classes\ProjectileObject.cpp" />
+    <ClCompile Include="..\Classes\Skeleton.cpp" />
     <ClCompile Include="..\Classes\SlotMachine.cpp" />
     <ClCompile Include="..\Classes\SpriteObject.cpp" />
     <ClCompile Include="..\Classes\StartingMenuScene.cpp" />

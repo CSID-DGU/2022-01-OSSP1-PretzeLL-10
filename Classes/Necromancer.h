@@ -49,6 +49,8 @@ public:
     {
         followTarget();
     }
+
+    virtual void dieing();
 };
 
 #endif /* __NECROMANCER_H__ */

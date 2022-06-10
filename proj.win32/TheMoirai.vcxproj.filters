@@ -129,6 +129,15 @@
     <ClCompile Include="..\Classes\MonsterMakingFunction.cpp">
       <Filter>src\Object\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Skeleton.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MaskedOrc.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Necromancer.cpp">
+      <Filter>src\Object\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

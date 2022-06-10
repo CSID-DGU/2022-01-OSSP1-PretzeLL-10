@@ -79,17 +79,14 @@ void MonsterManager::create3MT_0(int stage)
 	
 	monster1 = level2monster(stage);
 	monster1->setAbsolutePosition(626, 791);
-	monster1->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level4monster(stage);
 	monster2->setAbsolutePosition(241, 461);
-	monster2->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level3monster(stage);
 	monster3->setAbsolutePosition(338, 708);
-	monster3->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster3);
 }
 
@@ -99,17 +96,14 @@ void MonsterManager::create3MT_1(int stage)
 
 	monster1 = level1monster(stage);
 	monster1->setAbsolutePosition(310, 423);
-	monster1->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level4monster(stage);
 	monster2->setAbsolutePosition(500, 745);
-	monster2->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level1monster(stage);
 	monster3->setAbsolutePosition(407, 708);
-	monster3->setLocalZOrder(2);
 	GameManager::getInstance()->addMonsters2(monster3);
 }
 

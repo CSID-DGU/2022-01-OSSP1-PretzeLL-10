@@ -3,7 +3,6 @@
 
 #include "BaseMonster.h"
 
-
 class Skeleton : public BaseMonster {
 public:
     Skeleton() : BaseMonster("skelet") {}
@@ -49,6 +48,8 @@ public:
     {
         followTarget();
     }
+
+    virtual void dieing();
 };
 
 #endif /* __SKELETON_H__ */

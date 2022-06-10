@@ -15,7 +15,6 @@ bool MonsterAI::init()
 	delay = 0.1f;
 
 	_running = true;
-	this->schedule(schedule_selector(MonsterAI::updateState), delay);
 	this->scheduleUpdate();
 
 
@@ -27,6 +26,7 @@ void MonsterAI::onEnter()
 	attackRange = ((BaseMonster*)getParent())->getAttackRange();
 	detectRange = ((BaseMonster*)getParent())->getDetectRange();
 	delay = ((BaseMonster*)getParent())->getDelay();
+	this->schedule(schedule_selector(MonsterAI::updateState), delay);
 }
 
 void MonsterAI::update(float delta)

@@ -37,7 +37,7 @@ public:
     virtual void roaming();
     virtual void attack();                              // Need update!
     void damaged(int damage, const cocos2d::Vec2& position, float weight);
-    void dieing();
+    virtual void dieing();
     virtual void followTarget();
     void doNothing();
 

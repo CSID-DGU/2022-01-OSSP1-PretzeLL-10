@@ -3,7 +3,6 @@
 
 #include "BaseMonster.h"
 
-
 class MaskedOrc : public BaseMonster {
 public:
     MaskedOrc() : BaseMonster("masked_orc") {}
@@ -49,6 +48,8 @@ public:
     {
         followTarget();
     }
+
+    virtual void dieing();
 };
 
 #endif /* __MASKED_ORC_H__ */
