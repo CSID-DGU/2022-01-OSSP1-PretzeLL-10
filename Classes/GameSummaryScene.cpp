@@ -60,8 +60,9 @@ bool GameSummary::init()
 
 	// create menu, it's an autorelease object
 	auto menu = Menu::create(playItem, closeItem, NULL);
-	menu->alignItemsVerticallyWithPadding(-20.0f);
-	menu->setPosition(Vec2(visibleSize.width / 2 + 50.0f, visibleSize.height / 2 - 300));
+	menu->setScale(0.8f);
+	menu->alignItemsVerticallyWithPadding(-30.0f);
+	menu->setPosition(Vec2(visibleSize.width / 2 - 100, visibleSize.height / 2 - 375));
 	this->addChild(menu, 2);
 
 	std::string time_str = _Timer::getTimeStringFormat("%02d : %02d", int(GameManager::getInstance()->runningInfo.run_time / 60), int(GameManager::getInstance()->runningInfo.run_time) % 60);
@@ -77,10 +78,10 @@ bool GameSummary::init()
 	}
 	std::string gold_str = std::to_string(GameManager::getInstance()->runningInfo.gold_earn);
 
-	auto time_label = Label::createWithTTF("play time : " + time_str, "fonts/Marker Felt.ttf", 275);
-	auto damage_label = Label::createWithTTF("total damage : " + damage_str, "fonts/Marker Felt.ttf", 275);
-	auto stage_label = Label::createWithTTF("stage level : " + stage_str, "fonts/Marker Felt.ttf", 275);
-	auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 275);
+	auto time_label = Label::createWithTTF("play time : " + time_str, "fonts/Marker Felt.ttf", 300);
+	auto damage_label = Label::createWithTTF("total damage : " + damage_str, "fonts/Marker Felt.ttf", 300);
+	auto stage_label = Label::createWithTTF("stage level : " + stage_str, "fonts/Marker Felt.ttf", 300);
+	auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 300);
 
 	auto backGroundSprite = Sprite::create("frames/Summary_Scene.png");
 	if (backGroundSprite == nullptr)
@@ -91,9 +92,9 @@ bool GameSummary::init()
 	{
 		// position the label on the center of the screen
 		backGroundSprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - backGroundSprite->getContentSize().height + 125));
+			origin.y + visibleSize.height - backGroundSprite->getContentSize().height));
 
-		backGroundSprite->setScale(1.3f);
+		backGroundSprite->setScale(1.8f);
 		backGroundSprite->getTexture()->setTexParameters(TEX_PARA);
 		// add the label as a child to this layer
 		this->addChild(backGroundSprite, 1);
@@ -109,7 +110,7 @@ bool GameSummary::init()
 	{
 		// position the label on the center of the screen
 		time_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
-			origin.y + visibleSize.height - time_label->getContentSize().height * time_label->getScale() - 237));
+			origin.y + visibleSize.height - time_label->getContentSize().height * time_label->getScale() - 330));
 
 		// add the label as a child to this layer
 		this->addChild(time_label, 1);
@@ -125,7 +126,7 @@ bool GameSummary::init()
 	{
 		// position the label on the center of the screen
 		damage_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
-			origin.y + visibleSize.height - damage_label->getContentSize().height * time_label->getScale() - 308));
+			origin.y + visibleSize.height - damage_label->getContentSize().height * time_label->getScale() - 435));
 
 		// add the label as a child to this layer
 		this->addChild(damage_label, 1);
@@ -141,7 +142,7 @@ bool GameSummary::init()
 	{
 		// position the label on the center of the screen
 		stage_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
-			origin.y + visibleSize.height - stage_label->getContentSize().height * time_label->getScale() - 395));
+			origin.y + visibleSize.height - stage_label->getContentSize().height * time_label->getScale() - 545));
 
 		// add the label as a child to this layer
 		this->addChild(stage_label, 1);
@@ -157,7 +158,7 @@ bool GameSummary::init()
 	{
 		// position the label on the center of the screen
 		gold_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
-			origin.y + visibleSize.height - gold_label->getContentSize().height * time_label->getScale() - 463));
+			origin.y + visibleSize.height - gold_label->getContentSize().height * time_label->getScale() - 638));
 
 		// add the label as a child to this layer
 		this->addChild(gold_label, 1);

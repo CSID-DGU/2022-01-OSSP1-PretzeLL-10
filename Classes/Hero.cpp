@@ -48,7 +48,7 @@ bool Hero::init() {
     
     addAnimation("hit", 1, 0.3f);
     runActionByKey(IDLE);
-    setHP(100);
+    setHP(1);
     setSpeed(5.0f, true);
     addCoin(5);
     setRunSpeed(2.0f);
