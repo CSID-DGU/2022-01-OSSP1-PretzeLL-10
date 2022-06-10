@@ -197,6 +197,17 @@ cocos2d::Layer* GameManager::getLayer() const {
 
 void GameManager::loadGameMap(int w, int h)
 {
+    std::vector<cocos2d::Node*> removal_vec;
+    for (auto iter : _layer->getChildren()) {
+        int tag = iter->getTag();
+        if (tag == TAG_MONSTER_DEAD || (tag >> 12) == 0x2) {
+            removal_vec.push_back(iter);
+        }
+    }
+    for (auto iter : removal_vec) {
+        iter->removeFromParent();
+    }
+    
 	if (!_gameMap[w][h]->getIsClear())
 	{
 		monsterManager.createMonster(gameStage, _gameMap[w][h]->getIsBossRoom());

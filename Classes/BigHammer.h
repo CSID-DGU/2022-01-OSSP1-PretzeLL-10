@@ -22,7 +22,6 @@ public:
     
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
-
 		auto BigHammer = BigHammerProjectile::create();
 
 		if (!BigHammer) return;

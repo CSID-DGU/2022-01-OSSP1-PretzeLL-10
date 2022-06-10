@@ -38,12 +38,12 @@ void EventHandler::onKeyPressed(keyCode_t key, cocos2d::Event* event) {
         case KEY_GROUP_LEFT         : _hero->move(LEFT); break;
         case KEY_GROUP_DOWN         : _hero->move(DOWN); break;
         case KEY_GROUP_RIGHT        : _hero->move(RIGHT); break;
-        case KEY_GROUP_SHIFT        : _hero->run(); break;
         case keyCode_t::KEY_1       : _hero->changeWeapon(1); break;
         case keyCode_t::KEY_2       : _hero->changeWeapon(2); break;
         case keyCode_t::KEY_3       : _hero->changeWeapon(3); break;
         case keyCode_t::KEY_SPACE   : _slot->spin(_hero); break;
         case keyCode_t::KEY_ESCAPE  : GameManager::getInstance()->pauseGame(); break;
+//        case KEY_GROUP_SHIFT        : _hero->run(); break;
 //        case keyCode_t::KEY_N       : test(); break;
 //        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, true); _hero->attack(); break;
         default: break;
@@ -57,7 +57,7 @@ void EventHandler::onKeyReleased(keyCode_t key, cocos2d::Event* event) {
         case KEY_GROUP_DOWN         : _hero->stop(DOWN); break;
         case KEY_GROUP_LEFT         : _hero->stop(LEFT); break;
         case KEY_GROUP_RIGHT        : _hero->stop(RIGHT); break;
-        case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
+//        case KEY_GROUP_SHIFT        : _hero->stopRun(); break;
 //        case keyCode_t::KEY_ENTER   : _hero->updateKey(ATTACK, false); _hero->attack(); break;
         default: break;
     }
@@ -112,14 +112,14 @@ void EventHandler::getHero() {
 }
 
 
-void EventHandler::test() {
-    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
-    if (!_hero) return;
-    auto monster1 = BigZombie::create();
-    auto monster2 = Goblin::create();
-    _hero->getParent()->addChild(monster1);
-    monster1->setAbsolutePosition(500, 700);
-    monster1->setScale(2.0f);
-    _hero->getParent()->addChild(monster2);
-    monster2->setAbsolutePosition(300, 400);
-}
+//void EventHandler::test() {
+//    auto _hero = getParent()->getChildByTag<Hero*>(TAG_PLAYER);
+//    if (!_hero) return;
+//    auto monster1 = BigZombie::create();
+//    auto monster2 = Goblin::create();
+//    _hero->getParent()->addChild(monster1);
+//    monster1->setAbsolutePosition(500, 700);
+//    monster1->setScale(2.0f);
+//    _hero->getParent()->addChild(monster2);
+//    monster2->setAbsolutePosition(300, 400);
+//}

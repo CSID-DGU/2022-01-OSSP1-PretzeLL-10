@@ -35,7 +35,6 @@ public:
 		Machete->setVelocity(C2B(vecVari));
 		Machete->setAngularVelocity(90.0f);
 		Machete->PhysicsObject::scale(0.5f);
-		Machete->moveGently();
 		Machete->setInitialPos();
 		Machete->getHeroPtr();
 

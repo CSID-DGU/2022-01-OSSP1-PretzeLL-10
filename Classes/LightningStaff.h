@@ -1,53 +1,69 @@
 #ifndef __LIGHTNIGSTAFF_H__
 #define __LIGHTNIGSTAFF_H__
 
-#include "BaseWeapon.h"
-#include "ThunderBolt.h"
+#include "Bow.h"
+#include "Axe.h"
+#include "BigHammer.h"
+#include "FireStaff.h"
+#include "Knife.h"
+#include "Machete.h"
+
 
 class LightningStaff : public BaseWeapon
 {
+private:
+    std::random_device rand_device;
+    std::mt19937_64 engine;
+    std::uniform_int_distribution<int> rand;
+    int __current;
+    
 protected:
 	LightningStaff() : BaseWeapon("green_magic_staff") {}
 	virtual ~LightningStaff() {}
 
-	//static b2Vec2& mousePos;
-
 public:
 	CREATE_FUNC(LightningStaff);
-
-	bool init() final {
-		IF(!BaseWeapon::init());
-		setLevelValue(1, 5, 0.1f, 0.1f);
-		setLevelValue(2, 10, 0.2f, 0.1f);
-		setLevelValue(3, 15, 0.2f, 0.1f);
-		return true;
-	}
+    
+    bool init() final {
+        IF(!BaseWeapon::init());
+        setLevelValue(1, 0, 0.0f, 0.3f);
+        setLevelValue(2, 0, 0.0f, 0.3f);
+        setLevelValue(3, 0, 0.0f, 0.3f);
+        engine = std::mt19937_64(rand_device());
+        rand = std::uniform_int_distribution<int>(0, 5);
+        return true;
+    }
 
 	void attack(bool flipped, const b2Vec2& direction) final {
-		if (!isAttackAble()) return;
-
-		cocos2d::Vec2 vec;
-
-		auto ThunderBolt = ThunderBolt::create();
-		if (!ThunderBolt) return;
-		addBullet(ThunderBolt, direction);
-		ThunderBolt->setParent(this);
-		ThunderBolt->setSpeed(1.0f);
-		vec = cocos2d::Vec2(direction.x + 500.0f, direction.y+500.0f);
-		ThunderBolt->setVelocity(b2Vec2(0.0f, -1.0f));                                              // Now rotation is automatically set (in move func)                // set angular velocity to rotate, rotates degree per second
-		ThunderBolt->PhysicsObject::scale(0.5, b2Vec2(0.0f, 0.0f));
-		ThunderBolt->move();
-		ThunderBolt->setInitialPos(vec);
-
-		float angle = 30.0f;
-		if (flipped) angle *= -1;
-		auto up = cocos2d::RotateBy::create(0.0f, angle);
-		auto down = cocos2d::RotateBy::create(0.1f, angle * -3.0f);
-		auto revoke = cocos2d::RotateTo::create(0.1f, getRotation());
-		auto seq = cocos2d::Sequence::create(up, down, revoke, nullptr);
-		runAction(seq);
-
+        if (__fire_key) {
+            __current = rand(engine);
+            switch (__current) {
+                case 0: getLevelValue<Bow>();       break;
+                case 1: getLevelValue<Axe>();       break;
+                case 2: getLevelValue<Knife>();     break;
+                case 3: getLevelValue<Machete>();   break;
+                case 4: getLevelValue<BigHammer>(); break;
+                case 5: getLevelValue<FireStaff>(); break;
+            }
+        }
+        
+        switch (__current) {
+            case 0: ((Bow*)      this)->attack(flipped, direction); break;
+            case 1: ((Axe*)      this)->attack(flipped, direction); break;
+            case 2: ((Knife*)    this)->attack(flipped, direction); break;
+            case 3: ((Machete*)  this)->attack(flipped, direction); break;
+            case 4: ((BigHammer*)this)->attack(flipped, direction); break;
+            case 5: ((FireStaff*)this)->attack(flipped, direction); break;
+        }
 	}
+    
+    template <typename weapon_type>
+    void getLevelValue() {
+        auto weapon = weapon_type::create();
+        auto level_value = weapon->getLevelValue();
+        __damage = level_value[0];
+        __attackTime = level_value[1];
+    }
 };
 
 #endif /* __LIGHTNIGSTAFF_H__ */

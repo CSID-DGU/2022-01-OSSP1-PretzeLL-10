@@ -100,22 +100,21 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
     __hp -= damage;
     if (__hp < 0) __hp = 0;
     float ratio = (float)__hp / (float)__full_hp;
-    float adj = __health->getContentSize().width/(__full_hp*2.0f);
+    float adj = __health->getContentSize().width / (__full_hp*2.0f);
     __health->setScale(ratio, 0.7f);
-    __health->setPositionX(__health->getPositionX() - adj);
+    __health->setPositionX(__health->getPositionX() - adj*damage);
     
-    if (!__hp) return;
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
-    pause(0.3f);
+    if (__hp) pause(0.3f);
 }
 
 void BaseMonster::dieing()
 {
     setCategory(CATEGORY_MONSTER, MASK_NONE);
-    setTag(-1);
+    setTag(TAG_MONSTER_DEAD);
     stopAllActions();
     removeAfter(1.5f);
     setVelocity(b2Vec2(0.0f, 0.0f));
@@ -185,6 +184,7 @@ void BaseMonster::onContact(b2Contact* contact) {
     float other_cat = getCategory(other);
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
+        damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight());
         auto position = convertToNodeSpace(bullet->getPosition());
         damaged(bullet->getDamage(), position, bullet->getWeight());
         GameManager::getInstance()->runningInfo.damage += bullet->getDamage();

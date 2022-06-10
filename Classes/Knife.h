@@ -32,7 +32,9 @@ public:
         knife->setSpeed(50.0f);
         knife->setVelocity(direction);                                              // Now rotation is automatically set (in move func)
         knife->PhysicsObject::scale(0.5, b2Vec2(0.0f, 0.0f));
-        knife->setTarget(chooseTarget());
+        knife->setInitialPos();
+        knife->move();
+//        knife->setTarget(chooseTarget());
         
         float angle = -30.0f;
         if (flipped) angle *= -1;

@@ -31,6 +31,7 @@ public:
     
     CREATE_FUNC(EventHandler);
     
+    void getHero();
     void setup(cocos2d::Layer* layer);
     
     void onKeyPressed(keyCode_t key, cocos2d::Event* event);
@@ -42,8 +43,7 @@ public:
     void BeginContact(b2Contact* contact) final;
     void EndContact(b2Contact* contact) final;
     
-    void getHero();
-    void test();
+//    void test();
 };
 
 #endif /* __EVENT_HANDLER_H__ */

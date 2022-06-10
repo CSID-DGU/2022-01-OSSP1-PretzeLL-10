@@ -173,7 +173,7 @@ void Hero::chargeWeapon(float dt) {
     auto weapon = __weapon.first[__weapon.second];
     auto gauge = *(__charge_bar->getChildren().begin());
     
-    if (!gauge) return;
+    if (!gauge || !weapon) return;
     float ratio = dt / weapon->getChargeTime() * 51.0f;
     gauge->setPositionX(gauge->getPositionX() + ratio);
     if (gauge->getPositionX() > 50.0f) {
