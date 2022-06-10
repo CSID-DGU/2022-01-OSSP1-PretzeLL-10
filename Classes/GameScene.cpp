@@ -31,9 +31,8 @@ bool GameScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    auto background_layer = LayerColor::create(Color4B(22, 11, 18, 255));
+    addChild(background_layer);
 
     //============================================================================================
     //                          buttons for test
