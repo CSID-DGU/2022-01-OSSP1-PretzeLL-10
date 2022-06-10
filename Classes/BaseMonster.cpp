@@ -100,9 +100,9 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
     __hp -= damage;
     if (__hp < 0) __hp = 0;
     float ratio = (float)__hp / (float)__full_hp;
-    float adj = __health->getContentSize().width/(__full_hp*2.0f);
+    float adj = __health->getContentSize().width / (__full_hp*2.0f);
     __health->setScale(ratio, 0.7f);
-    __health->setPositionX(__health->getPositionX() - adj);
+    __health->setPositionX(__health->getPositionX() - adj*damage);
     
     if (!__hp) return;
     if (direction == cocos2d::Vec2::ZERO) return;
