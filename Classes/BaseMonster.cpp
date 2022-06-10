@@ -187,6 +187,7 @@ void BaseMonster::onContact(b2Contact* contact) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
         auto position = convertToNodeSpace(bullet->getPosition());
         damaged(bullet->getDamage(), position, bullet->getWeight());
+        GameManager::getInstance()->runningInfo.damage += bullet->getDamage();
         if (bullet->getTag() == TAG_PENETRATE) return;
         
         bullet->retain();
