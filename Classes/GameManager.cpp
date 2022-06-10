@@ -1,8 +1,17 @@
 #include "GameManager.h"
 #include "GameSummaryScene.h"
-#include "Timer.h"
 #include <iostream>
 #include <format>
+
+GameOverInfo::GameOverInfo()
+{
+
+}
+
+void GameOverInfo::clear()
+{
+
+}
 
 GameManager* GameManager::sharedGameMapManager = nullptr;
 
@@ -84,7 +93,7 @@ void GameManager::startNewGame()
 	monsterVec.clear();
 	allocateGameMap();
 	makeGameMap();
-	
+	runningInfo.clear();
     
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(PhysicsObject::getWorld());
@@ -104,8 +113,9 @@ void GameManager::startNewGame()
 	_state_layer->startNewGame(_hero);
 	_layer->addChild(_state_layer, 5);
 
-	auto timer = _Timer::create();
-	_layer->addChild(timer);
+	__timer = _Timer::create();
+	_layer->addChild(__timer, 4);
+	__timer->setPosition(500, 130);
     
     auto event = EventHandler::create();
     event->setup(_layer);
@@ -149,7 +159,7 @@ void GameManager::goNextStage()
 {
 	if (gameStage >= 3)
 	{
-		// game All clear
+		gameOver(true);
 	}
 
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
@@ -278,20 +288,15 @@ void GameManager::loadLeftMap()
 	}
 }
 
-std::string GameManager::string_format(const std::string& format, int a, int b)
-{
-	int size_s = std::snprintf(nullptr, 0, format.c_str(), a, b) + 1; // Extra space for '\0'
-	if (size_s <= 0) { throw std::runtime_error("Error during formatting."); }
-	auto size = static_cast<size_t>(size_s);
-	std::unique_ptr<char[]> buf(new char[size]);
-	std::snprintf(buf.get(), size, format.c_str(), a, b);
-	return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
-}
-
-void GameManager::gameOver()
+void GameManager::gameOver(bool allclear)
 {
 	if (isGameOver)
 		return;
+	//----------------------------------------------
+	runningInfo.run_time = _Timer::getTime();
+	runningInfo.all_clear = allclear;
+	_layer->removeChild(__timer);
+	//----------------------------------------------
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
@@ -325,21 +330,22 @@ void GameManager::gameOver()
 	}
 	// create menu, it's an autorelease object
 	auto menu = cocos2d::Menu::create(closeItem, NULL);
-
-	std::string str = string_format("%02d : %02d", int(_Timer::getTime() / 60), int(_Timer::getTime()) % 60);
-
-	auto label = Label::createWithTTF(str, "fonts/Marker Felt.ttf", 60);
-	label->setPosition(Vec2(origin.x + visibleSize.width / 2,origin.y + visibleSize.height - label->getContentSize().height));
 	
-	gameOverLayer->addChild(label,2);
 
 	menu->setPosition(cocos2d::Vec2::ZERO);
 	auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
-	gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
-	gameoverSprite->setScale(0.3f);
-	gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
-	gameOverLayer->addChild(menu);
-	gameOverLayer->addChild(gameoverSprite);
+	if (!allclear)
+	{
+		gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
+		gameoverSprite->setScale(0.3f);
+		gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
+		gameOverLayer->addChild(gameoverSprite);
+		gameOverLayer->addChild(menu);
+	}
+	else
+	{
+
+	}
 	_layer->addChild(gameOverLayer, 50);
     _hero->pause(std::numeric_limits<float>::max());
     _hero->stopAllActions();
@@ -421,7 +427,7 @@ void GameManager::update(float dt)
 		updateMapClear();
 		isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
 		if (_hero->getHP() <= 0)
-			gameOver();
+			gameOver(false);
 		switch (_hero->getDirection(isClear)) {
 		case MAP_UP: loadUpMap();    break;
 		case MAP_DOWN: loadDownMap();  break;

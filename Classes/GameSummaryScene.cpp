@@ -57,19 +57,14 @@ bool GameSummary::init()
         closeItem->setPosition(Vec2(x, y));
     }
 
-    // create menu, it's an autorelease object
-    //auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
-    //auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
-    //auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
-
     auto menu = Menu::create(closeItem, NULL);
     menu->alignItemsVertically();
     menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
     this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
-    auto label = Label::createWithTTF(std::to_string(_Timer::getTime()), "fonts/Marker Felt.ttf", 600);
+    std::string time_str = _Timer::getTimeStringFormat("%02d : %02d", int(GameManager::getInstance()->runningInfo.run_time / 60), int(GameManager::getInstance()->runningInfo.run_time) % 60);
+  
+    auto label = Label::createWithTTF(time_str, "fonts/Marker Felt.ttf", 600);
     label->setScale(0.1f);
     if (label == nullptr)
     {

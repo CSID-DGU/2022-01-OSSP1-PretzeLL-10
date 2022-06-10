@@ -9,6 +9,7 @@
 #include "EventHandler.h"
 #include "GameMapManager.h"
 #include "MonsterManager.h"
+#include "Timer.h"
 
 struct GameOverInfo
 {
@@ -17,9 +18,10 @@ struct GameOverInfo
     int stage;
     int slot_run;
     int gold_earn;
-    int damanging;
+    int damage;
 
     GameOverInfo();
+    void clear();
 };
 
 class GameManager
@@ -55,20 +57,20 @@ public:
     
     void pauseGame();
     bool isPausedByUser;
+
+    GameOverInfo runningInfo;
 private:
     GameManager();
     
     static GameManager* sharedGameMapManager;
     TMXTiledMap* doLoadGameMap(int w, int h);
 
-    
- 
     void allocateGameMap();
     void makeGameMap();
     void deleteGameMap();
     void updateMapClear();
 
-    void gameOver();
+    void gameOver(bool allclear);
     void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
     void menuResumeGameCallback(cocos2d::Ref* pSender);
 
@@ -82,6 +84,7 @@ private:
     std::pair<int, int> currentPosition;
 
     Hero* _hero;
+    _Timer* __timer;
 
     bool isGameOver;
 

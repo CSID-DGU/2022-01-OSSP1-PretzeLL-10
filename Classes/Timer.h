@@ -19,6 +19,7 @@ public:
 
 	void TimerMethod(float dt);
 	static float getTime();
+	static std::string getTimeStringFormat(const std::string& format, int a, int b);
 
 	cocos2d::Label* label;
 	float time;	

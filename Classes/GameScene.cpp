@@ -53,7 +53,6 @@ bool GameScene::init()
 
 
     addChild(_gamemapmanager->getLayer());
-    addChild(_Timer::create());
 
     startNewGame();
     scheduleUpdate();
