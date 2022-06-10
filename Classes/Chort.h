@@ -18,6 +18,7 @@ public:
         setSpeed(0.75f);
         attackRange = 300.0f;
         detectRange = 400.0f;
+        setDelay(1.0f);
 
         PhysicsObject::scale(0.5f, b2Vec2(0.0f, 0.0f));
 
