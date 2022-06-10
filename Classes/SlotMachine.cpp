@@ -1,4 +1,5 @@
 #include "SlotMachine.h"
+#include "GameManager.h"
 
 
 SlotMachine::SlotMachine() {
@@ -102,8 +103,16 @@ void SlotMachine::update(float dt) {
 }
 
 void SlotMachine::spin(Hero* hero) {
-    if (running) return;
+    if (running) {
+        for (int i = 0; i < 3; i++) {
+            stopSpin(i);
+            unscheduleUpdate();
+        }
+    }
     if (!hero->useCoin(1)) return;
+    if (GameManager::getInstance()->isPausedByUser) return;
+    else cocos2d::Director::getInstance()->resume();
+    
     for (int i = 0; i < 3; i++) {
         createLine(i);
         auto pos = cocos2d::Vec2(0.0f, -lineSize[LayerSize::value-1]*200.0f);

@@ -37,7 +37,7 @@ float BaseBullet::getWeight() {
 //    b2MassData mass;
 //    __body->GetFixtureList()->GetMassData(&mass);
 //    return mass.mass;
-    return 1.5f;
+    return 3.0f;
 }
 
 

@@ -80,6 +80,7 @@ void GameManager::startNewGame()
 	mapHeight = 5;
 	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
 	isGameOver = false;
+    isPausedByUser = false;
 	monsterVec.clear();
 	allocateGameMap();
 	makeGameMap();
@@ -88,7 +89,7 @@ void GameManager::startNewGame()
 #if COCOS2D_DEBUG > 0
 	auto __d_l = B2DebugDrawLayer::create(PhysicsObject::getWorld());
 	_layer->addChild(__d_l, 2);
-#elif
+#else
     PhysicsObject::getWorld();
 #endif
 	_layer->scheduleUpdate();
@@ -184,6 +185,7 @@ void GameManager::loadGameMap(int w, int h)
 	{
 		monsterManager.createMonster(gameStage, _gameMap[w][h]->getIsBossRoom());
 		numberMonster = monsterVec.size();
+        cocos2d::Director::getInstance()->pause();
 	}
 
 	TMXTiledMap* temp = doLoadGameMap(w, h);
@@ -339,24 +341,74 @@ void GameManager::gameOver()
 	gameOverLayer->addChild(menu);
 	gameOverLayer->addChild(gameoverSprite);
 	_layer->addChild(gameOverLayer, 50);
-    _hero->pause(std::numeric_limits<float>::max());	
-	for (auto iter : monsterVec) {
-		iter->pause(std::numeric_limits<float>::max());
-	}
-	PhysicsObject::removeAllMask();
+    _hero->pause(std::numeric_limits<float>::max());
+    _hero->stopAllActions();
 	isGameOver = true;
+}
+
+void GameManager::pauseGame() {
+    auto director = cocos2d::Director::getInstance();
+    if (isPausedByUser) {
+        menuResumeGameCallback(nullptr);
+        return;
+    }
+    
+    director->pause();
+    auto visibleSize = director->getVisibleSize();
+    auto pauseLayer = cocos2d::LayerColor::create();
+    pauseLayer->setContentSize(visibleSize);
+    pauseLayer->setColor(cocos2d::Color3B(20, 15, 10));
+    pauseLayer->setOpacity(150);
+    pauseLayer->runAction(cocos2d::FadeTo::create(2.0f, 200));
+    pauseLayer->setName("pause_layer");
+    
+    cocos2d::Sprite* item[2][2];
+    item[0][0] = cocos2d::Sprite::create("frames/ExitNonClick.png");
+    item[0][1] = cocos2d::Sprite::create("frames/ExitOnClick.png");
+    item[1][0] = cocos2d::Sprite::create("frames/PlayNonClick.png");
+    item[1][1] = cocos2d::Sprite::create("frames/PlayOnClick.png");
+    
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            item[i][j]->setScale(0.75f);
+            item[i][j]->getTexture()->setTexParameters(TEX_PARA);
+        }
+    }
+    
+    auto closeItem = MenuItemSprite::create(item[0][0], item[0][1], CC_CALLBACK_1(GameManager::menuGotoSummarySceneCallback, this));
+    auto playItem = MenuItemSprite::create(item[1][0], item[1][1], CC_CALLBACK_1(GameManager::menuResumeGameCallback, this));
+    auto menu = Menu::create(closeItem, playItem, NULL);
+    
+    menu->alignItemsVerticallyWithPadding(-20.0f);
+    menu->setPosition(Vec2(visibleSize.width / 2 + 50.0f, visibleSize.height / 2));
+    pauseLayer->addChild(menu, 1);
+    _layer->addChild(pauseLayer, 10);
+    isPausedByUser = true;
+    isGameOver = true;
 }
 
 void GameManager::menuGotoSummarySceneCallback(cocos2d::Ref* pSender)
 {
-	clearLayer();
+    PhysicsObject::removeAllMask();
+    clearLayer();
+    auto director = cocos2d::Director::getInstance();
+    if (director->isPaused()) director->resume();
+    
 	const auto scene = GameSummary::create();
-	cocos2d::Director::getInstance()->replaceScene(cocos2d::TransitionCrossFade::create(0.5, scene));
+	director->replaceScene(cocos2d::TransitionCrossFade::create(0.5, scene));
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
 	if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
 	removeAllGameMap();
+}
+
+void GameManager::menuResumeGameCallback(cocos2d::Ref *pSender) {
+    if (!isPausedByUser) return;
+    isPausedByUser = false;
+    auto director = cocos2d::Director::getInstance();
+    director->resume();
+    _layer->getChildByName("pause_layer")->removeFromParent();
 }
 
 void GameManager::update(float dt)

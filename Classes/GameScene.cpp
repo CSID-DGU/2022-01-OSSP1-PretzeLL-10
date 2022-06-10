@@ -53,7 +53,7 @@ bool GameScene::init()
 
 
     addChild(_gamemapmanager->getLayer());
-    //addChild(_Timer::create());
+    addChild(_Timer::create());
 
     startNewGame();
     scheduleUpdate();
@@ -75,5 +75,7 @@ void GameScene::startNewGame()
 
 void GameScene::heroDamage(Ref* pSender)
 {
-//    GameManager::getInstance()->getHero()->damaged(1);
+    auto director = Director::getInstance();
+    if (director->isPaused()) director->resume();
+    else director->pause();
 }

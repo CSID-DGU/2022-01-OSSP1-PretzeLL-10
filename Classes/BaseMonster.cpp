@@ -97,17 +97,18 @@ void BaseMonster::attack() {
 
 void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     __hp -= damage;
-    if (__hp < 0) return;
+    if (__hp < 0) __hp = 0;
+    float ratio = (float)__hp / (float)__full_hp;
+    float adj = __health->getContentSize().width/(__full_hp*2.0f);
+    __health->setScale(ratio, 0.7f);
+    __health->setPositionX(__health->getPositionX() - adj);
+    
+    if (!__hp) return;
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
     pause(0.3f);
-    
-    float ratio = (float)__hp / (float)__full_hp;
-    float adj = __health->getContentSize().width/(__full_hp*2.0f);
-    __health->setScale(ratio, 0.7f);
-    __health->setPositionX(__health->getPositionX() - adj);
 }
 
 void BaseMonster::dieing()
@@ -160,9 +161,7 @@ void BaseMonster::setDamage(int damage) {
 }
 
 float BaseMonster::getWeight() {
-    b2MassData mass;
-    __body->GetFixtureList()->GetMassData(&mass);
-    return mass.mass;
+    return 2.0f;
 }
 
 
