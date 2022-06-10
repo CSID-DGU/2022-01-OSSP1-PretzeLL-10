@@ -51,6 +51,7 @@ public:
     cocos2d::Node* chooseTarget();
     void setLevel(int level);
     void setLevelValue(int level, int damage, float attactTime, float chargeTime);
+    std::array<level_array, 3> getLevelValue();
     float getAttackTime();
     float getChargeTime();
     int getDamage();

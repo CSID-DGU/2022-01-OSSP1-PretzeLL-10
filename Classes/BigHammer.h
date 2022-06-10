@@ -14,13 +14,14 @@ public:
     
     bool init() final {
         IF(!BaseWeapon::init());
-        setLevelValue(1, 1, 0.2f, 0.1f);
+        setLevelValue(1, 1, 0.2f, 0.0f);
+        setLevelValue(2, 1, 0.2f, 0.0f);
+        setLevelValue(3, 1, 0.2f, 0.0f);
         return true;
     }
     
 	void attack(bool flipped, const b2Vec2& direction) final {
 		if (!isAttackAble()) return;
-
 		auto BigHammer = BigHammerProjectile::create();
 
 		if (!BigHammer) return;

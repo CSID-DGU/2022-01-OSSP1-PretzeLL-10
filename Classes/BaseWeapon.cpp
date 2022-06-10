@@ -122,19 +122,23 @@ bool BaseWeapon::isAttacking() {
 }
 
 bool BaseWeapon::isAttackAble() {
-    if (getType() == CHARGE) {
+    int type = getType();
+    if (type == CHARGE) {
         if (*__fire_key) {
             __chargeTimer.set(__chargeTime[__level]);
             return false;
         }
-        if (!__chargeTimer.isEnd()) return false;
+        if (!__chargeTimer.isEnd()) {
+            __chargeTimer.reset();
+            return false;
+        }
     }
-    else if (getType() == IMMEDIATE) {
+    else if (type == IMMEDIATE) {
         if (!*__fire_key) return false;
     }
     
     if (isAttacking()) return false;
-    __attackTimer.set(getAttackTime());
+    if (getAttackTime()) __attackTimer.set(getAttackTime());
     
     return true;
 }
@@ -176,4 +180,13 @@ void BaseWeapon::insertCreateFunc(int tag, std::function<BaseWeapon*(void)> func
 
 BaseWeapon* BaseWeapon::getByTag(int tag) {
     return __create_func.at(tag)();
+}
+
+
+std::array<BaseWeapon::level_array, 3> BaseWeapon::getLevelValue() {
+    std::array<level_array, 3> ret;
+    ret[0] = __damage;
+    ret[1] = __attackTime;
+    ret[2] = __chargeTime;
+    return ret;
 }
