@@ -426,7 +426,6 @@ void GameManager::menuResumeGameCallback(cocos2d::Ref *pSender) {
 
 void GameManager::update(float dt)
 {
-	std::cout << runningInfo.damage << std::endl;
 	PhysicsObject::getWorld()->Step(dt, 8, 3);
 	bool isClear = false;
 	if (!isGameOver)

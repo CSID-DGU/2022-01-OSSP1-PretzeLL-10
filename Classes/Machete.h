@@ -24,15 +24,16 @@ public:
 		if (!isAttackAble()) return;
 
 		auto Machete = MacheteProjectile::create();
-		cocos2d::Vec2 vec;
+		cocos2d::Vec2 vec, vecVari;
 
 		if (!Machete) return;
 		addBullet(Machete, direction);
 		Machete->setParent(this);
 		Machete->setSpeed(3.0f);
-		vec = cocos2d::Vec2(direction.x + 0.66f, direction.y + 0.66f);
-		Machete->setVelocity(C2B(vec));
-		Machete->setAngularVelocity(C2B(90.0f) * (flipped ? -1 : 1));
+		vec = cocos2d::Vec2(direction.x, direction.y);
+		vecVari = DegreeToVec(VecToDegree(normalize(vec)) + 30.0f);
+		Machete->setVelocity(C2B(vecVari));
+		Machete->setAngularVelocity(90.0f);
 		Machete->PhysicsObject::scale(0.5f);
 		Machete->moveGently();
 		Machete->setInitialPos();

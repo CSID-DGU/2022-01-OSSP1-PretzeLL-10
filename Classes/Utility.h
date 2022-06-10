@@ -92,6 +92,12 @@ inline float VecToDegree(const b2Vec2 &vec)
     return CC_RADIANS_TO_DEGREES(atan2f(vec.x, vec.y));
 }
 
+// from degree of B2 to coco2d Vec
+inline cocos2d::Vec2 DegreeToVec(const float& degree)
+{
+    return cocos2d::Vec2(sinf(CC_DEGREES_TO_RADIANS(degree)), cosf(CC_DEGREES_TO_RADIANS(degree)));
+}
+
 template <typename t>
 inline void swap(t *first, t *second)
 {
