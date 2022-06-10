@@ -104,12 +104,11 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
     __health->setScale(ratio, 0.7f);
     __health->setPositionX(__health->getPositionX() - adj*damage);
     
-    if (!__hp) return;
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
-    pause(0.3f);
+    if (__hp) pause(0.3f);
 }
 
 void BaseMonster::dieing()
@@ -185,8 +184,8 @@ void BaseMonster::onContact(b2Contact* contact) {
     float other_cat = getCategory(other);
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
+        damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight());
         auto position = convertToNodeSpace(bullet->getPosition());
-        damaged(bullet->getDamage(), position, bullet->getWeight());
         if (bullet->getTag() == TAG_PENETRATE) return;
         
         bullet->retain();
