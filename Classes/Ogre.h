@@ -13,11 +13,11 @@ public:
 
     bool init() final {
         IF(!BaseMonster::init());
-        setHP(1);
+        setHP(100);
         setDamage(1);
-        setSpeed(10.0f);
-        attackRange = 200.0f;
-        detectRange = 300.0f;
+        setSpeed(15.0f);
+        attackRange = 400.0f;
+        detectRange = 400.0f;
 
         PhysicsObject::scale(0.9f, b2Vec2(0.0f, 1.0f));
 
