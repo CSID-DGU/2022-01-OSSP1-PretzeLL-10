@@ -61,13 +61,11 @@ bool GameSummary::init()
 	// create menu, it's an autorelease object
 	auto menu = Menu::create(playItem, closeItem, NULL);
 	menu->alignItemsVerticallyWithPadding(-20.0f);
-	menu->setPosition(Vec2(visibleSize.width / 2 + 50.0f, visibleSize.height / 2 - 200));
-	this->addChild(menu, 1);
+	menu->setPosition(Vec2(visibleSize.width / 2 + 50.0f, visibleSize.height / 2 - 300));
+	this->addChild(menu, 2);
 
 	std::string time_str = _Timer::getTimeStringFormat("%02d : %02d", int(GameManager::getInstance()->runningInfo.run_time / 60), int(GameManager::getInstance()->runningInfo.run_time) % 60);
-	std::string damage_str = std::to_string(GameManager::getInstance()->runningInfo.damage);
-	std::string gold_str = std::to_string(GameManager::getInstance()->runningInfo.gold_earn);
-	std::string slot_str = std::to_string(GameManager::getInstance()->runningInfo.slot_run);
+	std::string damage_str = std::to_string(GameManager::getInstance()->runningInfo.damage);	
 	std::string stage_str;
 	if (GameManager::getInstance()->runningInfo.all_clear == true)
 	{
@@ -76,13 +74,30 @@ bool GameSummary::init()
 	else
 	{
 		stage_str = std::to_string(GameManager::getInstance()->runningInfo.stage);
-	}	
+	}
+	std::string gold_str = std::to_string(GameManager::getInstance()->runningInfo.gold_earn);
 
-	auto time_label = Label::createWithTTF("play time : " + time_str, "fonts/Marker Felt.ttf", 600);
-	auto damage_label = Label::createWithTTF("total damage : " + damage_str, "fonts/Marker Felt.ttf", 600);
-	auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 600);
-	auto slot_label = Label::createWithTTF(slot_str, "fonts/Marker Felt.ttf", 600);
-	auto stage_label = Label::createWithTTF("stage level : " + stage_str, "fonts/Marker Felt.ttf", 600);
+	auto time_label = Label::createWithTTF("play time : " + time_str, "fonts/Marker Felt.ttf", 275);
+	auto damage_label = Label::createWithTTF("total damage : " + damage_str, "fonts/Marker Felt.ttf", 275);
+	auto stage_label = Label::createWithTTF("stage level : " + stage_str, "fonts/Marker Felt.ttf", 275);
+	auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 275);
+
+	auto backGroundSprite = Sprite::create("frames/Summary_Scene.png");
+	if (backGroundSprite == nullptr)
+	{
+		problemLoading("'Summary_Scene fault'");
+	}
+	else
+	{
+		// position the label on the center of the screen
+		backGroundSprite->setPosition(Vec2(origin.x + visibleSize.width / 2,
+			origin.y + visibleSize.height - backGroundSprite->getContentSize().height + 125));
+
+		backGroundSprite->setScale(1.3f);
+		backGroundSprite->getTexture()->setTexParameters(TEX_PARA);
+		// add the label as a child to this layer
+		this->addChild(backGroundSprite, 1);
+	}
 
 	// add child time_label
 	time_label->setScale(0.1f);
@@ -93,8 +108,8 @@ bool GameSummary::init()
 	else
 	{
 		// position the label on the center of the screen
-		time_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - time_label->getContentSize().height * time_label->getScale()));
+		time_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
+			origin.y + visibleSize.height - time_label->getContentSize().height * time_label->getScale() - 237));
 
 		// add the label as a child to this layer
 		this->addChild(time_label, 1);
@@ -109,11 +124,27 @@ bool GameSummary::init()
 	else
 	{
 		// position the label on the center of the screen
-		damage_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - damage_label->getContentSize().height * time_label->getScale() - 100));
+		damage_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
+			origin.y + visibleSize.height - damage_label->getContentSize().height * time_label->getScale() - 308));
 
 		// add the label as a child to this layer
 		this->addChild(damage_label, 1);
+	}
+
+	// add child stage_label
+	stage_label->setScale(0.1f);
+	if (stage_label == nullptr)
+	{
+		problemLoading("'fonts/Marker Felt.ttf'");
+	}
+	else
+	{
+		// position the label on the center of the screen
+		stage_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
+			origin.y + visibleSize.height - stage_label->getContentSize().height * time_label->getScale() - 395));
+
+		// add the label as a child to this layer
+		this->addChild(stage_label, 1);
 	}
 
 	// add child gold_label
@@ -125,43 +156,11 @@ bool GameSummary::init()
 	else
 	{
 		// position the label on the center of the screen
-		gold_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - gold_label->getContentSize().height * time_label->getScale() - 200));
+		gold_label->setPosition(Vec2(origin.x + visibleSize.width / 2 + 45,
+			origin.y + visibleSize.height - gold_label->getContentSize().height * time_label->getScale() - 463));
 
 		// add the label as a child to this layer
 		this->addChild(gold_label, 1);
-	}
-
-	// add child slot_label
-	slot_label->setScale(0.1f);
-	if (slot_label == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		slot_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - slot_label->getContentSize().height * time_label->getScale() - 300));
-
-		// add the label as a child to this layer
-		this->addChild(slot_label, 1);
-	}
-
-	// add child slot_label
-	stage_label->setScale(0.1f);
-	if (stage_label == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		stage_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-			origin.y + visibleSize.height - stage_label->getContentSize().height * time_label->getScale() - 400));
-
-		// add the label as a child to this layer
-		this->addChild(stage_label, 1);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
