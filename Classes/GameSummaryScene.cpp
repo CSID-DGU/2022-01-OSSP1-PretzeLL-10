@@ -58,14 +58,14 @@ bool GameSummary::init()
     }
 
     // create menu, it's an autorelease object
-    /*auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
-    auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
-    auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
+    //auto closeItem = MenuItemFont::create("EXIT", CC_CALLBACK_1(StartingMenu::menuCloseCallback, this));
+    //auto playItem = MenuItemFont::create("PLAY", CC_CALLBACK_1(StartingMenu::menuPlayCallback, this));
+    //auto settingItem = MenuItemFont::create("SETTING", CC_CALLBACK_1(StartingMenu::menuSettingCallback, this));
 
     auto menu = Menu::create(closeItem, NULL);
     menu->alignItemsVertically();
     menu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 200));
-    this->addChild(menu, 1);*/
+    this->addChild(menu, 1);
 
     /////////////////////////////
     // 3. add your codes below...
