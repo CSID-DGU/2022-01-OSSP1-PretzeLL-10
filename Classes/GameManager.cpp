@@ -390,6 +390,7 @@ void GameManager::pauseGame() {
 void GameManager::menuGotoSummarySceneCallback(cocos2d::Ref* pSender)
 {
     PhysicsObject::removeAllMask();
+	PhysicsObject::getWorld()->Step(0.0f, 0, 0);
     clearLayer();
     auto director = cocos2d::Director::getInstance();
     if (director->isPaused()) director->resume();
