@@ -96,22 +96,29 @@ void SlotMachine::update(float dt) {
                 react(_hero);
                 _hero->rearm(0);
                 running = false;
-//                _hero->restoreSpeed();
+                for (auto iter : getParent()->getParent()->getChildren()) {
+                    iter->resume();
+                }
             }
         }
     }
 }
 
 void SlotMachine::spin(Hero* hero) {
+    if (GameManager::getInstance()->isPausedByUser) return;
     if (running) {
         for (int i = 0; i < 3; i++) {
             stopSpin(i);
             unscheduleUpdate();
         }
     }
-    if (!hero->useCoin(1)) return;
-    if (GameManager::getInstance()->isPausedByUser) return;
-    else cocos2d::Director::getInstance()->resume();
+    
+    if (!hero->useCoin(1)) {
+        react(hero);
+        hero->rearm(0);
+        cocos2d::Director::getInstance()->resume();
+        return;
+    }
     
     for (int i = 0; i < 3; i++) {
         createLine(i);

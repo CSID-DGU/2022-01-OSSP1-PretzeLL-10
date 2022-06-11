@@ -113,7 +113,7 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
 
 void BaseMonster::dieing()
 {
-    setCategory(CATEGORY_MONSTER, MASK_NONE);
+    setCategory(CATEGORY_MONSTER, MASK_DEAD);
     setTag(TAG_MONSTER_DEAD);
     stopAllActions();
     removeAfter(1.5f);
@@ -184,9 +184,8 @@ void BaseMonster::onContact(b2Contact* contact) {
     float other_cat = getCategory(other);
     if (other_cat == CATEGORY_BULLET) {
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
-        damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight());
+        damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight()*bullet->getDamage());
         auto position = convertToNodeSpace(bullet->getPosition());
-        damaged(bullet->getDamage(), position, bullet->getWeight());
         GameManager::getInstance()->runningInfo.damage += bullet->getDamage();
         if (bullet->getTag() == TAG_PENETRATE) return;
         

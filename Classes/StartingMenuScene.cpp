@@ -157,9 +157,8 @@ bool StartingMenu::init()
 	//auto timer = _Timer::create();
 	//this->addChild(timer);
     
-    if (CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-    CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm/game_bgm1.mp3");
+    if (!CocosDenshion::SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying())
+        CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm/game_bgm1.mp3");
 
 	return true;
 }

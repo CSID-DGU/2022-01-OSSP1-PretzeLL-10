@@ -48,7 +48,7 @@ bool Hero::init() {
     
     addAnimation("hit", 1, 0.3f);
     runActionByKey(IDLE);
-    setHP(1);
+    setHP(6);
     setSpeed(5.0f, true);
     addCoin(5);
     setRunSpeed(2.0f);
@@ -223,7 +223,10 @@ void Hero::invincible(float dt) {
 
 void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     __hp -= damage;
-    if (__hp < 0) return;
+    if (__hp < 0) {
+        // need to add dying animation
+        return;
+    }
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);

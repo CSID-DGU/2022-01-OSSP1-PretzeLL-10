@@ -212,7 +212,18 @@ void GameManager::loadGameMap(int w, int h)
 	{
 		monsterManager.createMonster(gameStage, _gameMap[w][h]->getIsBossRoom());
 		numberMonster = monsterVec.size();
-        cocos2d::Director::getInstance()->pause();
+        if (_hero->getCoin()) {
+            for (auto iter : _layer->getChildren()) {
+                if (iter->getName() == "state_layer") continue;
+                if (iter->getTag() == TAG_MONSTER) {
+                    ((BaseMonster*)iter)->stopAllActions();
+                    iter->pause();
+                }
+                _hero->stopAllActions();
+                _hero->Node::pause();
+                iter->pause();
+            }
+        }
 	}
 
 	TMXTiledMap* temp = doLoadGameMap(w, h);
@@ -224,7 +235,7 @@ void GameManager::loadGameMap(int w, int h)
         _gameMap[w][h]->_wall = wall;
         wall->SetTransform(wall->GetPosition() + b2Vec2(0, 130/PTM_RATIO), 0.0f);
     }
-	_hero->disarm(0.0f);
+	if (_hero->getCoin()) _hero->disarm(0.0f);
 }
 
 TMXTiledMap* GameManager::doLoadGameMap(int w, int h)
