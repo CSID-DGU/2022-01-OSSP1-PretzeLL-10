@@ -69,7 +69,7 @@ void MenuSetting::setDisplayResolution(Ref* pSender)
     cocos2d::Label* label[2];
     label[0] = cocos2d::Label::createWithTTF("800x600", "fonts/Marker Felt.ttf", 300);
     label[1] = cocos2d::Label::createWithTTF("1280x960", "fonts/Marker Felt.ttf", 300);
-    auto small = cocos2d::MenuItemLabel::create(label[0], [&](Ref* s){
+    auto smallLabel = cocos2d::MenuItemLabel::create(label[0], [&](Ref* s){
         GLViewImpl* view = (GLViewImpl*)Director::getInstance()->getOpenGLView();
         view->setWindowed(800, 600);
     });
@@ -79,7 +79,7 @@ void MenuSetting::setDisplayResolution(Ref* pSender)
     });
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    auto menu = Menu::create(small, middle, nullptr);
+    auto menu = Menu::create(smallLabel, middle, nullptr);
     menu->alignItemsVertically();
     menu->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
     menu->setScale(0.2f);
