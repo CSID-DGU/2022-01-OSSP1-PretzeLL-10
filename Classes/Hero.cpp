@@ -227,7 +227,7 @@ void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
     if (__hp == TAG_PLAYER_DEAD) return;
     __hp -= damage;
     if (__hp <= 0) {
-        dieing(0);
+        scheduleOnce(schedule_selector(Hero::dieing), 0.1f);
         return;
     }
     
