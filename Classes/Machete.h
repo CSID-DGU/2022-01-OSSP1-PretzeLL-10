@@ -29,9 +29,9 @@ public:
 		if (!Machete) return;
 		addBullet(Machete, direction);
 		Machete->setParent(this);
-		Machete->setSpeed(3.0f);
+		Machete->setSpeed(6.0f);
 		vec = cocos2d::Vec2(direction.x, direction.y);
-		vecVari = DegreeToVec(VecToDegree(normalize(vec)) + 30.0f);
+		vecVari = DegreeToVec(VecToDegree(normalize(vec)) + 80.0f);
 		Machete->setVelocity(C2B(vecVari));
 		Machete->setAngularVelocity(90.0f);
 		Machete->PhysicsObject::scale(0.5f);

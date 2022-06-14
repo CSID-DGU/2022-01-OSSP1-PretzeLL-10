@@ -23,8 +23,14 @@ public:
 		if (!__desired_distance) return;
 
 		float len = length(getPosition() - __initial_pos);
-        __degree -= 0.1f;
-		setVelocity(b2Vec2(sinf(C2B(__degree)), cosf(C2B(__degree))));                    // apply reverted direction
+		__degree = VecToDegree(this->getVelocity());
+		cocos2d::Vec2 rotateTmp = DegreeToVec(__degree);
+		cocos2d::Vec2 veloTmp = DegreeToVec(__degree);
+		rotateTmp.normalize();
+		rotateTmp *= 0.23f;
+		veloTmp.normalize();
+		veloTmp *= 0.77f;
+		setVelocity(b2Vec2(veloTmp.x - rotateTmp.y, veloTmp.y + rotateTmp.x));                    // apply reverted direction
         moveGently();
 
 		if (len > __desired_distance) {
@@ -44,6 +50,7 @@ public:
 
 			/* Follow Hero */
 			__desired_distance = 0.0f;											  // move desired distance   
+			
 			schedule(schedule_selector(MacheteProjectile::followTarget));         // schedule follow function
 		}
 	}
@@ -75,6 +82,7 @@ public:
 		if (!__hero) return;
 		
 		auto len = moveToGently(__hero->getPosition());                                   // move to hero, returns length(float)
+		__body->SetLinearDamping(10.0f);
 		if (len < 20.0f) {
 			unschedule(schedule_selector(MacheteProjectile::followTarget));           // if length is close enough, remove this
 			removeAfter(0.0f);
