@@ -20,12 +20,12 @@
 #define MASK_NONE                       0x0000
 #define MASK_ALL                        0xFFFF
 #define MASK_PLAYER                     CATEGORY_MONSTER | CATEGORY_WALL    | CATEGORY_DOOR   | CATEGORY_HBULLET
-#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL    | CATEGORY_DOOR   | CATEGORY_BULLET  | CATEGORY_WEAPON
+#define MASK_MONSTER                    CATEGORY_PLAYER  | CATEGORY_WALL    | CATEGORY_DOOR   | CATEGORY_BULLET
 #define MASK_DEAD                       CATEGORY_WALL    | CATEGORY_DOOR
 #define MASK_WALL                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET | CATEGORY_HBULLET
 #define MASK_DOOR                       CATEGORY_PLAYER  | CATEGORY_MONSTER | CATEGORY_BULLET | CATEGORY_HBULLET
 #define MASK_ITEM                       MASK_NONE
-#define MASK_WEAPON                     CATEGORY_MONSTER
+#define MASK_WEAPON                     MASK_NONE
 #define MASK_BULLET                     CATEGORY_MONSTER | CATEGORY_WALL    | CATEGORY_DOOR
 #define MASK_HBULLET                    CATEGORY_PLAYER  | CATEGORY_WALL    | CATEGORY_DOOR
 
@@ -43,6 +43,7 @@
 #define KEY_GROUP_M                     keyCode_t::KEY_M: case keyCode_t::KEY_CAPITAL_M
 
 #define TAG_PLAYER                      0x1100
+#define TAG_PLAYER_DEAD                -0x1100
 #define TAG_MONSTER                     0x1200
 #define TAG_MONSTER_DEAD                0x12FF
 #define TAG_BULLET                      0x2000
@@ -50,11 +51,9 @@
 #define TAG_PENETRATE                   0x2200
 
 
-#ifndef __KEYCODE_T__
-#define __KEYCODE_T__
 typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
 typedef cocos2d::EventMouse::MouseButton mouseButton_t;
-#endif
+typedef CocosDenshion::SimpleAudioEngine Audio;
 
 
 enum ACTION {

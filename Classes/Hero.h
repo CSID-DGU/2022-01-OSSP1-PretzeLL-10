@@ -47,6 +47,7 @@ public:
     void attack();
     void testWeapon(float t);
     void damaged(int damage, const cocos2d::Vec2& direction, float weight);
+    void dieing(float dt);
     void makeInvincible(float time);
     int getHP();
     void setHP(int hp);

@@ -81,7 +81,7 @@ bool GameSummary::init()
 	auto time_label = Label::createWithTTF("play time : " + time_str, "fonts/Marker Felt.ttf", 300);
 	auto damage_label = Label::createWithTTF("total damage : " + damage_str, "fonts/Marker Felt.ttf", 300);
 	auto stage_label = Label::createWithTTF("stage level : " + stage_str, "fonts/Marker Felt.ttf", 300);
-	auto gold_label = Label::createWithTTF(gold_str, "fonts/Marker Felt.ttf", 300);
+	auto gold_label = Label::createWithTTF("tatol gold : " + gold_str, "fonts/Marker Felt.ttf", 300);
 
 	auto backGroundSprite = Sprite::create("frames/Summary_Scene.png");
 	if (backGroundSprite == nullptr)

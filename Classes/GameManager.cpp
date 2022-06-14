@@ -223,6 +223,21 @@ void GameManager::loadGameMap(int w, int h)
                 _hero->Node::pause();
                 iter->pause();
             }
+            
+            if (!_layer->getChildByName("state_layer")->getChildByName<SlotMachine*>("slot_machine")->isRunning()) {
+                auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+                auto helper = cocos2d::LayerColor::create();
+                helper->setContentSize(visibleSize);
+                helper->setColor(cocos2d::Color3B(20, 15, 10));
+                helper->setOpacity(200);
+                helper->setName("helper_layer");
+                _layer->addChild(helper, 100);
+                
+                auto helper_label = Label::createWithTTF("Press 'Space Bar' to continue", "fonts/Marker Felt.ttf", 300);
+                helper_label->setScale(0.2f);
+                helper_label->setPosition(visibleSize/2);
+                helper->addChild(helper_label);
+            }
         }
 	}
 
@@ -326,8 +341,6 @@ void GameManager::gameOver(bool allclear)
 	_layer->removeChild(__timer);
 	//----------------------------------------------
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-
 	auto gameOverLayer = cocos2d::LayerColor::create();
 	gameOverLayer->setContentSize(visibleSize);
 	gameOverLayer->setColor(cocos2d::Color3B(20, 15, 10));
@@ -387,13 +400,15 @@ void GameManager::pauseGame() {
         return;
     }
     
+    auto helper = _layer->getChildByName("helper_layer");
+    if (helper) helper->removeFromParent();
+    
     director->pause();
     auto visibleSize = director->getVisibleSize();
     auto pauseLayer = cocos2d::LayerColor::create();
     pauseLayer->setContentSize(visibleSize);
     pauseLayer->setColor(cocos2d::Color3B(20, 15, 10));
-    pauseLayer->setOpacity(150);
-    pauseLayer->runAction(cocos2d::FadeTo::create(2.0f, 200));
+    pauseLayer->setOpacity(200);
     pauseLayer->setName("pause_layer");
     
     cocos2d::Sprite* item[2][2];
@@ -454,7 +469,7 @@ void GameManager::update(float dt)
 	{
 		updateMapClear();
 		isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
-		if (_hero->getHP() <= 0)
+		if (_hero->getHP() <= 0 && !_hero->isAnimationRunning())
 			gameOver(false);
 		switch (_hero->getDirection(isClear)) {
 		case MAP_UP: loadUpMap();    break;

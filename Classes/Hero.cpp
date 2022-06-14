@@ -47,6 +47,7 @@ bool Hero::init() {
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     
     addAnimation("hit", 1, 0.3f);
+//    addAnimation("dead", 10, 0.5f);
     runActionByKey(IDLE);
     setHP(6);
     setSpeed(5.0f, true);
@@ -222,17 +223,35 @@ void Hero::invincible(float dt) {
 }
 
 void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
+    if (__hp == TAG_PLAYER_DEAD) return;
     __hp -= damage;
-    if (__hp < 0) {
-        // need to add dying animation
+    if (__hp <= 0) {
+        dieing(0);
         return;
     }
+    
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
     makeInvincible(2.0f);
     pause(0.3f);
+}
+
+void Hero::dieing(float dt) {
+    BaseMonster::deleteTarget(this);
+    stopAllActions();
+//    runActionByKey("dead");
+    unscheduleUpdate();
+    setCategory(CATEGORY_PLAYER, MASK_NONE);
+    setLocalZOrder(50);
+    disarm();
+    __hp = TAG_PLAYER_DEAD;
+    
+    auto adj = cocos2d::Vec2(25.0f, -6.0f);
+    if (isFlipped()) adj.x *= -1;
+    setPosition(getPosition() + adj);
+    return;
 }
 
 int Hero::getHP() {
@@ -253,6 +272,7 @@ void Hero::setDamage(int damage) {
 
 void Hero::addCoin(int coin) {
     __coin += coin;
+    GameManager::getInstance()->runningInfo.gold_earn += coin;
 }
 
 bool Hero::useCoin(int coin) {

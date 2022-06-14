@@ -112,6 +112,8 @@ void SlotMachine::spin(Hero* hero) {
             unscheduleUpdate();
         }
     }
+    auto helper = getParent()->getParent()->getChildByName("helper_layer");
+    if (helper) helper->removeFromParent();
     
     if (!hero->useCoin(1)) {
         react(hero);
