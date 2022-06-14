@@ -6,7 +6,7 @@
 
 class Stone : public BaseBullet {
 protected:
-    Stone() : BaseBullet("skull") {}
+    Stone() : BaseBullet("stone") {}
     virtual ~Stone() {}
     
 public:

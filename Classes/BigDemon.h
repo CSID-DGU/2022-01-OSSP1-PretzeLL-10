@@ -53,7 +53,7 @@ public:
     {
         auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
         auto diff = C2B(hero->getPosition() - getPosition());
-        auto stone = Stone::create();
+        auto stone = BigStone::create();
         
         normalize(diff);
         addBullet(stone, diff);

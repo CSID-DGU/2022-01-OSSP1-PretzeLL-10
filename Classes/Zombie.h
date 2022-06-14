@@ -56,7 +56,7 @@ public:
         addBullet(stone, diff);
         stone->setParent(getWeapon());
         stone->setPosition(getPosition());
-        stone->setSpeed(50.0f);
+        stone->setSpeed(30.0f);
         stone->setVelocity(diff);
         stone->setAngularVelocity(C2B(180.0f));
         stone->Node::setScale(1.0f);
