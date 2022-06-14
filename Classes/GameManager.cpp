@@ -89,7 +89,7 @@ GameManager::GameManager()
 void GameManager::startNewGame()
 {
 	numberMonster = 0;
-	gameStage = 0;
+	gameStage = 1;
 	mapWidth = 5;
 	mapHeight = 5;
 	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
@@ -150,6 +150,9 @@ void GameManager::deleteMonster(BaseMonster* dM)
 
 void GameManager::updateMapClear()
 {
+	if (_gameMap[currentPosition.first][currentPosition.second]->getIsClear())
+		return;
+
 	if (monsterVec.empty())
 	{
 		_gameMap[currentPosition.first][currentPosition.second]->setClear();
@@ -163,13 +166,18 @@ void GameManager::updateMapClear()
 void GameManager::addStageUpLayer()
 {
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-
 	auto nextStageLayer = cocos2d::LayerColor::create(cocos2d::Color4B(22, 22, 22, 100));
-
 	nextStageLayer->setContentSize(visibleSize);
-	nextStageLayer->runAction(cocos2d::FadeTo::create(2.0f, 100));
+	nextStageLayer->setOpacity(200);
 	nextStageLayer->setTag(3183);
-	_layer->addChild(nextStageLayer);
+	_layer->addChild(nextStageLayer, 50);
+
+	auto nextStageSprite = cocos2d::Sprite::create("frames/level_up.png");
+
+	nextStageSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
+	nextStageSprite->setScale(3.0f);
+	nextStageSprite->getTexture()->setTexParameters(TEX_PARA);
+	nextStageLayer->addChild(nextStageSprite);
 
 	cocos2d::Sprite* item[2];
 	item[0] = cocos2d::Sprite::create("frames/OkButtonNonClick.png");
@@ -177,26 +185,25 @@ void GameManager::addStageUpLayer()
 	item[0]->getTexture()->setTexParameters(TEX_PARA);
 	item[1]->getTexture()->setTexParameters(TEX_PARA);
 
-	auto okItem = cocos2d::MenuItemSprite::create(item[0], item[1],
+	auto closeItem = cocos2d::MenuItemSprite::create(item[0], item[1],
 		CC_CALLBACK_1(GameManager::goNextStage, this));
 
-	if (okItem == nullptr ||
-		okItem->getContentSize().width <= 0 ||
-		okItem->getContentSize().height <= 0)
+	if (closeItem == nullptr ||
+		closeItem->getContentSize().width <= 0 ||
+		closeItem->getContentSize().height <= 0)
 	{
 	}
 	else
 	{
 		float x = visibleSize.width / 2;
 		float y = visibleSize.height / 2 - 100;
-		okItem->setPosition(cocos2d::Vec2(x, y));
-		okItem->setScale(2.5f);
+		closeItem->setPosition(cocos2d::Vec2(x, y));
+		closeItem->setScale(2.5f);
 	}
-
-	auto menu = cocos2d::Menu::create(okItem, NULL);
-	menu->setPosition(cocos2d::Vec2::ZERO);
-
-	nextStageLayer->addChild(menu);
+	// create menu, it's an autorelease object
+	auto menu = cocos2d::Menu::create(closeItem, NULL);
+	menu->setPosition(cocos2d::Vec2(0, 0));
+	nextStageLayer->addChild(menu, 100);
 }
 
 void GameManager::goNextStage(cocos2d::Ref* pSender)
@@ -206,6 +213,9 @@ void GameManager::goNextStage(cocos2d::Ref* pSender)
 		gameOver(true);
 	}
 	_layer->removeChildByTag(3183);
+
+	auto black_layer = _layer->getChildByName("black");
+	if (black_layer) black_layer->removeFromParent();
 
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
