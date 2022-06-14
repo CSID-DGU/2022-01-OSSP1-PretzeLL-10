@@ -15,8 +15,8 @@ public:
     bool init() final {
         IF(!BaseWeapon::init());
         setLevelValue(1, 80, 0.2f, 1.0f);
-		setLevelValue(2, 150, 0.2f, 0.2f);
-		setLevelValue(3, 230, 0.2f, 0.2f);
+		setLevelValue(2, 160, 0.2f, 0.7f);
+		setLevelValue(3, 230, 0.2f, 0.7f);
         return true;
     }
     

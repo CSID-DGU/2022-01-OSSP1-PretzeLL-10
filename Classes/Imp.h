@@ -13,7 +13,7 @@ public:
 
     bool init() final {
         IF(!BaseMonster::init());
-        setHP(200);
+        setHP(100);
         setDamage(1);
         setSpeed(1.25f);
         attackRange = 300.0f;
