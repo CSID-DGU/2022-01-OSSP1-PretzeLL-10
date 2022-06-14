@@ -240,7 +240,10 @@ void GameManager::loadGameMap(int w, int h)
             }
         }
 	}
-
+    
+    auto black_layer = _layer->getChildByName("black");
+    if (black_layer) black_layer->removeFromParent();
+    
 	TMXTiledMap* temp = doLoadGameMap(w, h);
 	temp->setPosition(0, 130);
 	_layer->addChild(temp, 0);
@@ -471,17 +474,11 @@ void GameManager::update(float dt)
 		isClear = _gameMap[currentPosition.first][currentPosition.second]->getIsClear();
 		if (_hero->getHP() <= 0 && !_hero->isAnimationRunning())
 			gameOver(false);
-		switch (_hero->getDirection(isClear)) {
-		case MAP_UP: loadUpMap();    break;
-		case MAP_DOWN: loadDownMap();  break;
-		case MAP_LEFT: loadLeftMap();  break;
-		case MAP_RIGHT: loadRightMap(); break;
-		default: break;
-		}
+        _hero->getDirection(isClear, 0.7f);
 	}
 }
 
-
+    
 //==================================================================================
 //						for test
 //==================================================================================

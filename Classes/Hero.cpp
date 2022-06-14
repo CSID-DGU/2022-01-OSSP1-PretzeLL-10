@@ -6,6 +6,7 @@ Hero::Hero()
 : DynamicObject("knight_f")
 , __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
 , __map_dir(MAP_NONE)
+, __pending(MAP_NONE)
 , __invincible(false)
 , __disarmed(false)
 , __hp(0)
@@ -343,21 +344,31 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     }
 }
 
-DIRECTION Hero::getDirection(bool isAbleToMove) {
-    auto dir = __map_dir;
-    if (dir) {
-        if (!isAbleToMove) return MAP_NONE;
-        __map_dir = MAP_NONE;
-        pause(0.5f);
-    }
-    switch (dir) {
-        case MAP_UP     : setAbsolutePosition(525.0f, 375.0f); break;
-        case MAP_DOWN   : setAbsolutePosition(525.0f, 850.0f); break;
-        case MAP_LEFT   : setAbsolutePosition(850.0f, 650.0f); break;
-        case MAP_RIGHT  : setAbsolutePosition(150.0f, 650.0f); break;
+DIRECTION Hero::getDirection(bool isAbleToMove, float delay) {
+    if (!isAbleToMove || !__map_dir) return MAP_NONE;
+    __pending = __map_dir;
+    __map_dir = MAP_NONE;
+    pause(delay);
+    auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    auto black = cocos2d::LayerColor::create();
+    black->setContentSize(visibleSize);
+    black->setColor(cocos2d::Color3B(20, 15, 10));
+    black->setOpacity(0);
+    black->setName("black");
+    black->runAction(cocos2d::FadeTo::create(0.5f, 200));
+    GameManager::getInstance()->getLayer()->addChild(black, 100);
+    scheduleOnce(schedule_selector(Hero::moveToDirection), delay);
+    return __pending;
+}
+
+void Hero::moveToDirection(float dt) {
+    switch (__pending) {
+        case MAP_UP     : setAbsolutePosition(525.0f, 375.0f); GameManager::getInstance()->loadUpMap();    break;
+        case MAP_DOWN   : setAbsolutePosition(525.0f, 850.0f); GameManager::getInstance()->loadDownMap();  break;
+        case MAP_LEFT   : setAbsolutePosition(850.0f, 650.0f); GameManager::getInstance()->loadLeftMap();  break;
+        case MAP_RIGHT  : setAbsolutePosition(150.0f, 650.0f); GameManager::getInstance()->loadRightMap(); break;
         default: break;
     }
-    return dir;
 }
 
 void Hero::onContact(b2Contact* contact) {
@@ -383,5 +394,17 @@ void Hero::onContact(b2Contact* contact) {
         else if (pos.x > 700.0f) __map_dir = MAP_RIGHT;
         else if (pos.y > 700.0f) __map_dir = MAP_UP;
         else if (pos.y < 500.0f) __map_dir = MAP_DOWN;
+    }
+}
+
+void Hero::onContactEnd(b2Contact* contact) {
+    b2Fixture* other = contact->GetFixtureB();
+    if (getCategory(other) == CATEGORY_PLAYER) {
+        other = contact->GetFixtureA();
+    }
+    
+    float other_cat = getCategory(other);
+    if (other_cat == CATEGORY_DOOR) {
+        __map_dir = MAP_NONE;
     }
 }
