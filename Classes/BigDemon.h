@@ -21,7 +21,7 @@ public:
         detectRange = 500.0f;
         setDelay(0.8f);
 
-        PhysicsObject::scale(3.0f, b2Vec2(0.0f, 0.0f));
+        PhysicsObject::scale(1.0f, b2Vec2(0.0f, 0.0f));
         setSpeed(getSpeed()/2.0f);
         
         return true;
@@ -54,6 +54,17 @@ public:
         auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
         auto diff = C2B(hero->getPosition() - getPosition());
         auto stone = BigStone::create();
+        
+        normalize(diff);
+        addBullet(stone, diff);
+        stone->setParent(getWeapon());
+        stone->setPosition(getPosition());
+        stone->setSpeed(100.0f);
+        stone->setVelocity(diff);
+        stone->Node::setScale(2.0f);
+        stone->PhysicsObject::scale(1.5f);
+        stone->move();
+        
 
         srand((unsigned int)time(NULL));
         int randPattern = rand();

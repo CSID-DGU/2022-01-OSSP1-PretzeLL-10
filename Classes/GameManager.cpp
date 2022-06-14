@@ -89,7 +89,7 @@ GameManager::GameManager()
 void GameManager::startNewGame()
 {
 	numberMonster = 0;
-	gameStage = 3;
+	gameStage = 0;
 	mapWidth = 5;
 	mapHeight = 5;
 	currentPosition = std::make_pair(mapWidth / 2, mapHeight / 2);
