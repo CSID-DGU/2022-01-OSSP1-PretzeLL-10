@@ -54,17 +54,70 @@ public:
         auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
         auto diff = C2B(hero->getPosition() - getPosition());
         auto stone = BigStone::create();
-        
-        normalize(diff);
-        addBullet(stone, diff);
-        stone->setParent(getWeapon());
-        stone->setPosition(getPosition());
-        stone->setSpeed(50.0f);
-        stone->setVelocity(diff);
-        stone->Node::setScale(2.0f);
-        stone->PhysicsObject::scale(0.7f);
-        stone->move();
-        
+
+        srand((unsigned int)time(NULL));
+        int randPattern = rand();
+        randPattern /= 2;
+
+        switch (randPattern)
+        {
+        case 0:
+            normalize(diff);
+            addBullet(stone, diff);
+            stone->setParent(getWeapon());
+            stone->setPosition(getPosition());
+            stone->setSpeed(80.0f);
+            stone->setVelocity(diff);
+            stone->Node::setScale(2.0f);
+            stone->PhysicsObject::scale(0.7f);
+            stone->move();
+            break;
+        case 1:
+            auto stone2 = BigStone::create();
+            auto stone3 = BigStone::create();
+            cocos2d::Vec2 vec, vecVari;
+            if (!stone2)
+                return;
+            addBullet(stone, diff);
+            stone2->setParent(getWeapon());
+            stone2->setPosition(getPosition());
+            stone2->setSpeed(60.0f);
+            stone2->setRotation(VecToDegree(normalize(vec)) + 15.0f);
+            vecVari = DegreeToVec(VecToDegree(normalize(vec)) + 15.0f);
+            stone2->setVelocity(C2B(normalize(vecVari)));
+            stone2->Node::setScale(2.0f);
+            stone2->PhysicsObject::scale(0.5f);
+            stone2->move();
+
+            if (!stone)
+                return;
+            normalize(diff);
+            addBullet(stone, diff);
+            stone->setParent(getWeapon());
+            stone->setPosition(getPosition());
+            stone->setSpeed(60.0f);
+            stone->setVelocity(diff);
+            stone->Node::setScale(2.0f);
+            stone->PhysicsObject::scale(0.7f);
+            stone->move();
+
+            if (!stone3)
+                return;
+            addBullet(stone, diff);
+            stone3->setParent(getWeapon());
+            stone3->setPosition(getPosition());
+            stone3->setSpeed(60.0f);
+            stone3->setRotation(VecToDegree(normalize(vec)) - 15.0f);
+            vecVari = DegreeToVec(VecToDegree(normalize(vec)) - 15.0f);
+            stone3->setVelocity(C2B(normalize(vecVari)));
+            stone3->Node::setScale(2.0f);
+            stone3->PhysicsObject::scale(0.5f);
+            stone3->move();
+            break;
+        default:
+            break;
+        }
+
         AI->setState(State::WAIT, 1);
     }
 };
