@@ -51,13 +51,13 @@ public:
     {
         auto hero = getParent()->getChildByTag<cocos2d::Node*>(TAG_PLAYER);
         auto diff = C2B(hero->getPosition() - getPosition());
-        auto stone = Stone::create();
+        auto stone = BigStone::create();
 
         normalize(diff);
         addBullet(stone, diff);
         stone->setParent(getWeapon());
         stone->setPosition(getPosition());
-        stone->setSpeed(50.0f);
+        stone->setSpeed(150.0f);
         stone->setVelocity(diff);
         stone->setAngularVelocity(C2B(180.0f));
         stone->Node::setScale(1.0f);

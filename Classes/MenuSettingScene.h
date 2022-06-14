@@ -12,8 +12,8 @@ public:
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    void setSmallDisp(cocos2d::Ref* pSender);
-    void setMiddleDisp(cocos2d::Ref* pSender);
+    void setDisplayResolution(cocos2d::Ref* pSender);
+    void setBackgroundMusic(cocos2d::Ref* pSender);
     void menuGoMenuCallback(cocos2d::Ref* pSender);
 
 

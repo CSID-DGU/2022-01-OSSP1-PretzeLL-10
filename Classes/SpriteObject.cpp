@@ -60,10 +60,10 @@ bool SpriteObject::initWithAnimation(std::string name, float run_speed, int coun
 
 cocos2d::Animation* SpriteObject::createAnimation(std::string state, int count, float delay) {
     auto __a = cocos2d::Animation::create();
-    for (char i = '0'; i < static_cast<char>(count+48); i++) {
+    for (int i = 0; i < count; i++) {
         std::string __n = __path+"/"+__name;
-        if (state.empty()) __n = __n+"_anim_f"+i+".png";
-        else __n = __n+"_"+state+"_anim_f"+i+".png";
+        if (state.empty()) __n = __n+"_anim_f"+std::to_string(i)+".png";
+        else __n = __n+"_"+state+"_anim_f"+std::to_string(i)+".png";
         
         auto __t = cocos2d::Director::getInstance()->getTextureCache()->addImage(__n);
         IF_RN(!__t, "Unable to load image: " + __n);
@@ -118,9 +118,9 @@ void SpriteObject::setName(std::string name) {
     __name = name;
 }
 
-bool SpriteObject::isAnimationRunning() {
+int SpriteObject::isAnimationRunning() {
     if (__path.empty()) return false;
-    return __sprite->isRunning();
+    return __sprite->getNumberOfRunningActions();
 }
 
 void SpriteObject::runActionByKey(std::string key) {

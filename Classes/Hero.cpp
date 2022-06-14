@@ -6,6 +6,7 @@ Hero::Hero()
 : DynamicObject("knight_f")
 , __weapon(std::make_pair(std::vector<weapon_t*>(3), 0))
 , __map_dir(MAP_NONE)
+, __pending(MAP_NONE)
 , __invincible(false)
 , __disarmed(false)
 , __hp(0)
@@ -47,8 +48,9 @@ bool Hero::init() {
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     
     addAnimation("hit", 1, 0.3f);
+//    addAnimation("dead", 10, 0.5f);
     runActionByKey(IDLE);
-    setHP(100);
+    setHP(6);
     setSpeed(5.0f, true);
     addCoin(5);
     setRunSpeed(2.0f);
@@ -222,14 +224,35 @@ void Hero::invincible(float dt) {
 }
 
 void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
+    if (__hp == TAG_PLAYER_DEAD) return;
     __hp -= damage;
-    if (__hp < 0) return;
+    if (__hp <= 0) {
+        dieing(0);
+        return;
+    }
+    
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
     __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
     makeInvincible(2.0f);
     pause(0.3f);
+}
+
+void Hero::dieing(float dt) {
+    BaseMonster::deleteTarget(this);
+    stopAllActions();
+//    runActionByKey("dead");
+    unscheduleUpdate();
+    setCategory(CATEGORY_PLAYER, MASK_NONE);
+    setLocalZOrder(50);
+    disarm();
+    __hp = TAG_PLAYER_DEAD;
+    
+    auto adj = cocos2d::Vec2(25.0f, -6.0f);
+    if (isFlipped()) adj.x *= -1;
+    setPosition(getPosition() + adj);
+    return;
 }
 
 int Hero::getHP() {
@@ -250,6 +273,7 @@ void Hero::setDamage(int damage) {
 
 void Hero::addCoin(int coin) {
     __coin += coin;
+    GameManager::getInstance()->runningInfo.gold_earn += coin;
 }
 
 bool Hero::useCoin(int coin) {
@@ -320,21 +344,31 @@ void Hero::setWeapon(std::vector<weapon_t*> weapons) {
     }
 }
 
-DIRECTION Hero::getDirection(bool isAbleToMove) {
-    auto dir = __map_dir;
-    if (dir) {
-        if (!isAbleToMove) return MAP_NONE;
-        __map_dir = MAP_NONE;
-        pause(0.5f);
-    }
-    switch (dir) {
-        case MAP_UP     : setAbsolutePosition(525.0f, 375.0f); break;
-        case MAP_DOWN   : setAbsolutePosition(525.0f, 850.0f); break;
-        case MAP_LEFT   : setAbsolutePosition(850.0f, 650.0f); break;
-        case MAP_RIGHT  : setAbsolutePosition(150.0f, 650.0f); break;
+DIRECTION Hero::getDirection(bool isAbleToMove, float delay) {
+    if (!isAbleToMove || !__map_dir) return MAP_NONE;
+    __pending = __map_dir;
+    __map_dir = MAP_NONE;
+    pause(delay);
+    auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+    auto black = cocos2d::LayerColor::create();
+    black->setContentSize(visibleSize);
+    black->setColor(cocos2d::Color3B(20, 15, 10));
+    black->setOpacity(0);
+    black->setName("black");
+    black->runAction(cocos2d::FadeTo::create(0.5f, 200));
+    GameManager::getInstance()->getLayer()->addChild(black, 100);
+    scheduleOnce(schedule_selector(Hero::moveToDirection), delay);
+    return __pending;
+}
+
+void Hero::moveToDirection(float dt) {
+    switch (__pending) {
+        case MAP_UP     : setAbsolutePosition(525.0f, 375.0f); GameManager::getInstance()->loadUpMap();    break;
+        case MAP_DOWN   : setAbsolutePosition(525.0f, 850.0f); GameManager::getInstance()->loadDownMap();  break;
+        case MAP_LEFT   : setAbsolutePosition(850.0f, 650.0f); GameManager::getInstance()->loadLeftMap();  break;
+        case MAP_RIGHT  : setAbsolutePosition(150.0f, 650.0f); GameManager::getInstance()->loadRightMap(); break;
         default: break;
     }
-    return dir;
 }
 
 void Hero::onContact(b2Contact* contact) {
@@ -360,5 +394,17 @@ void Hero::onContact(b2Contact* contact) {
         else if (pos.x > 700.0f) __map_dir = MAP_RIGHT;
         else if (pos.y > 700.0f) __map_dir = MAP_UP;
         else if (pos.y < 500.0f) __map_dir = MAP_DOWN;
+    }
+}
+
+void Hero::onContactEnd(b2Contact* contact) {
+    b2Fixture* other = contact->GetFixtureB();
+    if (getCategory(other) == CATEGORY_PLAYER) {
+        other = contact->GetFixtureA();
+    }
+    
+    float other_cat = getCategory(other);
+    if (other_cat == CATEGORY_DOOR) {
+        __map_dir = MAP_NONE;
     }
 }

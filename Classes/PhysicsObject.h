@@ -36,6 +36,7 @@ public:
     virtual void removePhysics();
     
     virtual void onContact(b2Contact* contact) = 0;
+    virtual void onContactEnd(b2Contact* contact);
     b2ContactEdge* getContact();
 
     static b2World* getWorld();

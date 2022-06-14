@@ -101,10 +101,12 @@ void EventHandler::BeginContact(b2Contact* contact) {
 }
     
 void EventHandler::EndContact(b2Contact *contact) {
-//    auto fixtureA = contact->GetFixtureA();
-//    auto fixtureB = contact->GetFixtureB();
-//    int categoryA = PhysicsObject::getCategory(fixtureA);
-//    int categoryB = PhysicsObject::getCategory(fixtureB);
+    auto fixtureA = contact->GetFixtureA();
+    auto fixtureB = contact->GetFixtureB();
+    int categoryA = PhysicsObject::getCategory(fixtureA);
+    int categoryB = PhysicsObject::getCategory(fixtureB);
+    
+    INVOKE_CONTACTEND(CATEGORY_PLAYER, Hero);
 }
 
 void EventHandler::getHero() {
