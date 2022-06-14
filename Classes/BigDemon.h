@@ -59,9 +59,8 @@ public:
         int randPattern = rand();
         randPattern /= 2;
 
-        switch (randPattern)
+        if (randPattern == 0)
         {
-        case 0:
             normalize(diff);
             addBullet(stone, diff);
             stone->setParent(getWeapon());
@@ -71,8 +70,9 @@ public:
             stone->Node::setScale(2.0f);
             stone->PhysicsObject::scale(0.7f);
             stone->move();
-            break;
-        case 1:
+        }
+        else if (randPattern == 1)
+        {
             auto stone2 = BigStone::create();
             auto stone3 = BigStone::create();
             cocos2d::Vec2 vec, vecVari;
@@ -113,9 +113,10 @@ public:
             stone3->Node::setScale(2.0f);
             stone3->PhysicsObject::scale(0.5f);
             stone3->move();
-            break;
-        default:
-            break;
+        }
+        else
+        {
+            return;
         }
 
         AI->setState(State::WAIT, 1);
