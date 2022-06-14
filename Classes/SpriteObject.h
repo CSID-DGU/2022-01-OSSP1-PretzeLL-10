@@ -36,7 +36,7 @@ public:
     
     /* Util */
     void setName(std::string name);
-    bool isAnimationRunning();
+    int isAnimationRunning();
     
     /* Action */
     void runActionByKey(std::string key);                                           // Run Action once

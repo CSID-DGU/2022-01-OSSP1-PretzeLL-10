@@ -16,16 +16,10 @@ protected:
 public:
     CREATE_FUNC(FireBall);
 
-    //void update(float dt) final {
-    //    ProjectileObject::update(dt);
-
-    //    if (!__desired_distance) return;
-    //    float len = length(getPosition() - __initial_pos);
-    //    if (len > __desired_distance) {
-    //        removeAfter(0.0);
-    //        unscheduleUpdate();
-    //    }
-    //}
+    void update(float dt) final {
+        ProjectileObject::update(dt);
+        if (!isStopped()) Node::setRotation(getRotation() + 180.0f);
+    }
 
     void setInitialPos() {
         __initial_pos = getPosition();

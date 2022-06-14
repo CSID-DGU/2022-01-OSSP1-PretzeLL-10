@@ -10,6 +10,7 @@ BaseWeapon::BaseWeapon(std::string name)
     __damage.fill(0);
     __attackTime.fill(0.0f);
     __chargeTime.fill(0.0f);
+    __chargeTimer = Timer(true);
 }
 
 BaseWeapon::BaseWeapon(std::string name, int damage[MAX_LEVEL::value], float attackTime[MAX_LEVEL::value], float chargeTime[MAX_LEVEL::value])
@@ -140,6 +141,7 @@ bool BaseWeapon::isAttackAble() {
     if (isAttacking()) return false;
     if (getAttackTime()) __attackTimer.set(getAttackTime());
     
+    __chargeTimer.reset();
     return true;
 }
 

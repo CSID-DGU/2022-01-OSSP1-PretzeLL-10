@@ -3,7 +3,7 @@
 
 void MaskedOrc::dieing()
 {
-    setCategory(CATEGORY_MONSTER, MASK_NONE);
+    setCategory(CATEGORY_MONSTER, MASK_DEAD);
     setTag(-1);
     stopAllActions();
     removeAfter(1.5f);

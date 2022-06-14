@@ -254,3 +254,5 @@ void PhysicsObject::removeAllMask() {
         body = body->GetNext();
     }
 }
+
+void PhysicsObject::onContactEnd(b2Contact* contact) {}
