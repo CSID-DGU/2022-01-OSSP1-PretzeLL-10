@@ -196,6 +196,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\BatonWithSpikesProjectile.h" />
     <ClInclude Include="..\Classes\BigHammer.h" />
     <ClInclude Include="..\Classes\BigHammerProjectile.h" />
+    <ClInclude Include="..\Classes\BigStone.h" />
     <ClInclude Include="..\Classes\Bow.h" />
     <ClInclude Include="..\Classes\Bullet.h" />
     <ClInclude Include="..\Classes\Chort.h" />
@@ -251,12 +252,16 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\OrcShaman.h" />
     <ClInclude Include="..\Classes\OrcWarrior.h" />
     <ClInclude Include="..\Classes\PhysicsObject.h" />
+    <ClInclude Include="..\Classes\PoisonFlask.h" />
     <ClInclude Include="..\Classes\ProjectileObject.h" />
+    <ClInclude Include="..\Classes\RedShield.h" />
     <ClInclude Include="..\Classes\Skeleton.h" />
+    <ClInclude Include="..\Classes\Skull.h" />
     <ClInclude Include="..\Classes\SlotMachine.h" />
     <ClInclude Include="..\Classes\SpriteObject.h" />
     <ClInclude Include="..\Classes\StartingMenuScene.h" />
     <ClInclude Include="..\Classes\StaticObject.h" />
+    <ClInclude Include="..\Classes\Stone.h" />
     <ClInclude Include="..\Classes\ThunderBolt.h" />
     <ClInclude Include="..\Classes\Timer.h" />
     <ClInclude Include="..\Classes\TinyZombie.h" />
