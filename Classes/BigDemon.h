@@ -21,7 +21,7 @@ public:
         detectRange = 500.0f;
         setDelay(0.8f);
 
-        PhysicsObject::scale(0.7f, b2Vec2(0.0f, 0.0f));
+        PhysicsObject::scale(3.0f, b2Vec2(0.0f, 0.0f));
         setSpeed(getSpeed()/2.0f);
         
         return true;

@@ -50,7 +50,7 @@ bool Hero::init() {
     addAnimation("hit", 1, 0.3f);
 //    addAnimation("dead", 10, 0.5f);
     runActionByKey(IDLE);
-    setHP(6);
+    setHP(100);
     setSpeed(5.0f, true);
     addCoin(5);
     setRunSpeed(2.0f);
