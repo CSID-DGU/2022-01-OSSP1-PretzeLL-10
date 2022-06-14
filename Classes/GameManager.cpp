@@ -165,8 +165,11 @@ void GameManager::goNextStage()
 	if (gameStage >= 3)
 	{
 		gameOver(true);
+        return;
 	}
-
+    auto black_layer = _layer->getChildByName("black");
+    if (black_layer) black_layer->removeFromParent();
+    
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
 	if (wall) PhysicsObject::getWorld()->DestroyBody(wall);
@@ -342,11 +345,20 @@ void GameManager::gameOver(bool allclear)
 {
 	if (isGameOver)
 		return;
+    
 	//----------------------------------------------
 	runningInfo.run_time = _Timer::getTime();
 	runningInfo.all_clear = allclear;
 	_layer->removeChild(__timer);
 	//----------------------------------------------
+    _hero->pause(std::numeric_limits<float>::max());
+    _hero->stopAllActions();
+    if (allclear) {
+        menuGotoSummarySceneCallback(nullptr);
+        isGameOver = true;
+        return;
+    }
+    
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	auto gameOverLayer = cocos2d::LayerColor::create();
 	gameOverLayer->setContentSize(visibleSize);
@@ -381,22 +393,13 @@ void GameManager::gameOver(bool allclear)
 	
 
 	menu->setPosition(cocos2d::Vec2::ZERO);
-	if (!allclear)
-	{
-        auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
-		gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
-		gameoverSprite->setScale(0.3f);
-		gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
-		gameOverLayer->addChild(gameoverSprite);
-		gameOverLayer->addChild(menu);
-	}
-	else
-	{
-
-	}
+    auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
+    gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
+    gameoverSprite->setScale(0.3f);
+    gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
+    gameOverLayer->addChild(gameoverSprite);
+    gameOverLayer->addChild(menu);
 	_layer->addChild(gameOverLayer, 50);
-    _hero->pause(std::numeric_limits<float>::max());
-    _hero->stopAllActions();
 	isGameOver = true;
 }
 

@@ -163,6 +163,7 @@ bool StartingMenu::init()
 		Audio::getInstance()->setBackgroundMusicVolume(0.2f);
 	}
 #else
+    experimental::AudioEngine::stopAll();
 	experimental::AudioEngine::play2d("bgm/game_bgm1.mp3", true, 0.2f);
 #endif
 
