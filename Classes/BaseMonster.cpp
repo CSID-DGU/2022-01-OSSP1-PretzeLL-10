@@ -107,7 +107,7 @@ void BaseMonster::damaged(int damage, const cocos2d::Vec2& direction, float weig
     if (direction == cocos2d::Vec2::ZERO) return;
     auto diff = getPosition() - direction;
     normalize(diff);
-    __body->ApplyForceToCenter(C2B(diff*weight*200.0f), false);
+    __body->ApplyForceToCenter(C2B(diff*weight*20.0f), false);
     if (__hp) pause(0.3f);
 }
 

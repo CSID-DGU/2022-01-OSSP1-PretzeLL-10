@@ -53,7 +53,9 @@
 
 typedef cocos2d::EventKeyboard::KeyCode keyCode_t;
 typedef cocos2d::EventMouse::MouseButton mouseButton_t;
+#ifdef __APPLE__
 typedef CocosDenshion::SimpleAudioEngine Audio;
+#endif
 
 
 enum ACTION {

@@ -154,18 +154,58 @@ void GameManager::updateMapClear()
 	{
 		_gameMap[currentPosition.first][currentPosition.second]->setClear();
 		if (_gameMap[currentPosition.first][currentPosition.second]->getIsBossRoom())
-			goNextStage();
+			addStageUpLayer();
 		_hero->addCoin(numberMonster);
 		numberMonster = 0;
 	}
 }
 
-void GameManager::goNextStage()
+void GameManager::addStageUpLayer()
+{
+	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+
+	auto nextStageLayer = cocos2d::LayerColor::create(cocos2d::Color4B(22, 22, 22, 100));
+
+	nextStageLayer->setContentSize(visibleSize);
+	nextStageLayer->runAction(cocos2d::FadeTo::create(2.0f, 100));
+	nextStageLayer->setTag(3183);
+	_layer->addChild(nextStageLayer);
+
+	cocos2d::Sprite* item[2];
+	item[0] = cocos2d::Sprite::create("frames/OkButtonNonClick.png");
+	item[1] = cocos2d::Sprite::create("frames/OkButtonOnClick.png");
+	item[0]->getTexture()->setTexParameters(TEX_PARA);
+	item[1]->getTexture()->setTexParameters(TEX_PARA);
+
+	auto okItem = cocos2d::MenuItemSprite::create(item[0], item[1],
+		CC_CALLBACK_1(GameManager::goNextStage, this));
+
+	if (okItem == nullptr ||
+		okItem->getContentSize().width <= 0 ||
+		okItem->getContentSize().height <= 0)
+	{
+	}
+	else
+	{
+		float x = visibleSize.width / 2;
+		float y = visibleSize.height / 2 - 100;
+		okItem->setPosition(cocos2d::Vec2(x, y));
+		okItem->setScale(2.5f);
+	}
+
+	auto menu = cocos2d::Menu::create(okItem, NULL);
+	menu->setPosition(cocos2d::Vec2::ZERO);
+
+	nextStageLayer->addChild(menu);
+}
+
+void GameManager::goNextStage(cocos2d::Ref* pSender)
 {
 	if (gameStage >= 3)
 	{
 		gameOver(true);
 	}
+	_layer->removeChildByTag(3183);
 
 	_layer->removeChild(_gameMap[currentPosition.first][currentPosition.second]->getTmxTiledMap());
 	auto wall = _gameMap[currentPosition.first][currentPosition.second]->_wall;
@@ -338,6 +378,7 @@ void GameManager::gameOver(bool allclear)
 {
 	if (isGameOver)
 		return;
+	_layer->removeChildByTag(3183);
 	//----------------------------------------------
 	runningInfo.run_time = _Timer::getTime();
 	runningInfo.all_clear = allclear;

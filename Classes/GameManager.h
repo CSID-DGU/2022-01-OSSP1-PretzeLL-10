@@ -53,7 +53,7 @@ public:
 
     void addMonsters2(BaseMonster* monster);
 
-    void goNextStage(); // must move to private
+    void goNextStage(cocos2d::Ref* pSender); // must move to private
     
     void pauseGame();
     bool isPausedByUser;
@@ -69,6 +69,7 @@ private:
     void makeGameMap();
     void deleteGameMap();
     void updateMapClear();
+    void addStageUpLayer();
 
     void gameOver(bool allclear);
     void menuGotoSummarySceneCallback(cocos2d::Ref* pSender);
