@@ -233,10 +233,6 @@ void GameManager::goNextStage(cocos2d::Ref* pSender)
 	_hero->setAbsolutePosition(500, 600);
 }
 
-int GameManager::getStage() {
-    return gameStage;
-}
-
 void GameManager::clearLayer()
 {
 	_layer->removeAllChildren();
