@@ -20,7 +20,7 @@ public:
         detectRange = 400.0f;
         setDelay(0.8f);
 
-        PhysicsObject::scale(0.9f, b2Vec2(0.0f, 1.0f));
+        PhysicsObject::scale(0.9f, b2Vec2(0.0f, 0.0f));
 
         return true;
     }
