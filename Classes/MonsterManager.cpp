@@ -1,7 +1,7 @@
 #include "MonsterManager.h"
 #include "GameManager.h"
 
-std::function<void(MonsterManager&, int)> create3MT_PT[] = { 
+std::function<void(MonsterManager&, int)> create3MT_PT[] = {
 	&MonsterManager::create3MT_0,
 	&MonsterManager::create3MT_1
 };
@@ -31,7 +31,7 @@ void MonsterManager::createMonster(int stage, bool boss)
 	int numberMT = 0;
 	int typeOfPattern = 0, MAXTYPE;
 	engine = std::mt19937_64(rand_device());
-    std::uniform_int_distribution<int> numberRand(3, 6);
+	std::uniform_int_distribution<int> numberRand(3, 6);
 	numberMT = numberRand(engine);
 	switch (numberMT)
 	{
@@ -51,7 +51,7 @@ void MonsterManager::createMonster(int stage, bool boss)
 		exit(1);
 		break;
 	}
-    std::uniform_int_distribution<int> typeRand(0, MAXTYPE - 1);
+	std::uniform_int_distribution<int> typeRand(0, MAXTYPE - 1);
 	typeOfPattern = typeRand(engine);
 	switch (numberMT)
 	{
@@ -76,13 +76,13 @@ void MonsterManager::createMonster(int stage, bool boss)
 void MonsterManager::create3MT_0(int stage)
 {
 	BaseMonster* monster1; BaseMonster* monster2; BaseMonster* monster3;
-	
+
 	monster1 = level2monster(stage);
 	monster1->setAbsolutePosition(626, 791);
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level4monster(stage);
-	monster2->setAbsolutePosition(241, 461);
+	monster2->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level3monster(stage);
@@ -99,7 +99,7 @@ void MonsterManager::create3MT_1(int stage)
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level4monster(stage);
-	monster2->setAbsolutePosition(500, 745);
+	monster2->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level1monster(stage);
@@ -116,7 +116,7 @@ void MonsterManager::create4MT_0(int stage)
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level4monster(stage);
-	monster2->setAbsolutePosition(286, 518);
+	monster2->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level1monster(stage);
@@ -189,7 +189,7 @@ void MonsterManager::create5MT_1(int stage) {
 	GameManager::getInstance()->addMonsters2(monster3);
 
 	monster4 = level4monster(stage);
-	monster4->setAbsolutePosition(546, 471);
+	monster4->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster4);
 
 	monster5 = level3monster(stage);
@@ -201,7 +201,7 @@ void MonsterManager::create6MT_0(int stage) {
 	BaseMonster* monster1; BaseMonster* monster2; BaseMonster* monster3; BaseMonster* monster4; BaseMonster* monster5; BaseMonster* monster6;
 
 	monster1 = level4monster(stage);
-	monster1->setAbsolutePosition(230, 441);
+	monster1->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level1monster(stage);
@@ -217,7 +217,7 @@ void MonsterManager::create6MT_0(int stage) {
 	GameManager::getInstance()->addMonsters2(monster4);
 
 	monster5 = level4monster(stage);
-	monster5->setAbsolutePosition(675, 717);
+	monster5->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster5);
 
 	monster6 = level2monster(stage);
@@ -229,7 +229,7 @@ void MonsterManager::create6MT_1(int stage) {
 	BaseMonster* monster1; BaseMonster* monster2; BaseMonster* monster3; BaseMonster* monster4; BaseMonster* monster5; BaseMonster* monster6;
 
 	monster1 = level4monster(stage);
-	monster1->setAbsolutePosition(791, 679);
+	monster1->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster1);
 
 	monster2 = level1monster(stage);
@@ -237,7 +237,7 @@ void MonsterManager::create6MT_1(int stage) {
 	GameManager::getInstance()->addMonsters2(monster2);
 
 	monster3 = level4monster(stage);
-	monster3->setAbsolutePosition(317, 406);
+	monster3->setAbsolutePosition(500, 600);
 	GameManager::getInstance()->addMonsters2(monster3);
 
 	monster4 = level2monster(stage);
