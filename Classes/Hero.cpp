@@ -48,7 +48,7 @@ bool Hero::init() {
     setCategory(CATEGORY_PLAYER, MASK_PLAYER);
     
     addAnimation("hit", 1, 0.3f);
-//    addAnimation("dead", 10, 0.5f);
+    addAnimation("dead", 10, 0.5f);
     runActionByKey(IDLE);
     setHP(6);
     setSpeed(5.0f, true);
@@ -248,7 +248,7 @@ void Hero::damaged(int damage, const cocos2d::Vec2& direction, float weight) {
 void Hero::dieing(float dt) {
     BaseMonster::deleteTarget(this);
     stopAllActions();
-//    runActionByKey("dead");
+    runActionByKey("dead");
     unscheduleUpdate();
     setCategory(CATEGORY_PLAYER, MASK_NONE);
     setLocalZOrder(50);
@@ -296,6 +296,7 @@ int Hero::getCoin() {
 void Hero::disarm(float time) {
     changeWeapon(__weapon.first.size());
     __disarmed = true;
+    restoreSpeed();
     if (time) scheduleOnce(schedule_selector(Hero::rearm), time);
 }
 
