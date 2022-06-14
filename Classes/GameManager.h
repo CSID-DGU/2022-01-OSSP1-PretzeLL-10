@@ -54,6 +54,7 @@ public:
     void addMonsters2(BaseMonster* monster);
 
     void goNextStage(); // must move to private
+    int getStage();
     
     void pauseGame();
     bool isPausedByUser;

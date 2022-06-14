@@ -182,6 +182,10 @@ void GameManager::goNextStage()
 	_hero->setAbsolutePosition(500, 600);
 }
 
+int GameManager::getStage() {
+    return gameStage;
+}
+
 void GameManager::clearLayer()
 {
 	_layer->removeAllChildren();
@@ -377,9 +381,9 @@ void GameManager::gameOver(bool allclear)
 	
 
 	menu->setPosition(cocos2d::Vec2::ZERO);
-	auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
 	if (!allclear)
 	{
+        auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
 		gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
 		gameoverSprite->setScale(0.3f);
 		gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
