@@ -54,6 +54,7 @@ public:
     std::array<level_array, 3> getLevelValue();
     float getAttackTime();
     float getChargeTime();
+    void scaleChargeTime(float scale);
     int getDamage();
     bool isAttacking();
     bool isAttackAble();

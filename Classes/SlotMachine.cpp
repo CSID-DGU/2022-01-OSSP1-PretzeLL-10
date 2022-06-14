@@ -247,6 +247,7 @@ std::vector<weapon_t*> SlotMachine::getResult() {
     std::vector<weapon_t*> ret(LayerSize::value);
     int tag[LayerSize::value];
     
+    auto stage = GameManager::getInstance()->getStage();
     for (int i = 0; i < LayerSize::value; i++) {
         if (!result[i]) {
             ret[i] = nullptr;
@@ -254,6 +255,12 @@ std::vector<weapon_t*> SlotMachine::getResult() {
         }
         tag[i] = result[i]->getTag();
         ret[i] = BaseWeapon::getByTag(tag[i]);
+        if (stage == 2) {
+            ret[i]->scaleChargeTime(0.7f);
+        }
+        else if (stage == 3) {
+            ret[i]->scaleChargeTime(0.4f);
+        }
         ret[i]->deactivate();
     }
     

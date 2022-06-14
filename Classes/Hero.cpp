@@ -151,7 +151,7 @@ void Hero::attack() {
     auto direction = C2B(__mouse - getPosition());
     normalize(direction);
     weapon->attack(isFlipped(), direction);
-    
+
     int type = weapon->getType();
     if (type == CHARGE) {
         if (__key[ATTACK]) {
@@ -169,6 +169,12 @@ void Hero::attack() {
             unschedule(schedule_selector(Hero::chargeWeapon));
         }
     }
+    
+//    auto candidate = getParent()->getChildren();
+//    for (auto iter : candidate) {
+//        if (iter->getTag() != TAG_MONSTER) continue;
+//        ((monster_t*)iter)->damaged(100, cocos2d::Vec2(0.0f, 0.0f), 0.0f);
+//    }
 }
 
 void Hero::chargeWeapon(float dt) {
@@ -382,11 +388,13 @@ void Hero::onContact(b2Contact* contact) {
         if (__invincible) return;
         auto monster = PhysicsObject::getUserData<monster_t*>(other);
         damaged(monster->getDamage(), monster->getPosition(), monster->getWeight());
+        restoreSpeed();
     }
     else if (other_cat == CATEGORY_HBULLET) {
         if (__invincible) return;
         auto bullet = PhysicsObject::getUserData<bullet_t*>(other);
         damaged(bullet->getDamage(), bullet->getPosition(), bullet->getWeight());
+        restoreSpeed();
     }
     else if (other_cat == CATEGORY_DOOR) {
         auto pos = getAbsolutePosition();

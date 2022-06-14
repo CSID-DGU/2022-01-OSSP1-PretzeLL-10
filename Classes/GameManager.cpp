@@ -211,6 +211,7 @@ void GameManager::goNextStage(cocos2d::Ref* pSender)
 	if (gameStage >= 3)
 	{
 		gameOver(true);
+        return;
 	}
 	_layer->removeChildByTag(3183);
 
@@ -230,6 +231,10 @@ void GameManager::goNextStage(cocos2d::Ref* pSender)
 	loadGameMap(currentPosition.first, currentPosition.second);
 
 	_hero->setAbsolutePosition(500, 600);
+}
+
+int GameManager::getStage() {
+    return gameStage;
 }
 
 void GameManager::clearLayer()
@@ -394,6 +399,14 @@ void GameManager::gameOver(bool allclear)
 	runningInfo.all_clear = allclear;
 	_layer->removeChild(__timer);
 	//----------------------------------------------
+    _hero->pause(std::numeric_limits<float>::max());
+    _hero->stopAllActions();
+    if (allclear) {
+        menuGotoSummarySceneCallback(nullptr);
+        isGameOver = true;
+        return;
+    }
+    
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 	auto gameOverLayer = cocos2d::LayerColor::create();
 	gameOverLayer->setContentSize(visibleSize);
@@ -428,22 +441,13 @@ void GameManager::gameOver(bool allclear)
 	
 
 	menu->setPosition(cocos2d::Vec2::ZERO);
-	auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
-	if (!allclear)
-	{
-		gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
-		gameoverSprite->setScale(0.3f);
-		gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
-		gameOverLayer->addChild(gameoverSprite);
-		gameOverLayer->addChild(menu);
-	}
-	else
-	{
-
-	}
+    auto gameoverSprite = cocos2d::Sprite::create("frames/GameOver.png");
+    gameoverSprite->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2 + 200));
+    gameoverSprite->setScale(0.3f);
+    gameoverSprite->getTexture()->setTexParameters(TEX_PARA);
+    gameOverLayer->addChild(gameoverSprite);
+    gameOverLayer->addChild(menu);
 	_layer->addChild(gameOverLayer, 50);
-    _hero->pause(std::numeric_limits<float>::max());
-    _hero->stopAllActions();
 	isGameOver = true;
 }
 

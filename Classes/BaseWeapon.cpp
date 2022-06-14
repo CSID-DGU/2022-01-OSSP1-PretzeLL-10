@@ -175,6 +175,12 @@ cocos2d::Node* BaseWeapon::chooseTarget() {
     return closest_target;
 }
 
+void BaseWeapon::scaleChargeTime(float scale) {
+    for (int i = 0; i < MAX_LEVEL::value; i++) {
+        __chargeTime[i] *= scale;
+    }
+}
+
 
 void BaseWeapon::insertCreateFunc(int tag, std::function<BaseWeapon*(void)> func) {
     __create_func.insert(std::make_pair(tag, func));
