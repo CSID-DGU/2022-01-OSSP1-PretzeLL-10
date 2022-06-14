@@ -16,8 +16,8 @@ public:
     bool init() final {
         IF(!BaseWeapon::init());
         setLevelValue(1, 50, 0.2f, 0.5f);
-        setLevelValue(2, 80, 0.2f, 0.5f);
-        setLevelValue(3, 120, 0.2f, 0.5f);
+        setLevelValue(2, 70, 0.2f, 0.2f);
+        setLevelValue(3, 100, 0.2f, 0.2f);
         setTag(TAG_TRACKABLE);
         return true;
     }
