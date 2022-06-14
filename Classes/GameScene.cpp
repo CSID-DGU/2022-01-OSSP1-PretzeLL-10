@@ -34,16 +34,6 @@ bool GameScene::init()
     auto background_layer = LayerColor::create(Color4B(22, 11, 18, 255));
     addChild(background_layer);
 
-    //============================================================================================
-    //                          buttons for test
-    //============================================================================================
-    auto damage = MenuItemFont::create("Damage", CC_CALLBACK_1(GameScene::heroDamage, this));
-    //auto mapTravelPrev = MenuItemFont::create("previous", CC_CALLBACK_1(GameScene::mapTravelPrev, this));
-    auto mapMenu = Menu::create(damage, NULL);
-    mapMenu->alignItemsVertically();
-    mapMenu->setPosition(Vec2(100, 200));
-    this->addChild(mapMenu, 1);
-
     /////////////////////////////
     // 3. add your codes below...
 
