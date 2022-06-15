@@ -12,6 +12,12 @@
 - cocos2d-x 3.17.2
 - Box2d
 
+### ✨브랜치 구성✨
+
+- main - default branch
+- develop - 주 개발 branch
+- 기타 test용 branch
+
 ### ✨실행 화면✨
 
 - StartingMenuScene
@@ -20,15 +26,14 @@
 
 - GameScene
 
-< 넉백 모션 >
-
-![knockback](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/Knock-back.gif?raw=true)
-
 < FireStaff 공격 모션 ><br>
-![firestaff](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/firestaff.gif?raw=true)
+![firestaff](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/FireStaffAttack.gif?raw=true)
 
 < Machete 공격 모션 ><br>
-![machete.gif](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/machete.gif?raw=true)
+![machete](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/MacheteAttack.gif?raw=true)
+
+< GameOver 모션 ><br>
+![gamover](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/GameOverMotion.gif?raw=true)
 
 - GameSummaryScene
 
@@ -46,12 +51,6 @@
 - Windows: "Windows release" 폴더의 압축을 푼 후 "TheMoirai.exe" 파일을 실행
 - Mac OS: "TheMoirai.dmg" 파일을 실행
 
-### ✨브랜치 구성✨
-
-- main: default branch
-- develop: 주 개발 branch
-- 기타 test용 branch
-
 ### ✨게임 조작법✨
 
 - w,a,s,d: 방향키
@@ -63,7 +62,7 @@
 
 | 이름 | 학번 | 역할 |
 | --- | --- | --- |
-| 류성윤 | 2017112105 |  |
-| 이승현 | 2018112003 |  |
-| 이준탁 | 2018112033 |  |
-| 황민 | 2018112044 |  |
+| 류성윤 | 2017112105 | 총괄 기획 및 디렉팅 |
+| 이승현 | 2018112003 | 에셋 구성 및 리소스 작업 |
+| 이준탁 | 2018112033 | 프론트 엔드 작업 |
+| 황민 | 2018112044 | 물리 엔진 설계 및 개발 |
