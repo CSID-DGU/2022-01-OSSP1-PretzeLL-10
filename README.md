@@ -22,25 +22,25 @@
 
 - StartingMenuScene
 
-![StartingMenuScene](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/Starting%20Menu%20Scene.png?raw=true)<br>
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/Starting%20Menu%20Scene.png?raw=true" width="50%" height="40%" title="StartingMenuScene"></img>
 
 - GameScene
 
 < SlotMachine 작동 모션 ><br>
-![slotmachine](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/SlotMachine.gif?raw=true)
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/SlotMachine.gif?raw=true" width="50%" height="40%" title="slotmachine"></img>
 
 < FireStaff 공격 모션 ><br>
-![firestaff](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/FireStaffAttack.gif?raw=true)
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/FireStaffAttack.gif?raw=true" width="50%" height="40%" title="firestaff"></img>
 
 < Machete 공격 모션 ><br>
-![machete](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/MacheteAttack.gif?raw=true)
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/MacheteAttack.gif?raw=true" width="50%" height="40%" title="machete"></img>
 
 < GameOver 모션 ><br>
-![gamover](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/GameOverMotion.gif?raw=true)
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/GameOverMotion.gif?raw=true" width="50%" height="40%" title="machete"></img>
 
 - GameSummaryScene
 
-![GameSummaryScene](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/Game%20Summary%20Scene.png?raw=true)
+<img src="https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/Game%20Summary%20Scene.png?raw=true" width="50%" height="40%" title="GameSummaryScene"></img>
 
 ## 🎮 게임 플레이 방법 및 조작법
 
@@ -66,6 +66,6 @@
 | 이름 | 학번 | 역할 |
 | --- | --- | --- |
 | 류성윤 | 2017112105 | 총괄 기획 및 디렉팅 |
-| 이승현 | 2018112003 | 에셋 구성 및 리소스 작업 |
-| 이준탁 | 2018112033 | 프론트 엔드 작업 |
-| 황민 | 2018112044 | 물리 엔진 설계 및 개발 |
+| 이승현 | 2018112003 | 프론트 엔드 작업 |
+| 이준탁 | 2018112033 | 물리 엔진 설계 및 개발 |
+| 황민 | 2018112044 | 에셋 구성 및 리소스 작업 |
