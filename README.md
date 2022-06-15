@@ -26,6 +26,9 @@
 
 - GameScene
 
+< SlotMachine 작동 모션 ><br>
+![slotmachine](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/SlotMachine.gif?raw=true)
+
 < FireStaff 공격 모션 ><br>
 ![firestaff](https://github.com/CSID-DGU/2022-01-OSSP1-PretzeLL-10/blob/main/Img/FireStaffAttack.gif?raw=true)
 
